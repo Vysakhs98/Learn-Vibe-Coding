@@ -1,44 +1,29 @@
-/* Minimalist Base */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-    background-color: #fcfcfc; 
-    color: #1a1a1a; 
-    font-family: 'Inter', -apple-system, sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-}
+body { background-color: #fcfcfc; color: #1a1a1a; font-family: sans-serif; }
 
-/* Hero Section */
-.hero { 
-    height: 100vh; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    padding: 0 10%; 
-}
-h1 { font-size: 5rem; font-weight: 700; letter-spacing: -2px; }
-h2 { font-size: 2rem; color: #666; font-weight: 400; margin-bottom: 2rem; }
+/* Hero */
+.hero { height: 100vh; display: flex; align-items: center; padding: 0 10%; }
+.hero-content { max-width: 800px; }
+h1 { font-size: 4rem; margin-bottom: 1rem; }
+h2 { font-size: 1.5rem; color: #666; margin-bottom: 2rem; }
 
-/* Premium Motion Button */
 .cta-button {
     background: #d4ff00;
-    padding: 1.2rem 2.5rem;
+    padding: 1rem 2rem;
     border-radius: 50px;
     display: inline-block;
     text-decoration: none;
     color: #1a1a1a;
-    font-weight: 700;
-    transition: transform 0.3s ease;
+    font-weight: 600;
 }
-.cta-button:hover { transform: translateY(-5px); }
 
-/* Projects Section */
+/* Projects */
 .projects-section { padding: 5rem 10%; }
-.projects-section h3 { font-size: 1.5rem; margin-bottom: 2rem; color: #666; }
+.projects-section h3 { font-size: 1.2rem; color: #666; margin-bottom: 2rem; }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 }
 
@@ -46,11 +31,5 @@ h2 { font-size: 2rem; color: #666; font-weight: 400; margin-bottom: 2rem; }
     background: #f0f0f0;
     padding: 3rem;
     border-radius: 20px;
-    transition: background 0.3s ease, transform 0.3s ease;
 }
-
-.card:hover { 
-    background: #e0e0e0; 
-    transform: translateY(-10px);
-}
-.card h4 { font-size: 2rem; margin-bottom: 0.5rem; }
+.card h4 { font-size: 1.8rem; margin-bottom: 0.5rem; }
