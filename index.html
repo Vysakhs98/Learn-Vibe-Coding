@@ -34,9 +34,17 @@
             height: 100%;
             z-index: 1;
             overflow: hidden;
-            filter: blur(130px); 
+            /* Filter blur is kept on the container to keep ambient balls soft */
             opacity: 0.55;
             pointer-events: none;
+        }
+
+        /* Container specifically for the orbiting balls to keep them blurred */
+        .ambient-balls {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            filter: blur(130px);
         }
 
         .glow-ball {
@@ -71,21 +79,17 @@
             background: radial-gradient(circle, rgba(224, 81, 184, 0.15) 0%, rgba(0,0,0,0) 70%);
         }
 
-        /* --- NEW: Interactive Cursor Fireworks Trail --- */
-        .glow-ball.cursor-splash {
-            width: 35vw;
-            height: 35vw;
-            margin-top: -17.5vw; /* Centers perfectly on cursor */
-            margin-left: -17.5vw;
-            mix-blend-mode: color-dodge; /* Makes it intensely bright when overlapping */
-            will-change: transform;
-            opacity: 0.75;
+        /* --- NEW: Fireworks Canvas Layer --- */
+        #fireworks-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* No blur on the canvas so sparks are crisp and vibrant */
+            z-index: 2;
         }
-
-        .cursor-splash.trail-1 { background: radial-gradient(circle, rgba(0, 255, 255, 0.8) 0%, rgba(0,0,0,0) 65%); } /* Cyan */
-        .cursor-splash.trail-2 { background: radial-gradient(circle, rgba(255, 0, 150, 0.8) 0%, rgba(0,0,0,0) 65%); } /* Magenta */
-        .cursor-splash.trail-3 { background: radial-gradient(circle, rgba(255, 220, 0, 0.7) 0%, rgba(0,0,0,0) 65%); } /* Yellow */
-        .cursor-splash.trail-4 { background: radial-gradient(circle, rgba(150, 0, 255, 0.7) 0%, rgba(0,0,0,0) 65%); } /* Purple */
 
         /* --- Content Layout --- */
         .content-card {
@@ -312,24 +316,15 @@
 
         /* --- Media Queries --- */
         @media (max-width: 600px) {
-            .bg-glow-container {
+            .ambient-balls {
                 filter: blur(110px); 
+            }
+            .bg-glow-container {
                 opacity: 0.75; 
             }
-
             .glow-ball {
                 mix-blend-mode: normal; 
             }
-
-            .glow-ball.cursor-splash {
-                /* Disables Dodge blending on mobile web viewports for performance */
-                mix-blend-mode: normal; 
-                width: 70vw;
-                height: 70vw;
-                margin-top: -35vw;
-                margin-left: -35vw;
-            }
-
             .glow-ball.one {
                 width: 130vw; 
                 height: 130vw;
@@ -337,7 +332,6 @@
                 left: -30%;
                 background: radial-gradient(circle, rgba(74, 144, 226, 0.45) 0%, rgba(0,0,0,0) 70%);
             }
-
             .glow-ball.two {
                 width: 120vw;
                 height: 120vw;
@@ -345,7 +339,6 @@
                 right: -25%;
                 background: radial-gradient(circle, rgba(155, 81, 224, 0.4) 0%, rgba(0,0,0,0) 70%);
             }
-
             .glow-ball.three {
                 width: 100vw;
                 height: 100vw;
@@ -353,42 +346,35 @@
                 left: 0%;
                 background: radial-gradient(circle, rgba(224, 81, 184, 0.25) 0%, rgba(0,0,0,0) 70%);
             }
-
             h1 { 
                 font-size: 1.85rem; 
                 margin-bottom: 1rem;
             }
-            
             p { 
                 font-size: 0.95rem; 
                 margin-bottom: 2rem;
             }
-
             .utility-header { 
                 flex-direction: column; 
                 gap: 0.6rem; 
                 top: 1.5rem; 
                 padding: 0 1rem;
             }
-
             .links-container { 
                 flex-direction: column; 
                 width: 100%; 
                 gap: 0.65rem;
             }
-            
             .btn { 
                 justify-content: center; 
                 width: 100%;
                 padding: 0.85rem 1rem; 
             }
-
             .utility-footer { 
                 bottom: 1.5rem; 
                 padding: 0 1.2rem;
                 gap: 0.6rem;
             }
-
             .description-line {
                 font-size: 0.75rem;
                 line-height: 1.4;
@@ -414,14 +400,13 @@
     </header>
 
     <div class="bg-glow-container">
-        <div class="glow-ball one" id="ball1"></div>
-        <div class="glow-ball two" id="ball2"></div>
-        <div class="glow-ball three" id="ball3"></div>
+        <div class="ambient-balls">
+            <div class="glow-ball one" id="ball1"></div>
+            <div class="glow-ball two" id="ball2"></div>
+            <div class="glow-ball three" id="ball3"></div>
+        </div>
         
-        <div class="glow-ball cursor-splash trail-4" id="cursor-splash-4"></div>
-        <div class="glow-ball cursor-splash trail-3" id="cursor-splash-3"></div>
-        <div class="glow-ball cursor-splash trail-2" id="cursor-splash-2"></div>
-        <div class="glow-ball cursor-splash trail-1" id="cursor-splash-1"></div>
+        <canvas id="fireworks-canvas"></canvas>
     </div>
 
     <div class="content-card">
@@ -482,22 +467,48 @@
             isPlaying = !isPlaying;
         });
 
-        // --- Interactive Mouse Fireworks Setup ---
-        // Staggered speeds create the separated color trail effect on fast movement
-        const cursorSplashes = [
-            { el: document.getElementById('cursor-splash-1'), x: window.innerWidth / 2, y: window.innerHeight / 2, speed: 0.18 }, // Fast (Cyan)
-            { el: document.getElementById('cursor-splash-2'), x: window.innerWidth / 2, y: window.innerHeight / 2, speed: 0.12 }, // Medium-Fast (Magenta)
-            { el: document.getElementById('cursor-splash-3'), x: window.innerWidth / 2, y: window.innerHeight / 2, speed: 0.08 }, // Medium-Slow (Yellow)
-            { el: document.getElementById('cursor-splash-4'), x: window.innerWidth / 2, y: window.innerHeight / 2, speed: 0.04 }  // Slow (Purple)
-        ];
-        
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
+        // --- Interactive Mouse Fireworks Canvas Setup ---
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
 
-        // Track live mouse movement across the document
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        // High-energy tech color palette: Cyan, Magenta, Yellow, Purple
+        const colors = ['#00ffff', '#ff0096', '#ffdc00', '#9600ff']; 
+        
+        let lastMouseX = window.innerWidth / 2;
+        let lastMouseY = window.innerHeight / 2;
+
+        // Spawn particles gracefully based on mouse speed and direction
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+            const dx = e.clientX - lastMouseX;
+            const dy = e.clientY - lastMouseY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            // Generate more sparks the faster the user moves the mouse
+            const spawnCount = Math.min(Math.floor(dist * 0.4), 15) + 1;
+            
+            for(let i = 0; i < spawnCount; i++) {
+                particles.push({
+                    x: e.clientX,
+                    y: e.clientY,
+                    // Velocity uses momentum from the mouse movement + slight random scatter
+                    vx: (Math.random() - 0.5) * 6 + (dx * 0.04),
+                    vy: (Math.random() - 0.5) * 6 + (dy * 0.04) - 1.5, // Slight upward burst
+                    life: 1,
+                    decay: Math.random() * 0.015 + 0.01, // Controls fade speed
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 3.5 + 1.5
+                });
+            }
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
         });
 
         // --- Master Animation Controller ---
@@ -508,7 +519,7 @@
         function animateBackground(time) {
             const t = time * 0.0004;
 
-            // 1. Autonomous Orbiting Balls
+            // 1. Autonomous Orbiting Ambient Balls
             const x1 = Math.sin(t * 0.7) * 90;
             const y1 = Math.cos(t * 0.5) * 60;
 
@@ -522,12 +533,35 @@
             ball2.style.transform = `translate3d(${x2}px, ${y2}px, 0)`;
             ball3.style.transform = `translate3d(${x3}px, ${y3}px, 0)`;
 
-            // 2. Multi-color Cursor Fireworks (Staggered Lerp delay)
-            cursorSplashes.forEach(splash => {
-                splash.x += (mouseX - splash.x) * splash.speed;
-                splash.y += (mouseY - splash.y) * splash.speed;
-                splash.el.style.transform = `translate3d(${splash.x}px, ${splash.y}px, 0)`;
-            });
+            // 2. High-Performance Canvas Sparks Update
+            ctx.clearRect(0, 0, width, height);
+            
+            // Gives particles an intense, glowing blend effect when they overlap
+            ctx.globalCompositeOperation = 'screen'; 
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                
+                // Physics update
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.18; // Gravity pulling sparks down
+                p.life -= p.decay;
+
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                } else {
+                    // Render spark
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.life;
+                    ctx.shadowBlur = 12; // Creates the glowing edge
+                    ctx.shadowColor = p.color;
+                    ctx.fill();
+                }
+            }
+            ctx.globalAlpha = 1;
 
             requestAnimationFrame(animateBackground);
         }
