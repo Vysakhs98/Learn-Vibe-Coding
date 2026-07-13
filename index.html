@@ -34,7 +34,6 @@
             height: 100%;
             z-index: 1;
             overflow: hidden;
-            /* Filter blur is kept on the container to keep ambient balls soft */
             opacity: 0.55;
             pointer-events: none;
         }
@@ -79,7 +78,7 @@
             background: radial-gradient(circle, rgba(224, 81, 184, 0.15) 0%, rgba(0,0,0,0) 70%);
         }
 
-        /* --- NEW: Fireworks Canvas Layer --- */
+        /* --- Fireworks Canvas Layer --- */
         #fireworks-canvas {
             position: absolute;
             top: 0;
@@ -87,7 +86,6 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            /* No blur on the canvas so sparks are crisp and vibrant */
             z-index: 2;
         }
 
@@ -423,7 +421,6 @@
     </div>
 
     <footer class="utility-footer">
-        
         <button class="footer-audio-toggle" id="audio-toggle-btn" aria-label="Toggle Ambient Music">
             <svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
@@ -467,7 +464,7 @@
             isPlaying = !isPlaying;
         });
 
-        // --- Interactive Mouse Fireworks Canvas Setup ---
+        // --- High-Performance Mouse Fireworks System ---
         const canvas = document.getElementById('fireworks-canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
@@ -479,34 +476,37 @@
         });
 
         const particles = [];
-        // High-energy tech color palette: Cyan, Magenta, Yellow, Purple
         const colors = ['#00ffff', '#ff0096', '#ffdc00', '#9600ff']; 
         
         let lastMouseX = window.innerWidth / 2;
         let lastMouseY = window.innerHeight / 2;
 
-        // Spawn particles gracefully based on mouse speed and direction
         document.addEventListener('mousemove', (e) => {
             const dx = e.clientX - lastMouseX;
             const dy = e.clientY - lastMouseY;
             const dist = Math.sqrt(dx * dx + dy * dy);
             
-            // Generate more sparks the faster the user moves the mouse
-            const spawnCount = Math.min(Math.floor(dist * 0.4), 15) + 1;
+            // Generate sparks based on movement speed, tightly capped to prevent lag
+            const spawnCount = Math.min(Math.floor(dist * 0.15), 10);
             
             for(let i = 0; i < spawnCount; i++) {
                 particles.push({
                     x: e.clientX,
                     y: e.clientY,
-                    // Velocity uses momentum from the mouse movement + slight random scatter
-                    vx: (Math.random() - 0.5) * 6 + (dx * 0.04),
-                    vy: (Math.random() - 0.5) * 6 + (dy * 0.04) - 1.5, // Slight upward burst
+                    vx: (Math.random() - 0.5) * 5 + (dx * 0.03),
+                    vy: (Math.random() - 0.5) * 5 + (dy * 0.03) - 1.5, // Initial upward burst
                     life: 1,
-                    decay: Math.random() * 0.015 + 0.01, // Controls fade speed
+                    decay: Math.random() * 0.02 + 0.015,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    size: Math.random() * 3.5 + 1.5
+                    size: Math.random() * 2.5 + 1.5
                 });
             }
+            
+            // Hard limit on particles to guarantee 60 FPS
+            if (particles.length > 300) {
+                particles.splice(0, particles.length - 300);
+            }
+            
             lastMouseX = e.clientX;
             lastMouseY = e.clientY;
         });
@@ -533,16 +533,18 @@
             ball2.style.transform = `translate3d(${x2}px, ${y2}px, 0)`;
             ball3.style.transform = `translate3d(${x3}px, ${y3}px, 0)`;
 
-            // 2. High-Performance Canvas Sparks Update
+            // 2. High-Performance Canvas Sparks
             ctx.clearRect(0, 0, width, height);
             
-            // Gives particles an intense, glowing blend effect when they overlap
-            ctx.globalCompositeOperation = 'screen'; 
+            // "lighter" mode makes overlapping colors physically glow brighter
+            ctx.globalCompositeOperation = 'lighter'; 
 
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
                 
-                // Physics update
+                // Physics: Friction + Gravity
+                p.vx *= 0.94; // Air resistance slows horizontal spread
+                p.vy *= 0.97; // Air resistance slows vertical slightly
                 p.x += p.vx;
                 p.y += p.vy;
                 p.vy += 0.18; // Gravity pulling sparks down
@@ -551,13 +553,19 @@
                 if (p.life <= 0) {
                     particles.splice(i, 1);
                 } else {
-                    // Render spark
+                    // FAST RENDER METHOD (Replaces shadowBlur)
+                    // Draw outer colored halo
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.life * 0.4;
+                    ctx.fill();
+
+                    // Draw bright white-hot core
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
+                    ctx.fillStyle = '#ffffff';
                     ctx.globalAlpha = p.life;
-                    ctx.shadowBlur = 12; // Creates the glowing edge
-                    ctx.shadowColor = p.color;
                     ctx.fill();
                 }
             }
