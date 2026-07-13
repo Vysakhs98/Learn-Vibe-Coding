@@ -71,16 +71,21 @@
             background: radial-gradient(circle, rgba(224, 81, 184, 0.15) 0%, rgba(0,0,0,0) 70%);
         }
 
-        /* --- NEW: Interactive Cursor Splash --- */
+        /* --- NEW: Interactive Cursor Fireworks Trail --- */
         .glow-ball.cursor-splash {
-            width: 40vw;
-            height: 40vw;
-            margin-top: -20vw; /* Centers the sphere exactly on the cursor */
-            margin-left: -20vw;
-            background: radial-gradient(circle, rgba(0, 255, 204, 0.65) 0%, rgba(204, 0, 255, 0.4) 35%, rgba(0,0,0,0) 70%);
-            mix-blend-mode: color-dodge; /* Makes it extra vibrant when crossing other colors */
+            width: 35vw;
+            height: 35vw;
+            margin-top: -17.5vw; /* Centers perfectly on cursor */
+            margin-left: -17.5vw;
+            mix-blend-mode: color-dodge; /* Makes it intensely bright when overlapping */
             will-change: transform;
+            opacity: 0.75;
         }
+
+        .cursor-splash.trail-1 { background: radial-gradient(circle, rgba(0, 255, 255, 0.8) 0%, rgba(0,0,0,0) 65%); } /* Cyan */
+        .cursor-splash.trail-2 { background: radial-gradient(circle, rgba(255, 0, 150, 0.8) 0%, rgba(0,0,0,0) 65%); } /* Magenta */
+        .cursor-splash.trail-3 { background: radial-gradient(circle, rgba(255, 220, 0, 0.7) 0%, rgba(0,0,0,0) 65%); } /* Yellow */
+        .cursor-splash.trail-4 { background: radial-gradient(circle, rgba(150, 0, 255, 0.7) 0%, rgba(0,0,0,0) 65%); } /* Purple */
 
         /* --- Content Layout --- */
         .content-card {
@@ -413,7 +418,10 @@
         <div class="glow-ball two" id="ball2"></div>
         <div class="glow-ball three" id="ball3"></div>
         
-        <div class="glow-ball cursor-splash" id="cursor-splash"></div>
+        <div class="glow-ball cursor-splash trail-4" id="cursor-splash-4"></div>
+        <div class="glow-ball cursor-splash trail-3" id="cursor-splash-3"></div>
+        <div class="glow-ball cursor-splash trail-2" id="cursor-splash-2"></div>
+        <div class="glow-ball cursor-splash trail-1" id="cursor-splash-1"></div>
     </div>
 
     <div class="content-card">
@@ -474,12 +482,17 @@
             isPlaying = !isPlaying;
         });
 
-        // --- Interactive Mouse Splash Setup ---
-        const cursorSplash = document.getElementById('cursor-splash');
+        // --- Interactive Mouse Fireworks Setup ---
+        // Staggered speeds create the separated color trail effect on fast movement
+        const cursorSplashes = [
+            { el: document.getElementById('cursor-splash-1'), x: window.innerWidth / 2, y: window.innerHeight / 2, speed: 0.18 }, // Fast (Cyan)
+            { el: document.getElementById('cursor-splash-2'), x: window.innerWidth / 2, y: window.innerHeight / 2, speed: 0.12 }, // Medium-Fast (Magenta)
+            { el: document.getElementById('cursor-splash-3'), x: window.innerWidth / 2, y: window.innerHeight / 2, speed: 0.08 }, // Medium-Slow (Yellow)
+            { el: document.getElementById('cursor-splash-4'), x: window.innerWidth / 2, y: window.innerHeight / 2, speed: 0.04 }  // Slow (Purple)
+        ];
+        
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
-        let splashX = mouseX;
-        let splashY = mouseY;
 
         // Track live mouse movement across the document
         document.addEventListener('mousemove', (e) => {
@@ -509,10 +522,12 @@
             ball2.style.transform = `translate3d(${x2}px, ${y2}px, 0)`;
             ball3.style.transform = `translate3d(${x3}px, ${y3}px, 0)`;
 
-            // 2. Smooth Cursor Splash Following (Lerp mathematical delay)
-            splashX += (mouseX - splashX) * 0.08;
-            splashY += (mouseY - splashY) * 0.08;
-            cursorSplash.style.transform = `translate3d(${splashX}px, ${splashY}px, 0)`;
+            // 2. Multi-color Cursor Fireworks (Staggered Lerp delay)
+            cursorSplashes.forEach(splash => {
+                splash.x += (mouseX - splash.x) * splash.speed;
+                splash.y += (mouseY - splash.y) * splash.speed;
+                splash.el.style.transform = `translate3d(${splash.x}px, ${splash.y}px, 0)`;
+            });
 
             requestAnimationFrame(animateBackground);
         }
