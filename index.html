@@ -161,13 +161,6 @@
             border-color: rgba(155, 81, 224, 0.6);
         }
 
-        /* Active state for the audio button when music is playing */
-        .btn.audio-active {
-            background: rgba(74, 144, 226, 0.08);
-            border-color: rgba(74, 144, 226, 0.4);
-            color: #ffffff;
-        }
-
         /* --- Header / Footer Structure --- */
         .utility-header {
             position: absolute;
@@ -216,16 +209,41 @@
             pointer-events: none;
         }
 
-        @keyframes elegantSweep {
-            0% { background-position: 200% center; }
-            30% { background-position: -120% center; }
-            100% { background-position: -120% center; }
+        /* --- Header Right Utilities (Clock & Audio) --- */
+        .header-utility-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Keeps clock and icon aligned to the right */
+            gap: 0.4rem;
         }
 
         #local-clock {
             font-size: 0.8rem;
             font-weight: 400;
             color: #6c727a;
+        }
+
+        .audio-icon-btn {
+            background: transparent;
+            border: none;
+            color: #6c727a;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .audio-icon-btn:hover {
+            color: #ffffff;
+            transform: scale(1.15); /* Sleek micro-interaction pop */
+        }
+
+        .audio-icon-btn svg {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
         }
 
         .utility-footer {
@@ -324,6 +342,12 @@
                 padding: 0 1rem;
             }
 
+            /* Snaps the clock & audio icon back to center alignment on mobile */
+            .header-utility-group {
+                align-items: center;
+                gap: 0.6rem;
+            }
+
             .links-container { 
                 flex-direction: column; 
                 width: 100%; 
@@ -357,15 +381,24 @@
 </head>
 <body>
 
-    <!-- Invisible Audio Player -->
-    <!-- REPLACE "YOUR_AUDIO_FILE.mp3" WITH YOUR ACTUAL AUDIO LINK -->
     <audio id="ambient-audio" loop>
         <source src="YOUR_AUDIO_FILE.mp3" type="audio/mpeg">
     </audio>
 
     <header class="utility-header">
         <div class="brand-owner">Vysakh S</div>
-        <div id="local-clock">BENGALURU, IN — --:-- --</div>
+        
+        <div class="header-utility-group">
+            <div id="local-clock">BENGALURU, IN — --:-- --</div>
+            <button class="audio-icon-btn" id="audio-toggle-btn" aria-label="Toggle Ambient Music">
+                <svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                </svg>
+                <svg id="icon-playing" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                </svg>
+            </button>
+        </div>
     </header>
 
     <div class="bg-glow-container">
@@ -379,7 +412,6 @@
         <p class="reveal-item delay-1">I am currently restructuring my portfolio website to introduce a completely elevated creative experience. I'll be back soon.<br>And in the meantime, let's connect.</p>
 
         <div class="links-container reveal-item delay-2">
-            <button class="btn" id="audio-btn">Play Music</button>
             <a href="Vysakh_S_Product_Designer_Resume_2026.pdf" download="Vysakh_S_Product_Designer_Resume_2026.pdf" class="btn resume-btn">Download Resume</a>
             <button class="btn" id="email-btn" data-email="vysakh.official98@gmail.com">Email Me</button>
             <a href="https://wa.me/917022017654" target="_blank" rel="noopener" class="btn">WhatsApp</a>
@@ -399,20 +431,22 @@
     </footer>
 
     <script>
-        // --- Audio Toggle Logic ---
+        // --- Audio Icon Toggle Logic ---
         const audio = document.getElementById('ambient-audio');
-        const audioBtn = document.getElementById('audio-btn');
+        const audioToggleBtn = document.getElementById('audio-toggle-btn');
+        const iconMuted = document.getElementById('icon-muted');
+        const iconPlaying = document.getElementById('icon-playing');
         let isPlaying = false;
 
-        audioBtn.addEventListener('click', () => {
+        audioToggleBtn.addEventListener('click', () => {
             if (isPlaying) {
                 audio.pause();
-                audioBtn.textContent = 'Play Music';
-                audioBtn.classList.remove('audio-active');
+                iconMuted.style.display = 'block';
+                iconPlaying.style.display = 'none';
             } else {
                 audio.play();
-                audioBtn.textContent = 'Pause Music';
-                audioBtn.classList.add('audio-active');
+                iconMuted.style.display = 'none';
+                iconPlaying.style.display = 'block';
             }
             isPlaying = !isPlaying;
         });
