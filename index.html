@@ -161,6 +161,13 @@
             border-color: rgba(155, 81, 224, 0.6);
         }
 
+        /* Active state for the audio button when music is playing */
+        .btn.audio-active {
+            background: rgba(74, 144, 226, 0.08);
+            border-color: rgba(74, 144, 226, 0.4);
+            color: #ffffff;
+        }
+
         /* --- Header / Footer Structure --- */
         .utility-header {
             position: absolute;
@@ -350,6 +357,12 @@
 </head>
 <body>
 
+    <!-- Invisible Audio Player -->
+    <!-- REPLACE "YOUR_AUDIO_FILE.mp3" WITH YOUR ACTUAL AUDIO LINK -->
+    <audio id="ambient-audio" loop>
+        <source src="YOUR_AUDIO_FILE.mp3" type="audio/mpeg">
+    </audio>
+
     <header class="utility-header">
         <div class="brand-owner">Vysakh S</div>
         <div id="local-clock">BENGALURU, IN — --:-- --</div>
@@ -366,7 +379,7 @@
         <p class="reveal-item delay-1">I am currently restructuring my portfolio website to introduce a completely elevated creative experience. I'll be back soon.<br>And in the meantime, let's connect.</p>
 
         <div class="links-container reveal-item delay-2">
-            <!-- Inline download link routing directly to your local file path assets -->
+            <button class="btn" id="audio-btn">Play Music</button>
             <a href="Vysakh_S_Product_Designer_Resume_2026.pdf" download="Vysakh_S_Product_Designer_Resume_2026.pdf" class="btn resume-btn">Download Resume</a>
             <button class="btn" id="email-btn" data-email="vysakh.official98@gmail.com">Email Me</button>
             <a href="https://wa.me/917022017654" target="_blank" rel="noopener" class="btn">WhatsApp</a>
@@ -386,6 +399,24 @@
     </footer>
 
     <script>
+        // --- Audio Toggle Logic ---
+        const audio = document.getElementById('ambient-audio');
+        const audioBtn = document.getElementById('audio-btn');
+        let isPlaying = false;
+
+        audioBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                audioBtn.textContent = 'Play Music';
+                audioBtn.classList.remove('audio-active');
+            } else {
+                audio.play();
+                audioBtn.textContent = 'Pause Music';
+                audioBtn.classList.add('audio-active');
+            }
+            isPlaying = !isPlaying;
+        });
+
         // --- Ambient Background Controller ---
         const ball1 = document.getElementById('ball1');
         const ball2 = document.getElementById('ball2');
