@@ -71,6 +71,17 @@
             background: radial-gradient(circle, rgba(224, 81, 184, 0.15) 0%, rgba(0,0,0,0) 70%);
         }
 
+        /* --- NEW: Interactive Cursor Splash --- */
+        .glow-ball.cursor-splash {
+            width: 40vw;
+            height: 40vw;
+            margin-top: -20vw; /* Centers the sphere exactly on the cursor */
+            margin-left: -20vw;
+            background: radial-gradient(circle, rgba(0, 255, 204, 0.65) 0%, rgba(204, 0, 255, 0.4) 35%, rgba(0,0,0,0) 70%);
+            mix-blend-mode: color-dodge; /* Makes it extra vibrant when crossing other colors */
+            will-change: transform;
+        }
+
         /* --- Content Layout --- */
         .content-card {
             position: relative;
@@ -305,6 +316,15 @@
                 mix-blend-mode: normal; 
             }
 
+            .glow-ball.cursor-splash {
+                /* Disables Dodge blending on mobile web viewports for performance */
+                mix-blend-mode: normal; 
+                width: 70vw;
+                height: 70vw;
+                margin-top: -35vw;
+                margin-left: -35vw;
+            }
+
             .glow-ball.one {
                 width: 130vw; 
                 height: 130vw;
@@ -392,6 +412,8 @@
         <div class="glow-ball one" id="ball1"></div>
         <div class="glow-ball two" id="ball2"></div>
         <div class="glow-ball three" id="ball3"></div>
+        
+        <div class="glow-ball cursor-splash" id="cursor-splash"></div>
     </div>
 
     <div class="content-card">
@@ -452,7 +474,20 @@
             isPlaying = !isPlaying;
         });
 
-        // --- Ambient Background Controller ---
+        // --- Interactive Mouse Splash Setup ---
+        const cursorSplash = document.getElementById('cursor-splash');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let splashX = mouseX;
+        let splashY = mouseY;
+
+        // Track live mouse movement across the document
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // --- Master Animation Controller ---
         const ball1 = document.getElementById('ball1');
         const ball2 = document.getElementById('ball2');
         const ball3 = document.getElementById('ball3');
@@ -460,6 +495,7 @@
         function animateBackground(time) {
             const t = time * 0.0004;
 
+            // 1. Autonomous Orbiting Balls
             const x1 = Math.sin(t * 0.7) * 90;
             const y1 = Math.cos(t * 0.5) * 60;
 
@@ -472,6 +508,11 @@
             ball1.style.transform = `translate3d(${x1}px, ${y1}px, 0)`;
             ball2.style.transform = `translate3d(${x2}px, ${y2}px, 0)`;
             ball3.style.transform = `translate3d(${x3}px, ${y3}px, 0)`;
+
+            // 2. Smooth Cursor Splash Following (Lerp mathematical delay)
+            splashX += (mouseX - splashX) * 0.08;
+            splashY += (mouseY - splashY) * 0.08;
+            cursorSplash.style.transform = `translate3d(${splashX}px, ${splashY}px, 0)`;
 
             requestAnimationFrame(animateBackground);
         }
