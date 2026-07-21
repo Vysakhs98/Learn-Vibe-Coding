@@ -3,505 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vysakh S | Portfolio</title>
+    <title>Vysakh S | UI/UX & Product Designer</title>
     <style>
-        /* --- Reset & Base Styles --- */
+        /* CSS VARIABLES & RESET */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-main: #050505;
+            --bg-card: #121212;
+            --bg-card-hover: #1a1a1a;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #6b4cff;
+            --accent-hover: #8367ff;
+            --border-color: #222222;
+            --glass-bg: rgba(5, 5, 5, 0.8);
+        }
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-            background-color: #050608; /* Deepened background for better contrast */
-            color: #1a1a1a;
-            height: 600vh; /* Scroll track */
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* --- 3D Atmospheric Background --- */
-        .ambient-bg {
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* NAVIGATION */
+        nav {
             position: fixed;
             top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-            background: radial-gradient(circle at center, #11141a 0%, #050608 100%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
         }
 
-        .bg-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-            animation: drift 15s infinite alternate ease-in-out;
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        .orb-1 {
-            width: 50vw; height: 50vw;
-            background: #9b51e0;
-            top: -10%; left: -10%;
+        .nav-links {
+            display: flex;
+            gap: 2rem;
         }
 
-        .orb-2 {
-            width: 40vw; height: 40vw;
-            background: #34c759;
-            bottom: -10%; right: -10%;
-            animation-delay: -5s;
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
         }
 
-        @keyframes drift {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(10vw, 5vh) scale(1.1); }
+        .nav-links a:hover {
+            color: var(--text-main);
         }
 
-        /* --- 3D Book Environment --- */
-        .book-viewport {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            perspective: 2000px; /* Strong 3D depth */
+        /* LAYOUT & UTILITIES */
+        section {
+            padding: 120px 5% 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            letter-spacing: -1px;
+        }
+
+        .section-title span {
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* HOME SECTION */
+        #home {
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            gap: 4rem;
         }
 
-        /* The floating wrapper creates the levitation effect */
-        .floating-wrapper {
-            position: relative;
-            width: 45vw;
-            max-width: 550px;
-            height: 80vh;
-            max-height: 750px;
-            animation: float 6s ease-in-out infinite;
-            transform-style: preserve-3d;
+        .hero-content {
+            max-width: 800px;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Dynamic floor shadow that reacts to the floating */
-        .book-shadow {
-            position: absolute;
-            bottom: -60px;
-            left: 0%;
-            width: 100%;
-            height: 40px;
-            background: rgba(0, 0, 0, 0.8);
-            filter: blur(25px);
-            border-radius: 50%;
-            animation: shadow-pulse 6s ease-in-out infinite;
-            transform: rotateX(60deg);
-        }
-
-        @keyframes shadow-pulse {
-            0%, 100% { transform: rotateX(60deg) scale(1); opacity: 0.8; }
-            50% { transform: rotateX(60deg) scale(0.9); opacity: 0.4; }
-        }
-
-        /* The book itself, tilted slightly for isometric 3D perspective */
-        .book {
-            position: absolute;
-            left: 0; 
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transform: rotateX(10deg) rotateY(-5deg) rotateZ(1deg);
-        }
-
-        /* --- Page Structure & Realism --- */
-        .page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform-origin: left center; /* Spine binding */
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .page-front, .page-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 2px 12px 12px 2px;
-            padding: 3.5rem;
-            display: flex;
-            flex-direction: column;
-            overflow-y: hidden; 
-            border: 1px solid rgba(255,255,255,0.4);
-            /* Lighting realistic gradients mimicking paper */
-            background: linear-gradient(to right, #d9e0e8 0%, #f0f4f9 8%, #fcfcfc 100%);
-            box-shadow: inset 4px 0 15px rgba(0,0,0,0.08), 8px 12px 25px rgba(0,0,0,0.2);
-        }
-
-        .page-back {
-            transform: rotateY(180deg);
-            border-radius: 12px 2px 2px 12px;
-            /* Reverse lighting for the back of the page */
-            background: linear-gradient(to left, #d9e0e8 0%, #f0f4f9 8%, #fcfcfc 100%);
-            box-shadow: inset -4px 0 15px rgba(0,0,0,0.08), -8px 12px 25px rgba(0,0,0,0.2);
-        }
-
-        /* --- Content & Typography --- */
-        h1 {
-            font-size: 3.8rem;
-            font-weight: 400;
-            letter-spacing: -0.04em;
-            margin-bottom: 0.5rem;
-            color: #0b0d10;
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 700;
             line-height: 1.1;
-        }
-
-        h2 {
-            font-size: 2.2rem;
-            font-weight: 400;
-            letter-spacing: -0.02em;
+            letter-spacing: -2px;
             margin-bottom: 1.5rem;
-            color: #1a1a1a;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            padding-bottom: 0.5rem;
         }
 
-        h3 {
-            font-size: 1.25rem;
-            font-weight: 500;
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--text-main);
+            color: var(--bg-main);
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ABOUT ME SECTION */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-item {
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .exp-date {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #9b51e0;
-            margin-top: 1.5rem;
         }
 
-        p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #4a4d52;
+        .exp-role {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .exp-company {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-tag {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* PROJECTS SECTION */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--text-muted);
+            background: var(--bg-card-hover);
+        }
+
+        .project-img-container {
+            width: 100%;
+            height: 250px;
+            background-color: #1a1a1a; /* Placeholder background */
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-category {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 500;
             margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .cover-content { margin: auto 0; }
+        .project-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
 
-        .tag-group {
+        .project-highlights {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            margin-top: 0.5rem;
         }
 
-        .tag {
-            background: rgba(155, 81, 224, 0.1);
-            color: #7b3db5;
-            padding: 0.4rem 0.8rem;
-            border-radius: 100px;
+        .highlight {
             font-size: 0.8rem;
-            font-weight: 600;
+            background: rgba(255,255,255,0.05);
+            padding: 4px 10px;
+            border-radius: 4px;
+            color: #ccc;
         }
 
-        .metric-row {
+        /* CONTACT SECTION */
+        #contact {
+            text-align: center;
+            padding: 120px 5%;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .contact-desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-links {
             display: flex;
+            justify-content: center;
             gap: 2rem;
-            margin-top: auto;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(0,0,0,0.1);
+            flex-wrap: wrap;
         }
 
-        .metric { display: flex; flex-direction: column; }
-
-        .metric span.number {
-            font-size: 2.5rem;
-            font-weight: 300;
-            color: #0b0d10;
+        .contact-link {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-main);
+            border-bottom: 1px solid transparent;
+            padding-bottom: 4px;
         }
 
-        .metric span.label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #888;
-            font-weight: 600;
+        .contact-link:hover {
+            color: var(--accent);
+            border-color: var(--accent);
         }
 
-        .page-number {
-            position: absolute;
-            bottom: 2rem;
+        footer {
+            margin-top: 6rem;
+            color: var(--text-muted);
             font-size: 0.85rem;
-            color: #aaa;
-            font-weight: 600;
-        }
-        
-        .page-front .page-number { right: 2rem; }
-        .page-back .page-number { left: 2rem; }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 3.5rem;
-            left: 3.5rem;
-            font-size: 0.85rem;
-            color: #9b51e0;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 600;
-            animation: bounce 2s infinite ease-in-out;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); opacity: 0.5; }
-            50% { transform: translateY(5px); opacity: 1; }
-        }
-
-        /* --- Mobile Adjustments --- */
-        @media (max-width: 900px) {
-            .floating-wrapper { 
-                width: 90vw; 
-                left: 5vw; 
-                max-width: none;
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 968px) {
+            #home {
+                flex-direction: column-reverse;
+                text-align: center;
+                justify-content: center;
+                padding-top: 150px;
             }
-            .page-front, .page-back { padding: 2.5rem; }
-            h1 { font-size: 3rem; }
-            h2 { font-size: 1.8rem; }
+            .hero-subtitle { margin: 0 auto 2rem; }
+            .hero-image { width: 300px; height: 300px; }
+            .about-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; /* Can be replaced with a hamburger menu logic if needed */ }
         }
     </style>
 </head>
 <body>
 
-    <!-- Deep 3D Atmospheric Background -->
-    <div class="ambient-bg">
-        <div class="bg-orb orb-1"></div>
-        <div class="bg-orb orb-2"></div>
-    </div>
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="logo">Vysakh S</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-    <!-- 3D Viewport -->
-    <div class="book-viewport">
-        <!-- Floating wrapper for anti-gravity physics -->
-        <div class="floating-wrapper">
-            <!-- Dynamic 3D Floor Shadow -->
-            <div class="book-shadow"></div>
-            
-            <!-- Isometric Tilted Book -->
-            <div class="book" id="book">
+    <!-- HOME SECTION -->
+    <section id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Portfolio.</h1>
+            <p class="hero-subtitle">Selected work across product design, UX research, branding and graphic design. <!--[cite: 1] --></p>
+            <a href="#projects" class="btn">View Selected Work</a>
+        </div>
+        <div class="hero-image">
+            <!-- IMPORTANT: Place your profile image here in GitHub (e.g., src="profile.jpg") -->
+            <img src="" alt="Vysakh S Profile">
+        </div>
+    </section>
+
+    <!-- ABOUT ME SECTION -->
+    <section id="about">
+        <h2 class="section-title">About <span>Me</span></h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>Hello, I'm Vysakh S, UI/UX & Product Designer. <!--[cite: 1] --></p>
+                <p>I have over three years of experience designing digital products across SaaS, enterprise and mobile platforms. My work combines user research, interaction design and visual storytelling to transform complex problems into intuitive, user-centered experiences. <!--[cite: 1] --></p>
+                <p>Having collaborated with teams in India and the UAE, I focus on creating scalable, accessible and impactful solutions that align user needs with business goals. <!--[cite: 1] --></p>
                 
-                <!-- PAGE 4 (Finale / Contact) -->
-                <div class="page" id="page4">
-                    <div class="page-front">
-                        <h2>Independent Work</h2>
-                        <p>Working directly with founders and businesses to create digital products, distinctive brand identities, and cohesive visual experiences.</p>
-                        
-                        <h3>Select Branding Projects</h3>
-                        <div class="tag-group">
-                            <span class="tag">Sakura Patisserie</span>
-                            <span class="tag">Refrocast-Tech</span>
-                            <span class="tag">Yureka Kitchen</span>
-                            <span class="tag">Groden Energy</span>
-                        </div>
-                        
-                        <p>Managed projects from discovery to delivery, exploring logo design, pattern design, packaging, and digital experiences across 14+ projects.</p>
-
-                        <div class="metric-row">
-                            <div class="metric">
-                                <span class="number">100+</span>
-                                <span class="label">Creatives Delivered</span>
-                            </div>
-                            <div class="metric">
-                                <span class="number">3+</span>
-                                <span class="label">Years Ind. Exp.</span>
-                            </div>
-                        </div>
-                        <span class="page-number">07</span>
-                    </div>
-                    <div class="page-back">
-                        <div class="cover-content">
-                            <h2>Designing with curiosity.</h2>
-                            <p>Growing with every problem. Across products, brands and experiences, my work is driven by a simple goal — to understand the problem deeply and design something genuinely delightful.</p>
-                            
-                            <h3>Let's Connect</h3>
-                            <p>I'm always open to thoughtful conversations and opportunities to create experiences that make a real difference.</p>
-                            <br>
-                            <p><strong>vysakh.official98@gmail.com</strong><br><strong>+91 702 201 7654</strong></p>
-                            <br><br>
-                            <p style="font-size: 0.85rem; color: #aaa;">Thank You.<br>2026 Portfolio.</p>
-                        </div>
-                        <span class="page-number">08</span>
-                    </div>
+                <div class="skills-grid">
+                    <!-- Skills / Toolkit[cite: 1] -->
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">Photoshop</span>
+                    <span class="skill-tag">ChatGPT</span>
+                    <span class="skill-tag">Relume</span>
+                    <span class="skill-tag">Figjam</span>
+                    <span class="skill-tag">Illustrator</span>
+                    <span class="skill-tag">Claude</span>
+                    <span class="skill-tag">GitHub</span>
+                    <span class="skill-tag">Framer</span>
+                    <span class="skill-tag">Hotjar</span>
+                    <span class="skill-tag">Gemini</span>
+                    <span class="skill-tag">HTML/CSS</span>
                 </div>
-
-                <!-- PAGE 3 (White Paper / Felt) -->
-                <div class="page" id="page3">
-                    <div class="page-front">
-                        <h2>White Paper Alliance</h2>
-                        <p><strong>UI/UX Designer | Apr 2024 - Apr 2025 (Dubai)</strong></p>
-                        <p>Delivered enterprise software and digital experiences across SportsTech, iGaming, and Lifestyle brands.</p>
-                        
-                        <h3>Key Deployments</h3>
-                        <p><strong>Playsta:</strong> Digital Entertainment & iGaming Platform. Simplified navigation, resulting in a 40% improvement in user engagement.</p>
-                        <p><strong>Gaming Godfather:</strong> Enterprise B2B Platform. Structured complex sportsbook solutions, driving a 60% increase in sales enquiries.</p>
-                        <p><strong>Score Pro:</strong> Designed premium athleisure e-commerce experiences and high-density live sports scoring applications.</p>
-                        <span class="page-number">05</span>
-                    </div>
-                    <div class="page-back">
-                        <div class="cover-content">
-                            <h2>Felt</h2>
-                            <h3>Neuro-inclusive Emotional Memory</h3>
-                            <p>A self-initiated digital product designed to help neurodivergent people capture meaningful conversations, process complex emotions and revisit thoughts that often remain unspoken.</p>
-                            <br>
-                            <h3>The Research</h3>
-                            <p>Qualitative research revealed that while conversations fade, emotions remain. Without a structured way to reflect, recurring triggers and dynamics remain invisible. Felt provides a private, low-pressure space that encourages reflection without feeling clinical.</p>
-                        </div>
-                        <span class="page-number">06</span>
-                    </div>
+            </div>
+            
+            <div class="experience">
+                <!-- Professional Experience[cite: 1] -->
+                <div class="experience-item">
+                    <div class="exp-date">May 2025 — July 2026</div>
+                    <div class="exp-role">Freelance UI/UX & Visual Design</div>
+                    <div class="exp-company">Bengaluru</div>
                 </div>
-
-                <!-- PAGE 2 (GameApp / Capabilities) -->
-                <div class="page" id="page2">
-                    <div class="page-front">
-                        <h2>Core Capabilities</h2>
-                        <p>Bridging the gap between human needs and technical constraints.</p>
-                        
-                        <div class="tag-group">
-                            <span class="tag">UX Research</span>
-                            <span class="tag">Information Architecture</span>
-                            <span class="tag">Design Systems</span>
-                            <span class="tag">Prototyping</span>
-                        </div>
-
-                        <h3>Education & Toolkit</h3>
-                        <p><strong>Christ University (2017-2021)</strong><br>Bachelor of Hotel Management</p>
-                        <p><strong>DesignBoat UI/UX School (2021)</strong><br>User Experience & Product Design Certification</p>
-                        
-                        <div class="tag-group" style="margin-top: 1rem;">
-                            <span class="tag" style="background: rgba(0,0,0,0.05); color: #333;">Figma</span>
-                            <span class="tag" style="background: rgba(0,0,0,0.05); color: #333;">Framer</span>
-                            <span class="tag" style="background: rgba(0,0,0,0.05); color: #333;">Claude / AI</span>
-                            <span class="tag" style="background: rgba(0,0,0,0.05); color: #333;">HTML / CSS</span>
-                        </div>
-                        <span class="page-number">03</span>
-                    </div>
-                    <div class="page-back">
-                        <h2>GameApp Tech</h2>
-                        <p><strong>UI/UX Designer | Dec 2021 - Sep 2023 (Bengaluru)</strong></p>
-                        <p>Specializing in gamified digital products that improve learning, engagement, and workforce performance.</p>
-                        
-                        <h3>Key Deployments</h3>
-                        <p><strong>ComplioPro-X:</strong> Enterprise Compliance Platform. Transformed mandatory training into a gamified experience.</p>
-                        <p><strong>Little Guru:</strong> Gamified Sanskrit learning app backed by the Indian Council of Cultural Relations (ICCR).</p>
-                        <p><strong>Moyenne Island:</strong> Official interactive tourism app launched by the President of Seychelles.</p>
-
-                        <div class="metric-row">
-                            <div class="metric">
-                                <span class="number">30%</span>
-                                <span class="label">Completion Increase</span>
-                            </div>
-                            <div class="metric">
-                                <span class="number">90%</span>
-                                <span class="label">Retention Boost</span>
-                            </div>
-                        </div>
-                        <span class="page-number">04</span>
-                    </div>
+                <div class="experience-item">
+                    <div class="exp-date">Apr 2024 — Apr 2025</div>
+                    <div class="exp-role">UI/UX Designer</div>
+                    <div class="exp-company">White Paper Alliance - SaaS | Dubai</div>
                 </div>
-
-                <!-- PAGE 1 (Cover / Intro) -->
-                <div class="page" id="page1">
-                    <div class="page-front">
-                        <div class="cover-content">
-                            <h1>Vysakh S</h1>
-                            <h3>Portfolio.</h3>
-                            <p>Selected work across product design, UX research, branding and graphic design.</p>
-                            <br><br>
-                            <p><strong>UI/UX & Product Designer</strong><br>2026</p>
-                        </div>
-                        <div class="scroll-hint">&darr; Scroll to open</div>
-                        <span class="page-number">01</span>
-                    </div>
-                    <div class="page-back">
-                        <div class="cover-content">
-                            <h2>Hello, I'm Vysakh.</h2>
-                            <p>I have over three years of experience designing digital products across SaaS, enterprise, and mobile platforms.</p>
-                            <p>My work combines user research, interaction design, and visual storytelling to transform complex problems into intuitive, user-centered experiences.</p>
-                            <p>Starting with a foundation in Hotel Management, I learned how to craft physical human experiences before pivoting to architecting digital ones.</p>
-                            
-                            <div class="metric-row">
-                                <div class="metric">
-                                    <span class="number">03</span>
-                                    <span class="label">Years Exp.</span>
-                                </div>
-                                <div class="metric">
-                                    <span class="number">30+</span>
-                                    <span class="label">Products Shipped</span>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="page-number">02</span>
-                    </div>
+                <div class="experience-item">
+                    <div class="exp-date">Dec 2021 — Sep 2023</div>
+                    <div class="exp-role">UI/UX Designer</div>
+                    <div class="exp-company">GameApp Tech - SaaS | Bengaluru</div>
                 </div>
-
+                <div class="experience-item">
+                    <div class="exp-date">Aug 2021 — Dec 2021</div>
+                    <div class="exp-role">UI/UX Design Certification</div>
+                    <div class="exp-company">DesignBoat UI/UX School</div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <h2 class="section-title">Selected <span>Projects</span></h2>
+        <div class="projects-grid">
+            
+            <!-- Project 1[cite: 1] -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <img src="" alt="ComplioPro-X Interface">
+                </div>
+                <div class="project-info">
+                    <div class="project-category">Enterprise Compliance Platform</div>
+                    <h3 class="project-title">ComplioPro-X</h3>
+                    <p class="project-desc">A gamified enterprise learning platform designed to simplify Anti Money Laundering (AML), compliance, cybersecurity and corporate policy training through engaging, interactive learning experiences.</p>
+                    <div class="project-highlights">
+                        <span class="highlight">Enterprise SaaS</span>
+                        <span class="highlight">Gamified Training</span>
+                        <span class="highlight">30% Completion Increase</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2[cite: 1] -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <img src="" alt="Little Guru App">
+                </div>
+                <div class="project-info">
+                    <div class="project-category">Gamified Sanskrit Learning App</div>
+                    <h3 class="project-title">Little Guru</h3>
+                    <p class="project-desc">A government backed mobile application developed with Indian Council of Cultural Relations (ICCR) that uses gamification and AI powered learning to make Sanskrit accessible worldwide.</p>
+                    <div class="project-highlights">
+                        <span class="highlight">Gov Backed (ICCR)</span>
+                        <span class="highlight">Mobile UX</span>
+                        <span class="highlight">Global Education</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3[cite: 1] -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <img src="" alt="Moyenne Island Guide">
+                </div>
+                <div class="project-info">
+                    <div class="project-category">Interactive Tourism Guide</div>
+                    <h3 class="project-title">Moyenne Island</h3>
+                    <p class="project-desc">A digital tourism guide that enhances visitor experiences through interactive storytelling, location based exploration and gamified experiences across Moyenne Island, Seychelles.</p>
+                    <div class="project-highlights">
+                        <span class="highlight">Information Architecture</span>
+                        <span class="highlight">Mobile App</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4[cite: 1] -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <img src="" alt="Go MMT Platform">
+                </div>
+                <div class="project-info">
+                    <div class="project-category">Enterprise Training Platform</div>
+                    <h3 class="project-title">Go MMT</h3>
+                    <p class="project-desc">A gamified enterprise learning platform created for MakeMyTrip to improve employee onboarding and compliance training through interactive learning journeys.</p>
+                    <div class="project-highlights">
+                        <span class="highlight">Enterprise UX</span>
+                        <span class="highlight">MakeMyTrip</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5[cite: 1] -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <img src="" alt="Ishmat Platform">
+                </div>
+                <div class="project-info">
+                    <div class="project-category">Premium Athleisure E-commerce</div>
+                    <h3 class="project-title">Ishmat</h3>
+                    <p class="project-desc">A premium fashion E-commerce platform designed to deliver a seamless shopping experience through modern visuals, intuitive navigation and responsive product journeys.</p>
+                    <div class="project-highlights">
+                        <span class="highlight">E-commerce UX</span>
+                        <span class="highlight">Visual Systems</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6[cite: 1] -->
+            <div class="project-card">
+                <div class="project-img-container">
+                    <img src="" alt="Felt Application">
+                </div>
+                <div class="project-info">
+                    <div class="project-category">Neuro Inclusive Emotional Memory</div>
+                    <h3 class="project-title">Felt (In Progress)</h3>
+                    <p class="project-desc">A self-initiated digital product designed to help neurodivergent people capture meaningful conversations, process complex emotions and revisit thoughts that remain unspoken.</p>
+                    <div class="project-highlights">
+                        <span class="highlight">UX Research</span>
+                        <span class="highlight">Self Initiated</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <div class="contact-content">
+            <h2 class="contact-title">Let's Connect.</h2>
+            <p class="contact-desc">Always open to thoughtful conversations, interesting product challenges and opportunities to create experiences that make a real difference. <!--[cite: 1] --></p>
+            
+            <div class="contact-links">
+                <!-- Connect Details[cite: 1] -->
+                <a href="mailto:vysakh.official98@gmail.com" class="contact-link">vysakh.official98@gmail.com</a>
+                <a href="tel:+917022017654" class="contact-link">+91 702 201 7654</a>
+                <a href="https://www.linkedin.com/in/vysakhdesigns/" target="_blank" class="contact-link">LinkedIn</a>
+                <a href="https://www.behance.net/Vysakh_98/projects" target="_blank" class="contact-link">Behance</a>
+                <a href="http://www.vysakhs.com" target="_blank" class="contact-link">vysakhs.com</a>
+            </div>
+
+            <footer>
+                <p>&copy; 2026 Vysakh S | UI/UX & Product Designer. This portfolio is a snapshot of my journey so far and I'm still building what's next. <!--[cite: 1] --></p>
+            </footer>
+        </div>
+    </section>
+
+    <!-- Smooth Scrolling Script for generic anchor links -->
     <script>
-        // --- Butter-Smooth Lerp Animation Physics ---
-        const pages = document.querySelectorAll('.page');
-        const totalPages = pages.length;
-        
-        let targetProgress = 0;
-        let currentProgress = 0;
-
-        // 1. Capture the target based on scroll position
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            targetProgress = (scrollY / maxScroll) * totalPages;
-        });
-
-        // 2. Animation loop using Linear Interpolation (Lerp)
-        function renderPhysics() {
-            // Lerp formula: smoothly glides the current position toward the target
-            currentProgress += (targetProgress - currentProgress) * 0.06;
-
-            pages.forEach((page, index) => {
-                let pageProgress = currentProgress - index;
-                let angle = 0;
-
-                // Clamp angles so pages lay perfectly flat
-                if (pageProgress <= 0) {
-                    angle = 0; 
-                } else if (pageProgress >= 1) {
-                    angle = -180; 
-                } else {
-                    angle = pageProgress * -180; 
-                }
-
-                // Apply rotation physics
-                page.style.transform = `rotateY(${angle}deg)`;
-
-                // Dynamic Z-Index Management to prevent 3D clipping
-                if (angle > -90) {
-                    // Right half of turn
-                    page.style.zIndex = totalPages - index;
-                } else {
-                    // Left half of turn
-                    page.style.zIndex = index + 1;
-                }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
-
-            // Loop infinitely at screen refresh rate
-            requestAnimationFrame(renderPhysics);
-        }
-
-        // Initialize physics engine
-        requestAnimationFrame(renderPhysics);
-        window.dispatchEvent(new Event('scroll'));
+        });
     </script>
 </body>
 </html>
