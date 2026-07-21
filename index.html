@@ -6,468 +6,13 @@
     <meta name="description" content="Vysakh S - UI/UX & Product Designer Portfolio. Selected work across product design, UX research, branding and graphic design.">
     <title>Vysakh S | UI/UX & Product Designer</title>
     
-    <!-- Dynamic Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2319171d'/%3E%3Ctext x='50%25' y='55%25' font-family='-apple-system, sans-serif' font-weight='900' font-size='14' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'%3EV%3C/text%3E%3C/svg%3E">
-    
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* ==========================================================================
-           1. CSS VARIABLES & DESIGN SYSTEM
-           ========================================================================== */
-        :root {
-            --bg-main: #050505;
-            --bg-surface: #0a0a0d;
-            --bg-surface-elevated: #111116;
-            
-            --text-primary: #ffffff;
-            --text-secondary: #9aa0a6;
-            --text-muted: #6c727a;
-            
-            --accent-purple: #9b51e0;
-            --accent-blue: #4a90e2;
-            --accent-pink: #e051b8;
-            --accent-green: #34c759;
-            
-            --glass-bg: rgba(15, 17, 23, 0.55);
-            --glass-border: rgba(255, 255, 255, 0.07);
-            --glass-border-hover: rgba(155, 81, 224, 0.4);
-            
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-display: 'Space Grotesk', -apple-system, sans-serif;
-            
-            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        /* ==========================================================================
-           2. BASE RESET
-           ========================================================================== */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            cursor: none !important; /* Custom cursor override */
-        }
-
-        html {
-            font-size: 16px;
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-            background-color: var(--bg-main);
-        }
-
-        body {
-            font-family: var(--font-sans);
-            color: var(--text-primary);
-            background-color: var(--bg-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            width: 100%;
-        }
-
-        /* Grain texture overlay */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.035;
-            pointer-events: none;
-            z-index: 900;
-        }
-
-        ::selection { background: var(--accent-purple); color: #fff; }
-
-        a { text-decoration: none; color: inherit; }
-        button { border: none; background: none; font-family: inherit; color: inherit; }
-        ul { list-style: none; }
-        img { max-width: 100%; display: block; }
-
-        /* ==========================================================================
-           3. CUSTOM CURSOR & CANVAS
-           ========================================================================== */
-        .cursor-dot {
-            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
-            background-color: #fff; border-radius: 50%;
-            transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
-            transition: width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo), background-color 0.3s;
-        }
-
-        .cursor-ring {
-            position: fixed; top: 0; left: 0; width: 38px; height: 38px;
-            border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 50%;
-            transform: translate(-50%, -50%); pointer-events: none; z-index: 9998;
-            transition: width 0.4s var(--ease-out-expo), height 0.4s var(--ease-out-expo), border-color 0.3s, background-color 0.3s;
-            will-change: transform;
-        }
-
-        .cursor-dot.hovering { width: 12px; height: 12px; background-color: var(--accent-purple); }
-        .cursor-ring.hovering {
-            width: 65px; height: 65px;
-            border-color: rgba(155, 81, 224, 0.8);
-            background-color: rgba(155, 81, 224, 0.08);
-            backdrop-filter: blur(2px);
-        }
-
-        @media (hover: none) and (pointer: coarse) {
-            *, *::before, *::after { cursor: auto !important; }
-            .cursor-dot, .cursor-ring { display: none !important; }
-        }
-
-        #fluid-canvas {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 0; pointer-events: none; opacity: 0.7;
-        }
-
-        /* ==========================================================================
-           4. PRELOADER
-           ========================================================================== */
-        .preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-main); z-index: 10000;
-            display: flex; justify-content: center; align-items: center; flex-direction: column;
-            transition: transform 1s var(--ease-out-expo), opacity 1s ease;
-        }
-        .preloader.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-        
-        .loader-title {
-            font-family: var(--font-display); font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 700; letter-spacing: -0.04em; color: var(--text-primary);
-        }
-        .loader-bar-bg {
-            width: 180px; height: 2px; background: rgba(255,255,255,0.1);
-            margin-top: 1.5rem; border-radius: 4px; overflow: hidden; position: relative;
-        }
-        .loader-bar-fill {
-            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-            background: var(--accent-purple); transition: width 0.4s ease;
-        }
-
-        /* ==========================================================================
-           5. HEADER & NAVIGATION
-           ========================================================================== */
-        .header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center;
-            z-index: 800; background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0) 100%);
-            transition: padding 0.4s ease, background 0.4s ease, border 0.4s ease;
-        }
-        .header.scrolled {
-            padding: 1rem 5%; background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .brand-logo {
-            font-family: var(--font-display); font-size: 1.15rem; font-weight: 700;
-            letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-primary);
-        }
-
-        .nav-links { display: flex; gap: 2.5rem; align-items: center; }
-        .nav-link {
-            font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
-            text-transform: uppercase; color: var(--text-secondary);
-            transition: color 0.3s ease; position: relative; padding: 4px 0;
-        }
-        .nav-link:hover { color: var(--text-primary); }
-        .nav-link::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
-            background: var(--accent-purple); transform: scaleX(0); transform-origin: right;
-            transition: transform 0.4s var(--ease-out-expo);
-        }
-        .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
-
-        .time-badge {
-            font-family: var(--font-display); font-size: 0.8rem; color: var(--text-muted);
-            letter-spacing: 0.05em; background: rgba(255,255,255,0.03);
-            padding: 6px 14px; border-radius: 100px; border: 1px solid var(--glass-border);
-        }
-
-        /* ==========================================================================
-           6. LAYOUT & CONTAINERS
-           ========================================================================== */
-        .container {
-            max-width: 1320px; margin: 0 auto; padding: 0 5%;
-            position: relative; z-index: 10;
-        }
-
-        section {
-            padding: 140px 0 80px; min-height: 100vh;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-
-        .section-tag {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 0.12em; color: var(--accent-purple); margin-bottom: 1rem;
-        }
-        .section-tag::before { content: ''; width: 12px; height: 2px; background: var(--accent-purple); }
-
-        .section-title {
-            font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.2rem);
-            font-weight: 300; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 3rem;
-        }
-        .section-title strong {
-            font-weight: 700; background: linear-gradient(120deg, #fff 0%, #a0a0a0 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        /* Glass Panel */
-        .glass-panel {
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 2.5rem; backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-            position: relative; overflow: hidden;
-        }
-
-        /* Magnetic Buttons */
-        .btn-wrapper { display: inline-block; padding: 8px; }
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem;
-            padding: 0.95rem 2.2rem; background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border); border-radius: 100px;
-            color: var(--text-primary); font-size: 0.95rem; font-weight: 500;
-            letter-spacing: 0.02em; backdrop-filter: blur(10px);
-            transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s, background 0.4s, border-color 0.4s;
-            will-change: transform; position: relative; overflow: hidden;
-        }
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.08); border-color: var(--glass-border-hover);
-            box-shadow: 0 10px 30px rgba(155, 81, 224, 0.2);
-        }
-        .btn.primary {
-            background: rgba(155, 81, 224, 0.15); border-color: rgba(155, 81, 224, 0.4);
-        }
-        .btn.primary:hover {
-            background: rgba(155, 81, 224, 0.3); border-color: rgba(155, 81, 224, 0.8);
-            box-shadow: 0 10px 40px rgba(155, 81, 224, 0.35);
-        }
-
-        /* Scroll Reveal */
-        .reveal {
-            opacity: 0; transform: translateY(40px) scale(0.98);
-            transition: opacity 1.2s var(--ease-out-expo), transform 1.2s var(--ease-out-expo);
-            will-change: opacity, transform;
-        }
-        .reveal.is-visible { opacity: 1; transform: translateY(0) scale(1); }
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
-
-        /* ==========================================================================
-           7. HERO SECTION & STATS
-           ========================================================================== */
-        #hero { position: relative; }
-        .hero-title {
-            font-family: var(--font-display); font-size: clamp(3.2rem, 7.5vw, 6.5rem);
-            font-weight: 300; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 1.5rem;
-        }
-        .hero-title strong {
-            font-weight: 700; background: linear-gradient(135deg, #ffffff 0%, #9aa0a6 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.45rem); color: var(--text-secondary);
-            max-width: 680px; margin-bottom: 2.5rem; font-weight: 300;
-        }
-
-        /* Highlight Metrics Grid */
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.5rem; margin-top: 4rem; width: 100%;
-        }
-        .stat-card {
-            background: rgba(255, 255, 255, 0.015); border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 1.5rem; text-align: left;
-            transition: transform 0.4s var(--ease-out-expo), border-color 0.4s;
-        }
-        .stat-card:hover { transform: translateY(-5px); border-color: var(--glass-border-hover); }
-        .stat-number {
-            font-family: var(--font-display); font-size: 2.5rem; font-weight: 700;
-            color: #fff; line-height: 1; margin-bottom: 0.5rem;
-            background: linear-gradient(120deg, #fff, var(--accent-purple));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .stat-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 400; }
-
-        /* ==========================================================================
-           8. ABOUT & TIMELINE SECTION
-           ========================================================================== */
-        .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; }
-        .about-bio { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.7; }
-        
-        .timeline { margin-top: 1.5rem; }
-        .timeline-item {
-            position: relative; padding-left: 2rem; padding-bottom: 2rem;
-            border-left: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .timeline-item:last-child { border-left-color: transparent; padding-bottom: 0; }
-        .timeline-dot {
-            position: absolute; left: -6px; top: 4px; width: 11px; height: 11px;
-            border-radius: 50%; background: var(--bg-main); border: 2px solid var(--accent-purple);
-            box-shadow: 0 0 10px rgba(155, 81, 224, 0.4);
-        }
-        .time-date {
-            font-family: var(--font-display); font-size: 0.8rem; color: var(--accent-purple);
-            font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;
-        }
-        .time-title { font-size: 1.15rem; font-weight: 600; color: #fff; }
-        .time-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; }
-        .time-desc { font-size: 0.9rem; color: var(--text-secondary); }
-
-        /* Skills Pill Tags */
-        .skills-flex { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
-        .skill-badge {
-            padding: 0.4rem 0.9rem; background: rgba(255,255,255,0.03);
-            border: 1px solid var(--glass-border); border-radius: 100px;
-            font-size: 0.8rem; color: var(--text-secondary); transition: all 0.3s;
-        }
-        .skill-badge:hover {
-            background: rgba(155,81,224,0.15); color: #fff; border-color: rgba(155,81,224,0.4);
-        }
-
-        /* ==========================================================================
-           9. FILTERABLE PROJECTS GRID
-           ========================================================================== */
-        .filter-container {
-            display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 3rem;
-        }
-        .filter-btn {
-            padding: 0.6rem 1.4rem; border-radius: 100px; font-size: 0.85rem;
-            font-weight: 500; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border);
-            color: var(--text-secondary); transition: all 0.3s ease;
-        }
-        .filter-btn.active, .filter-btn:hover {
-            background: rgba(155,81,224,0.2); border-color: var(--accent-purple); color: #fff;
-        }
-
-        .projects-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 2.5rem; perspective: 1500px;
-        }
-
-        .project-card {
-            background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);
-            border-radius: 24px; overflow: hidden; transform-style: preserve-3d;
-            transition: transform 0.6s var(--ease-out-expo), box-shadow 0.6s, border-color 0.3s;
-            display: flex; flex-direction: column;
-        }
-        .project-card:hover {
-            border-color: var(--glass-border-hover);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 30px rgba(155, 81, 224, 0.15);
-        }
-
-        .project-img-wrapper {
-            width: 100%; height: 260px; background: linear-gradient(145deg, #121216, #181820);
-            display: flex; align-items: center; justify-content: center; position: relative;
-            border-bottom: 1px solid var(--glass-border); overflow: hidden;
-        }
-        .project-img-placeholder {
-            font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
-            color: rgba(255,255,255,0.15); letter-spacing: 0.08em; text-transform: uppercase;
-        }
-
-        .project-info { padding: 2rem; display: flex; flex-direction: column; flex-grow: 1; }
-        .project-cat {
-            font-size: 0.75rem; font-weight: 600; color: var(--accent-purple);
-            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;
-        }
-        .project-name {
-            font-family: var(--font-display); font-size: 1.6rem; font-weight: 600;
-            color: #fff; margin-bottom: 0.75rem;
-        }
-        .project-snippet {
-            font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.5rem; flex-grow: 1;
-        }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .ptag {
-            font-size: 0.75rem; padding: 4px 10px; background: rgba(255,255,255,0.04);
-            border-radius: 6px; color: var(--text-muted);
-        }
-
-        .view-details-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-size: 0.85rem; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 0.05em; color: #fff; margin-top: auto;
-        }
-        .view-details-btn span { border-bottom: 1px solid var(--accent-purple); }
-
-        /* ==========================================================================
-           10. CASE STUDY MODAL SYSTEM
-           ========================================================================== */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(25px);
-            z-index: 9000; display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease; padding: 2rem;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .modal-content {
-            background: var(--bg-surface-elevated); border: 1px solid var(--glass-border-hover);
-            border-radius: 28px; max-width: 850px; width: 100%; max-height: 85vh;
-            overflow-y: auto; padding: 3rem; position: relative;
-            transform: translateY(30px) scale(0.95); transition: transform 0.4s var(--ease-out-expo);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-        }
-        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
-
-        .modal-close {
-            position: absolute; top: 1.5rem; right: 1.5rem; width: 40px; height: 40px;
-            border-radius: 50%; background: rgba(255,255,255,0.05); display: flex;
-            align-items: center; justify-content: center; font-size: 1.2rem; color: #fff;
-            transition: background 0.3s;
-        }
-        .modal-close:hover { background: rgba(255,255,255,0.15); }
-
-        .modal-header { margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1.5rem; }
-        .modal-cat { font-size: 0.85rem; color: var(--accent-purple); text-transform: uppercase; font-weight: 600; }
-        .modal-title { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: #fff; margin-top: 0.25rem; }
-        
-        .modal-section { margin-bottom: 1.75rem; }
-        .modal-section-title { font-family: var(--font-display); font-size: 1.1rem; color: var(--accent-blue); margin-bottom: 0.5rem; font-weight: 600; }
-        .modal-text { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; }
-        .modal-highlights { list-style: disc; padding-left: 1.25rem; color: var(--text-secondary); }
-        .modal-highlights li { margin-bottom: 0.4rem; }
-
-        /* ==========================================================================
-           11. CONTACT & FOOTER
-           ========================================================================== */
-        #contact { text-align: center; padding-bottom: 60px; min-height: auto; }
-        .contact-box { max-width: 800px; margin: 0 auto; }
-        
-        .footer {
-            margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);
-            display: flex; flex-direction: column; align-items: center; gap: 1rem;
-        }
-        .freelance-pill {
-            display: inline-flex; align-items: center; gap: 8px; padding: 0.5rem 1.2rem;
-            background: rgba(52, 199, 89, 0.08); border: 1px solid rgba(52, 199, 89, 0.25);
-            border-radius: 100px; font-size: 0.85rem; color: var(--accent-green); font-weight: 500;
-        }
-        .status-dot {
-            width: 8px; height: 8px; background-color: var(--accent-green); border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-green); animation: pulseGlow 2s infinite ease-in-out;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.5; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* Responsive Queries */
-        @media (max-width: 900px) {
-            .about-grid { grid-template-columns: 1fr; }
-            .projects-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
-            .modal-content { padding: 2rem; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="no-js">
 
     <!-- Preloader -->
     <div class="preloader" id="preloader">
@@ -479,20 +24,18 @@
     <div class="cursor-dot" id="cursor-dot"></div>
     <div class="cursor-ring" id="cursor-ring"></div>
 
-    <!-- Ambient Canvas -->
+    <!-- WebGL-style Ambient Canvas -->
     <canvas id="fluid-canvas"></canvas>
 
     <!-- Header -->
     <header class="header" id="header">
         <div class="brand-logo hover-target">Vysakh S</div>
-        
         <nav class="nav-links">
             <a href="#hero" class="nav-link hover-target">Home</a>
-            <a href="#about" class="nav-link hover-target">About Me</a>
-            <a href="#projects" class="nav-link hover-target">Projects</a>
+            <a href="#about" class="nav-link hover-target">About</a>
+            <a href="#projects" class="nav-link hover-target">Work</a>
             <a href="#contact" class="nav-link hover-target">Contact</a>
         </nav>
-
         <div class="time-badge" id="local-clock">BENGALURU, IN — --:-- --</div>
     </header>
 
@@ -501,14 +44,11 @@
         <!-- HERO SECTION -->
         <section id="hero">
             <span class="section-tag reveal">Portfolio 2026</span>
-            <h1 class="hero-title reveal delay-1">
-                UI/UX & <strong>Product Designer.</strong>
-            </h1>
+            <h1 class="hero-title reveal delay-1">UI/UX & <strong>Product Designer.</strong></h1>
             <p class="hero-subtitle reveal delay-2">
                 Selected work across product design, UX research, branding, and graphic design[cite: 1, 2]. Over three years transforming complex problems into intuitive digital experiences[cite: 1, 2].
             </p>
-
-            <div class="reveal delay-3">
+            <div class="hero-actions reveal delay-3">
                 <div class="btn-wrapper">
                     <a href="#projects" class="btn primary hover-target magnetic-btn">View Selected Work</a>
                 </div>
@@ -516,8 +56,7 @@
                     <button class="btn hover-target magnetic-btn copy-email-btn" data-email="vysakh.official98@gmail.com">Copy Email</button>
                 </div>
             </div>
-
-            <!-- Highlights Specs Banner -->
+            
             <div class="stats-grid reveal delay-3">
                 <div class="stat-card hover-target">
                     <div class="stat-number">03 Yrs</div>
@@ -529,308 +68,156 @@
                 </div>
                 <div class="stat-card hover-target">
                     <div class="stat-number">01 Yr</div>
-                    <div class="stat-label">International Experience (Dubai)[cite: 1, 2]</div>
-                </div>
-                <div class="stat-card hover-target">
-                    <div class="stat-number">20+</div>
-                    <div class="stat-label">Freelance Projects Delivered[cite: 1, 2]</div>
+                    <div class="stat-label">International Experience[cite: 1, 2]</div>
                 </div>
             </div>
         </section>
 
-        <!-- ABOUT ME & EXPERIENCE SECTION -->
+        <!-- ABOUT SECTION -->
         <section id="about">
             <div class="section-tag reveal">Background & Experience</div>
-            <h2 class="section-title reveal">About <strong>Vysakh S</strong></h2>
-
+            <h2 class="section-title reveal">About <strong>Me</strong></h2>
             <div class="about-grid">
-                <!-- Left Bio -->
                 <div class="glass-panel reveal delay-1">
-                    <p class="about-bio">
-                        Hello, I'm Vysakh S, UI/UX & Product Designer[cite: 1, 2]. I have over three years of experience designing digital products across SaaS, enterprise, and mobile platforms[cite: 1, 2].
-                    </p>
-                    <p class="about-bio">
-                        My work combines user research, interaction design, and visual storytelling to transform complex problems into intuitive, user-centered experiences[cite: 1, 2]. Having collaborated with teams in India and the UAE, I focus on creating scalable, accessible, and impactful solutions that align user needs with business goals[cite: 1, 2].
-                    </p>
-
-                    <h4 style="color:#fff; margin-top: 2rem; font-family: var(--font-display);">Toolkit & Core Capabilities[cite: 1, 2]</h4>
+                    <p class="about-bio">Hello, I'm Vysakh S, UI/UX & Product Designer[cite: 1, 2]. I have over three years of experience designing digital products across SaaS, enterprise, and mobile platforms[cite: 1, 2].</p>
+                    <p class="about-bio">Having collaborated with teams in India and the UAE, I focus on creating scalable, accessible, and impactful solutions that align user needs with business goals[cite: 1, 2].</p>
+                    
+                    <h4 class="sub-heading">Core Capabilities[cite: 1, 2]</h4>
                     <div class="skills-flex">
                         <span class="skill-badge hover-target">Figma</span>
-                        <span class="skill-badge hover-target">Photoshop</span>
-                        <span class="skill-badge hover-target">Illustrator</span>
-                        <span class="skill-badge hover-target">Framer</span>
-                        <span class="skill-badge hover-target">Hotjar</span>
-                        <span class="skill-badge hover-target">Figjam</span>
-                        <span class="skill-badge hover-target">ChatGPT</span>
-                        <span class="skill-badge hover-target">Claude</span>
-                        <span class="skill-badge hover-target">Gemini</span>
-                        <span class="skill-badge hover-target">Relume</span>
-                        <span class="skill-badge hover-target">GitHub</span>
-                        <span class="skill-badge hover-target">HTML/CSS</span>
                         <span class="skill-badge hover-target">UX Research</span>
-                        <span class="skill-badge hover-target">Design Systems</span>
-                        <span class="skill-badge hover-target">Information Architecture</span>
+                        <span class="skill-badge hover-target">Info Architecture</span>
                         <span class="skill-badge hover-target">Prototyping</span>
-                    </div>
-
-                    <h4 style="color:#fff; margin-top: 2rem; font-family: var(--font-display);">Education[cite: 1, 2]</h4>
-                    <div style="margin-top: 0.75rem;">
-                        <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                            <strong>UI/UX Design Certification</strong> — DesignBoat UI/UX School (Aug 2021 – Dec 2021)[cite: 1, 2]
-                        </p>
-                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.4rem;">
-                            <strong>Bachelor of Hotel Management (BHM)</strong> — CHRIST University (Jun 2017 – May 2021)[cite: 1, 2]
-                        </p>
+                        <span class="skill-badge hover-target">Design Systems</span>
+                        <span class="skill-badge hover-target">HTML/CSS</span>
                     </div>
                 </div>
 
-                <!-- Right Timeline -->
                 <div class="glass-panel reveal delay-2">
-                    <h3 style="color:#fff; font-family: var(--font-display); margin-bottom: 1.5rem;">Professional Journey[cite: 1, 2]</h3>
-
+                    <h4 class="sub-heading">Professional Journey[cite: 1, 2]</h4>
                     <div class="timeline">
                         <div class="timeline-item hover-target">
                             <div class="timeline-dot"></div>
                             <div class="time-date">May 2025 — July 2026</div>
                             <div class="time-title">Freelance UI/UX & Visual Design</div>
                             <div class="time-sub">Bengaluru, India[cite: 1, 2]</div>
-                            <div class="time-desc">Working directly with founders and businesses on end-to-end digital products, brand identities, and visual systems[cite: 1, 2]. Delivered 20+ projects across 14+ industries[cite: 1, 2].</div>
                         </div>
-
                         <div class="timeline-item hover-target">
                             <div class="timeline-dot"></div>
                             <div class="time-date">Apr 2024 — Apr 2025</div>
                             <div class="time-title">UI/UX Designer</div>
                             <div class="time-sub">White Paper Alliance — Dubai, UAE[cite: 1, 2]</div>
-                            <div class="time-desc">Designed web and mobile products for Enterprise, Sports, iGaming, and Lifestyle brands[cite: 1, 2]. Designed 400+ screens across 11+ delivered products[cite: 1, 2].</div>
                         </div>
-
                         <div class="timeline-item hover-target">
                             <div class="timeline-dot"></div>
                             <div class="time-date">Dec 2021 — Sep 2023</div>
                             <div class="time-title">UI/UX Designer</div>
                             <div class="time-sub">GameApp Tech — Bengaluru, India[cite: 1, 2]</div>
-                            <div class="time-desc">Specialized in enterprise SaaS gamification products[cite: 1, 2]. Designed scalable platforms serving clients like MakeMyTrip, ICCR, and ComplioPro[cite: 1, 2]. Achieved 30% increase in training completion[cite: 1, 2].</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PROJECTS & CASE STUDIES SECTION -->
+        <!-- PROJECTS SECTION -->
         <section id="projects">
             <div class="section-tag reveal">Selected Works</div>
             <h2 class="section-title reveal">Featured <strong>Projects</strong></h2>
-
-            <!-- Filter Buttons -->
-            <div class="filter-container reveal delay-1">
-                <button class="filter-btn active hover-target" data-filter="all">All Projects</button>
-                <button class="filter-btn hover-target" data-filter="saas">Enterprise SaaS</button>
-                <button class="filter-btn hover-target" data-filter="mobile">Mobile Apps</button>
-                <button class="filter-btn hover-target" data-filter="igaming">iGaming & Sports</button>
-                <button class="filter-btn hover-target" data-filter="brand">E-Commerce & Brands</button>
-            </div>
-
-            <!-- Projects Grid -->
+            
             <div class="projects-grid">
-                
-                <!-- 1. ComplioPro-X -->
-                <article class="project-card reveal hover-target tilt-card" data-category="saas" data-project="complio">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder">ComplioPro-X</div>
-                    </div>
+                <!-- Project 1 -->
+                <article class="project-card reveal hover-target tilt-card" data-project="complio">
+                    <div class="project-img-wrapper"><div class="project-img-placeholder">ComplioPro-X</div></div>
                     <div class="project-info">
-                        <div class="project-cat">Enterprise SaaS Platform[cite: 1, 2]</div>
+                        <div class="project-cat">Enterprise SaaS[cite: 1, 2]</div>
                         <h3 class="project-name">ComplioPro-X</h3>
-                        <p class="project-snippet">Gamified compliance training platform simplifying AML, cybersecurity, and corporate policy[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">Gamification</span>
-                            <span class="ptag">Enterprise UX</span>
-                            <span class="ptag">+30% Completion Rate</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
+                        <p class="project-snippet">Gamified compliance training platform simplifying AML and cybersecurity[cite: 1, 2].</p>
+                        <button class="view-details-btn hover-target"><span>View Case Study</span> &rarr;</button>
                     </div>
                 </article>
 
-                <!-- 2. Little Guru -->
-                <article class="project-card reveal delay-1 hover-target tilt-card" data-category="mobile" data-project="littleguru">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder">Little Guru</div>
-                    </div>
+                <!-- Project 2 -->
+                <article class="project-card reveal delay-1 hover-target tilt-card" data-project="littleguru">
+                    <div class="project-img-wrapper"><div class="project-img-placeholder">Little Guru</div></div>
                     <div class="project-info">
-                        <div class="project-cat">EdTech / Govt App[cite: 1, 2]</div>
+                        <div class="project-cat">EdTech Mobile App[cite: 1, 2]</div>
                         <h3 class="project-name">Little Guru</h3>
-                        <p class="project-snippet">Government-backed (ICCR) AI-powered gamified Sanskrit learning mobile app used globally[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">Mobile UX</span>
-                            <span class="ptag">Global ICCR Launch</span>
-                            <span class="ptag">AI Learning</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
+                        <p class="project-snippet">Government-backed AI gamified Sanskrit learning application[cite: 1, 2].</p>
+                        <button class="view-details-btn hover-target"><span>View Case Study</span> &rarr;</button>
                     </div>
                 </article>
 
-                <!-- 3. Moyenne Island -->
-                <article class="project-card reveal delay-2 hover-target tilt-card" data-category="mobile" data-project="moyenne">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder">Moyenne Island</div>
-                    </div>
+                <!-- Project 3 -->
+                <article class="project-card reveal delay-2 hover-target tilt-card" data-project="moyenne">
+                    <div class="project-img-wrapper"><div class="project-img-placeholder">Moyenne Island</div></div>
                     <div class="project-info">
-                        <div class="project-cat">Interactive Tourism Guide[cite: 1, 2]</div>
+                        <div class="project-cat">Interactive Guide[cite: 1, 2]</div>
                         <h3 class="project-name">Moyenne Island</h3>
                         <p class="project-snippet">Official digital tourism companion launched by the President of Seychelles[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">Location UX</span>
-                            <span class="ptag">Interactive Map</span>
-                            <span class="ptag">Official Seychelles App</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
+                        <button class="view-details-btn hover-target"><span>View Case Study</span> &rarr;</button>
                     </div>
                 </article>
 
-                <!-- 4. Go MMT -->
-                <article class="project-card reveal hover-target tilt-card" data-category="saas" data-project="gommt">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder">Go MMT</div>
-                    </div>
+                <!-- Project 4 -->
+                <article class="project-card reveal hover-target tilt-card" data-project="ishmat">
+                    <div class="project-img-wrapper"><div class="project-img-placeholder">Ishmat</div></div>
                     <div class="project-info">
-                        <div class="project-cat">MakeMyTrip Onboarding[cite: 1, 2]</div>
-                        <h3 class="project-name">Go MMT</h3>
-                        <p class="project-snippet">Enterprise gamified employee onboarding platform created for MakeMyTrip[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">MakeMyTrip</span>
-                            <span class="ptag">99% Completion Rate</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
-                    </div>
-                </article>
-
-                <!-- 5. Ishmat -->
-                <article class="project-card reveal delay-1 hover-target tilt-card" data-category="brand" data-project="ishmat">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder">Ishmat</div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-cat">Fashion E-Commerce[cite: 1, 2]</div>
+                        <div class="project-cat">E-Commerce[cite: 1, 2]</div>
                         <h3 class="project-name">Ishmat</h3>
-                        <p class="project-snippet">Premium athleisure wear brand delivering a seamless visual e-commerce journey[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">E-Commerce UX</span>
-                            <span class="ptag">Brand Identity</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
+                        <p class="project-snippet">Premium athleisure wear brand delivering a seamless visual shopping journey[cite: 1, 2].</p>
+                        <button class="view-details-btn hover-target"><span>View Case Study</span> &rarr;</button>
                     </div>
                 </article>
-
-                <!-- 6. Playsta -->
-                <article class="project-card reveal delay-2 hover-target tilt-card" data-category="igaming" data-project="playsta">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder">Playsta</div>
-                    </div>
+                
+                <!-- Project 5 -->
+                <article class="project-card reveal delay-1 hover-target tilt-card" data-project="playsta">
+                    <div class="project-img-wrapper"><div class="project-img-placeholder">Playsta</div></div>
                     <div class="project-info">
-                        <div class="project-cat">Digital iGaming Platform[cite: 1, 2]</div>
+                        <div class="project-cat">iGaming Platform[cite: 1, 2]</div>
                         <h3 class="project-name">Playsta</h3>
-                        <p class="project-snippet">High-traffic digital entertainment platform organizing sports, live events, and games[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">Complex UX</span>
-                            <span class="ptag">+40% Engagement</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
+                        <p class="project-snippet">High-traffic digital entertainment platform simplifying navigation and payments[cite: 1, 2].</p>
+                        <button class="view-details-btn hover-target"><span>View Case Study</span> &rarr;</button>
                     </div>
                 </article>
 
-                <!-- 7. Gaming Godfather -->
-                <article class="project-card reveal hover-target tilt-card" data-category="igaming" data-project="godfather">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder">Gaming Godfather</div>
-                    </div>
+                <!-- Project 6 -->
+                <article class="project-card reveal delay-2 hover-target tilt-card" data-project="felt">
+                    <div class="project-img-wrapper"><div class="project-img-placeholder" style="color:var(--accent-purple);">Felt (WIP)</div></div>
                     <div class="project-info">
-                        <div class="project-cat">Enterprise B2B Gaming[cite: 1, 2]</div>
-                        <h3 class="project-name">Gaming Godfather</h3>
-                        <p class="project-snippet">B2B platform offering sportsbook, casino, and back-office solutions[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">B2B Dashboards</span>
-                            <span class="ptag">+60% Enquiries</span>
-                            <span class="ptag">+35% Revenue Growth</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
-                    </div>
-                </article>
-
-                <!-- 8. Score Pro -->
-                <article class="project-card reveal delay-1 hover-target tilt-card" data-category="mobile" data-project="scorepro">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder">Score Pro</div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-cat">SportsTech Mobile App[cite: 1, 2]</div>
-                        <h3 class="project-name">Score Pro</h3>
-                        <p class="project-snippet">Live sports scoring application delivering real-time match updates and fixtures[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">SportsTech</span>
-                            <span class="ptag">Live Data UI</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
-                    </div>
-                </article>
-
-                <!-- 9. Felt -->
-                <article class="project-card reveal delay-2 hover-target tilt-card" data-category="mobile" data-project="felt">
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder" style="color: var(--accent-purple);">Felt (Self-Initiated)</div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-cat">Neuro-Inclusive Research[cite: 1, 2]</div>
+                        <div class="project-cat">UX Research[cite: 1, 2]</div>
                         <h3 class="project-name">Felt</h3>
-                        <p class="project-snippet">Emotional memory reflection experience helping neurodivergent users process feelings[cite: 1, 2].</p>
-                        <div class="project-tags">
-                            <span class="ptag">UX Research</span>
-                            <span class="ptag">Neuro-Inclusive</span>
-                            <span class="ptag">Qualitative Studies</span>
-                        </div>
-                        <div class="view-details-btn"><span>View Full Case Study</span> &rarr;</div>
+                        <p class="project-snippet">Neuro-inclusive emotional memory experience to help process feelings[cite: 1, 2].</p>
+                        <button class="view-details-btn hover-target"><span>Read Research</span> &rarr;</button>
                     </div>
                 </article>
-
             </div>
         </section>
 
         <!-- CONTACT SECTION -->
         <section id="contact">
             <div class="contact-box glass-panel reveal">
-                <div class="section-tag" style="justify-content: center;">Let's Build Together</div>
+                <div class="section-tag" style="justify-content: center;">Next Steps</div>
                 <h2 class="section-title" style="margin-bottom: 1rem;">Let's <strong>Connect.</strong></h2>
                 <p style="color: var(--text-secondary); margin-bottom: 2rem;">
                     Always open to thoughtful conversations, interesting product challenges, and opportunities to create experiences that make a real difference[cite: 1, 2].
                 </p>
-
                 <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-                    <div class="btn-wrapper">
-                        <button class="btn primary hover-target magnetic-btn copy-email-btn" data-email="vysakh.official98@gmail.com">Copy Email</button>
-                    </div>
-                    <div class="btn-wrapper">
-                        <a href="https://wa.me/917022017654" target="_blank" class="btn hover-target magnetic-btn">WhatsApp</a>
-                    </div>
-                    <div class="btn-wrapper">
-                        <a href="https://www.linkedin.com/in/vysakhdesigns/" target="_blank" class="btn hover-target magnetic-btn">LinkedIn</a>
-                    </div>
-                    <div class="btn-wrapper">
-                        <a href="https://www.behance.net/Vysakh_98/projects" target="_blank" class="btn hover-target magnetic-btn">Behance</a>
-                    </div>
+                    <div class="btn-wrapper"><button class="btn primary hover-target magnetic-btn copy-email-btn" data-email="vysakh.official98@gmail.com">Copy Email</button></div>
+                    <div class="btn-wrapper"><a href="https://wa.me/917022017654" target="_blank" class="btn hover-target magnetic-btn">WhatsApp</a></div>
+                    <div class="btn-wrapper"><a href="https://www.linkedin.com/in/vysakhdesigns/" target="_blank" class="btn hover-target magnetic-btn">LinkedIn</a></div>
+                    <div class="btn-wrapper"><a href="https://www.behance.net/Vysakh_98/projects" target="_blank" class="btn hover-target magnetic-btn">Behance</a></div>
                 </div>
             </div>
 
             <footer class="footer reveal delay-1">
                 <div class="freelance-pill hover-target">
-                    <span class="status-dot"></span>
-                    <span>Available for Freelance Opportunities</span>
+                    <span class="status-dot"></span><span>Available for Freelance Opportunities</span>
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.85rem;">
-                    &copy; 2026 Vysakh S | UI/UX & Product Designer[cite: 1, 2]. This portfolio is a snapshot of my journey so far[cite: 1, 2].
+                    &copy; 2026 Vysakh S | UI/UX & Product Designer[cite: 1, 2].
                 </p>
             </footer>
         </section>
-
     </main>
 
     <!-- CASE STUDY MODAL -->
@@ -839,294 +226,27 @@
             <button class="modal-close hover-target" id="modal-close">&times;</button>
             <div class="modal-header">
                 <div class="modal-cat" id="m-cat">Category</div>
-                <h2 class="modal-title" id="m-title">Project Title</h2>
+                <h2 class="modal-title" id="m-title">Title</h2>
             </div>
             <div class="modal-section">
                 <div class="modal-section-title">The Challenge</div>
-                <p class="modal-text" id="m-challenge">Challenge description...</p>
+                <p class="modal-text" id="m-challenge">...</p>
             </div>
             <div class="modal-section">
                 <div class="modal-section-title">Design Goal</div>
-                <p class="modal-text" id="m-goal">Goal description...</p>
+                <p class="modal-text" id="m-goal">...</p>
             </div>
             <div class="modal-section">
                 <div class="modal-section-title">My Contribution</div>
-                <p class="modal-text" id="m-contribution">Contribution details...</p>
+                <p class="modal-text" id="m-contribution">...</p>
             </div>
             <div class="modal-section">
-                <div class="modal-section-title">Key Outcomes & Impact</div>
+                <div class="modal-section-title">Key Outcomes</div>
                 <ul class="modal-highlights" id="m-outcomes"></ul>
             </div>
         </div>
     </div>
 
-    <!-- ==========================================================================
-         JAVASCRIPT ENGINE
-         ========================================================================== -->
-    <script>
-        // Database of Case Studies from PDF Specs
-        const caseStudies = {
-            complio: {
-                cat: "Enterprise SaaS Platform",
-                title: "ComplioPro-X",
-                challenge: "Traditional compliance training was often passive and content heavy, making it difficult to sustain learner engagement and course completion.",
-                goal: "Transform mandatory training into an intuitive, gamified experience without compromising the clarity required for complex compliance topics.",
-                contribution: "Designed learner journeys, interactive assessments, gamification mechanics, progress tracking, and reusable UI patterns across the platform.",
-                outcomes: ["30% increase in training completion rate", "90% improvement in user retention", "Featured in international media through enterprise deployment"]
-            },
-            littleguru: {
-                cat: "EdTech / Govt App",
-                title: "Little Guru",
-                challenge: "Make Sanskrit, a traditionally complex language, more approachable and engaging for learners across different ages and geographical backgrounds.",
-                goal: "Create an accessible learning experience combining structured lessons, gamification, and interactive challenges to encourage continued progression.",
-                contribution: "Designed key learning journeys, lesson interactions, progress experiences, and gamified interfaces for the mobile application.",
-                outcomes: ["Officially launched by the Indian Council for Cultural Relations (ICCR)", "Made accessible to Sanskrit learners worldwide via App & Play Store", "Promoted internationally through Indian embassies and diplomatic missions"]
-            },
-            moyenne: {
-                cat: "Interactive Tourism Guide",
-                title: "Moyenne Island",
-                challenge: "Turn the island's history, biodiversity, and points of interest into an engaging digital experience for visitors exploring Moyenne Island, Seychelles.",
-                goal: "Create a location-focused tourism companion that encourages exploration through interactive storytelling and gamified discovery.",
-                contribution: "Designed the mobile experience across island exploration, interactive maps, flora and fauna discovery, points of interest, and visitor journeys.",
-                outcomes: ["Official tourism application designed for Moyenne Island, Seychelles", "Launched by then President of Seychelles (Wavel Ramkalawan)", "Made available to visitors worldwide through major app stores"]
-            },
-            gommt: {
-                cat: "Enterprise Training Platform",
-                title: "Go MMT by MakeMyTrip",
-                challenge: "Corporate onboarding and training can become repetitive and difficult to navigate, reducing employee engagement with essential learning content.",
-                goal: "Create a structured and engaging training experience that makes employee learning easier to navigate, complete, and track.",
-                contribution: "Designed gamified learning journeys, interactive modules, assessments, and progress experiences for employees across the platform.",
-                outcomes: ["Delivered gamified learning for MakeMyTrip employees", "Simplified onboarding through interactive journeys", "99% training completion rate reported by client"]
-            },
-            ishmat: {
-                cat: "E-Commerce Platform",
-                title: "Ishmat Athleisure",
-                challenge: "Create a premium shopping experience showcasing an extensive athleisure collection while keeping product discovery intuitive and visually engaging.",
-                goal: "Build a responsive e-commerce experience that balances strong brand storytelling with seamless browsing and product exploration.",
-                contribution: "Designed key shopping journeys, product discovery experiences, responsive interfaces, and visual systems across the platform.",
-                outcomes: ["Delivered responsive e-commerce across desktop and mobile", "Simplified product discovery through intuitive navigation", "Designed scalable experience ready for product launches"]
-            },
-            playsta: {
-                cat: "Digital Entertainment & iGaming",
-                title: "Playsta",
-                challenge: "Organize a content-heavy platform containing sports, live events, casino games, and promotions without overwhelming users.",
-                goal: "Create an intuitive interface that simplifies discovery and enables users to navigate complex content categories efficiently.",
-                contribution: "Designed high-density interfaces, game discovery journeys, promotional experiences, and scalable UI patterns.",
-                outcomes: ["Simplified navigation across multiple gaming/sports categories", "Delivered scalable UI patterns for high-volume content", "40% improvement in user engagement reported by client"]
-            },
-            godfather: {
-                cat: "Enterprise B2B Gaming",
-                title: "Gaming Godfather",
-                challenge: "Present complex sportsbook, casino, exchange, and back-office solutions clearly to operators evaluating multiple enterprise products.",
-                goal: "Transform technical B2B offerings into a structured digital experience that makes products easier to understand, compare, and explore.",
-                contribution: "Designed product discovery journeys, enterprise interfaces, responsive layouts, and scalable UI components.",
-                outcomes: ["Unified multiple B2B offerings within a structured experience", "60% increase in sales enquiries", "35% revenue growth reported by client"]
-            },
-            scorepro: {
-                cat: "SportsTech Application",
-                title: "Score Pro",
-                challenge: "Present live scores, fixtures, and match states in a compact mobile interface while keeping rapidly changing information easy to scan.",
-                goal: "Create a mobile-first experience that helps sports fans quickly understand live match status, scores, and upcoming fixtures.",
-                contribution: "Designed core mobile journeys, live-score interfaces, match states, navigation, and reusable components.",
-                outcomes: ["Created scalable mobile experience for live sports coverage", "Simplified real-time match info through clear visual hierarchy", "20% improvement in task completion reported during testing"]
-            },
-            felt: {
-                cat: "Neuro-Inclusive UX Research",
-                title: "Felt (Self-Initiated Study)",
-                challenge: "Meaningful conversations, emotions, and unspoken thoughts are often forgotten, especially for neurodivergent people.",
-                goal: "Create a thoughtful digital space that helps capture conversations, process emotions, and revisit meaningful moments with clarity.",
-                contribution: "Conducted qualitative research with 5 neurodivergent participants to explore emotional memory, unspoken thoughts, and relationship patterns.",
-                outcomes: ["Insight 1: Conversations fade, but emotions remain.", "Insight 2: Unspoken thoughts need somewhere private to go.", "Insight 3: Emotional patterns are difficult to recognize over time without structured tools.", "Insight 4: Reflection should feel supportive, not clinical."]
-            }
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- 1. Preloader ---
-            const preloader = document.getElementById('preloader');
-            const loaderBar = document.getElementById('loader-bar');
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 25;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    loaderBar.style.width = '100%';
-                    setTimeout(() => preloader.classList.add('hidden'), 500);
-                } else {
-                    loaderBar.style.width = `${progress}%`;
-                }
-            }, 80);
-
-            // --- 2. Live Local Clock (IST / UTC +5:30) ---
-            function updateClock() {
-                const now = new Date();
-                const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-                const ist = new Date(utc + (3600000 * 5.5));
-                let h = ist.getHours(), m = ist.getMinutes();
-                const ampm = h >= 12 ? 'PM' : 'AM';
-                h = h % 12 || 12;
-                m = m < 10 ? '0' + m : m;
-                document.getElementById('local-clock').textContent = `BENGALURU, IN — ${h}:${m} ${ampm}`;
-            }
-            updateClock();
-            setInterval(updateClock, 1000);
-
-            // --- 3. Custom Cursor ---
-            const dot = document.getElementById('cursor-dot');
-            const ring = document.getElementById('cursor-ring');
-            let mX = window.innerWidth/2, mY = window.innerHeight/2, rX = mX, rY = mY;
-
-            window.addEventListener('mousemove', e => {
-                mX = e.clientX; mY = e.clientY;
-                dot.style.transform = `translate(${mX}px, ${mY}px) translate(-50%, -50%)`;
-            });
-
-            function animCursor() {
-                rX += (mX - rX) * 0.15; rY += (mY - rY) * 0.15;
-                ring.style.transform = `translate(${rX}px, ${rY}px) translate(-50%, -50%)`;
-                requestAnimationFrame(animCursor);
-            }
-            animCursor();
-
-            document.querySelectorAll('.hover-target').forEach(el => {
-                el.addEventListener('mouseenter', () => { dot.classList.add('hovering'); ring.classList.add('hovering'); });
-                el.addEventListener('mouseleave', () => { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
-            });
-
-            // --- 4. Magnetic Buttons ---
-            document.querySelectorAll('.magnetic-btn').forEach(btn => {
-                btn.addEventListener('mousemove', e => {
-                    const rect = btn.getBoundingClientRect();
-                    const x = (e.clientX - (rect.left + rect.width/2)) * 0.35;
-                    const y = (e.clientY - (rect.top + rect.height/2)) * 0.35;
-                    btn.style.transform = `translate(${x}px, ${y}px)`;
-                });
-                btn.addEventListener('mouseleave', () => btn.style.transform = 'translate(0,0)');
-            });
-
-            // --- 5. 3D Tilt Cards ---
-            document.querySelectorAll('.tilt-card').forEach(card => {
-                card.addEventListener('mousemove', e => {
-                    if(window.innerWidth <= 768) return;
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width/2;
-                    const y = e.clientY - rect.top - rect.height/2;
-                    card.style.transform = `perspective(1000px) rotateX(${y * -0.05}deg) rotateY(${x * 0.05}deg) scale3d(1.02,1.02,1.02)`;
-                });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';
-                });
-            });
-
-            // --- 6. Scroll Reveal Observer ---
-            const reveals = document.querySelectorAll('.reveal');
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            reveals.forEach(el => observer.observe(el));
-
-            // --- 7. Category Filters ---
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const projectCards = document.querySelectorAll('.project-card');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const f = btn.getAttribute('data-filter');
-
-                    projectCards.forEach(card => {
-                        if (f === 'all' || card.getAttribute('data-category') === f) {
-                            card.style.display = 'flex';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-
-            // --- 8. Case Study Modal ---
-            const modal = document.getElementById('modal-overlay');
-            const closeBtn = document.getElementById('modal-close');
-
-            projectCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const pKey = card.getAttribute('data-project');
-                    const data = caseStudies[pKey];
-                    if(!data) return;
-
-                    document.getElementById('m-cat').textContent = data.cat;
-                    document.getElementById('m-title').textContent = data.title;
-                    document.getElementById('m-challenge').textContent = data.challenge;
-                    document.getElementById('m-goal').textContent = data.goal;
-                    document.getElementById('m-contribution').textContent = data.contribution;
-
-                    const outList = document.getElementById('m-outcomes');
-                    outList.innerHTML = '';
-                    data.outcomes.forEach(o => {
-                        const li = document.createElement('li');
-                        li.textContent = o;
-                        outList.appendChild(li);
-                    });
-
-                    modal.classList.add('active');
-                });
-            });
-
-            closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-            modal.addEventListener('click', e => { if(e.target === modal) modal.classList.remove('active'); });
-
-            // --- 9. Copy Email Utility ---
-            document.querySelectorAll('.copy-email-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const email = btn.getAttribute('data-email');
-                    navigator.clipboard.writeText(email).then(() => {
-                        const orig = btn.textContent;
-                        btn.textContent = "Copied!";
-                        setTimeout(() => btn.textContent = orig, 2000);
-                    });
-                });
-            });
-
-            // --- 10. Ambient Canvas Particles ---
-            const canvas = document.getElementById('fluid-canvas');
-            const ctx = canvas.getContext('2d');
-            let pts = [];
-
-            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-            window.addEventListener('resize', resize);
-            resize();
-
-            for(let i=0; i<60; i++) {
-                pts.push({
-                    x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-                    s: Math.random()*2+0.5, sx: Math.random()-0.5, sy: Math.random()*-0.8
-                });
-            }
-
-            function drawParticles() {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.fillStyle = 'rgba(155,81,224,0.3)';
-                pts.forEach(p => {
-                    p.x += p.sx; p.y += p.sy;
-                    if(p.y < 0) p.y = canvas.height;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
-                });
-                requestAnimationFrame(drawParticles);
-            }
-            drawParticles();
-
-            // Header Scroll class
-            window.addEventListener('scroll', () => {
-                if(window.scrollY > 50) document.getElementById('header').classList.add('scrolled');
-                else document.getElementById('header').classList.remove('scrolled');
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
