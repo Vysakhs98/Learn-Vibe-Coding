@@ -6,7 +6,8 @@
  * ==========================================================================
  */
 
-// --- 1. DATA LAYER (Extracted from PDF Profile)[cite: 1, 2] ---
+// --- 1. DATA LAYER ---
+//[cite: 1, 2]
 const caseStudies = {
     complio: {
         cat: "Enterprise SaaS Platform", 
@@ -66,6 +67,42 @@ const caseStudies = {
             "Delivered responsive e-commerce across desktop and mobile", 
             "Simplified product discovery through intuitive navigation", 
             "Designed scalable experience ready for product launches"
+        ]
+    },
+    playsta: {
+        cat: "Digital Entertainment & iGaming", 
+        title: "Playsta",
+        challenge: "Organize a content-heavy platform containing sports, live events, casino games, and promotions without overwhelming users.",
+        goal: "Create an intuitive interface that simplifies discovery and enables users to navigate complex content categories efficiently.",
+        contribution: "Designed high-density interfaces, game discovery journeys, promotional experiences, and scalable UI patterns.",
+        outcomes: [
+            "Simplified navigation across multiple gaming and sports categories", 
+            "Delivered scalable UI patterns for high-volume content ecosystem", 
+            "40% improvement in user engagement reported by client"
+        ]
+    },
+    godfather: {
+        cat: "Enterprise B2B Gaming", 
+        title: "Gaming Godfather",
+        challenge: "Present complex sportsbook, casino, exchange, and back-office solutions clearly to operators evaluating multiple enterprise products.",
+        goal: "Transform technical B2B offerings into a structured digital experience that makes products easier to understand, compare, and explore.",
+        contribution: "Designed product discovery journeys, enterprise interfaces, responsive layouts, and scalable UI components across the platform.",
+        outcomes: [
+            "Unified multiple B2B product offerings within a structured experience", 
+            "Simplified discovery of complex enterprise gaming solutions", 
+            "60% increase in sales enquiries and 35% revenue growth, as client reports"
+        ]
+    },
+    scorepro: {
+        cat: "SportsTech Application", 
+        title: "Score Pro",
+        challenge: "Present live scores, fixtures, and match states in a compact mobile interface while keeping rapidly changing information easy to scan.",
+        goal: "Create a mobile-first experience that helps sports fans quickly understand live match status, scores, and upcoming fixtures.",
+        contribution: "Designed core mobile journeys, live-score interfaces, match states, navigation, and reusable components for the application.",
+        outcomes: [
+            "Created scalable mobile experience for live sports coverage", 
+            "Simplified real-time match info through clear visual hierarchy", 
+            "20% improvement in task completion reported during testing"
         ]
     },
     felt: {
