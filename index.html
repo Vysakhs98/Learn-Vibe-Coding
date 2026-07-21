@@ -3,275 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vysakh S | Digital Architect</title>
+    <title>Vysakh S | Portfolio</title>
     <style>
-        /* --- Reset & Typography --- */
+        /* --- Reset & Base Styles --- */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
             background-color: #0b0d10;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        /* --- 3D Canvas Background --- */
-        #webgl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1; /* Sits behind the text */
-            pointer-events: none; /* Allows scrolling through it */
-        }
-
-        /* --- Scrollytelling UI Layer --- */
-        #scroll-container {
-            position: relative;
-            z-index: 2;
-        }
-
-        .scene-section {
-            height: 150vh; /* Gives plenty of scroll room per scene */
+            color: #1a1a1a;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 2rem;
+            min-height: 100vh;
+            overflow: hidden;
         }
 
-        .text-block {
-            max-width: 800px;
-            opacity: 0; /* Hidden by default, animated by GSAP */
-            transform: translateY(30px);
+        /* --- Ambient Background --- */
+        .bg-glow {
+            position: absolute;
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, rgba(155, 81, 224, 0.1) 0%, rgba(0,0,0,0) 60%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- Book Physics & Container --- */
+        .book-container {
+            position: relative;
+            z-index: 1;
+            width: 90vw;
+            max-width: 1000px;
+            height: 80vh;
+            max-height: 700px;
+            perspective: 2000px; /* Gives the 3D depth to the page turn */
+            display: flex;
+            align-items: center;
+        }
+
+        .book {
+            position: relative;
+            width: 50%; /* Book takes up right half initially, pages fold over to the left */
+            height: 100%;
+            left: 50%;
+            transform-style: preserve-3d;
+        }
+
+        /* --- Page Structure --- */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-origin: left center;
+            transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .page-front, .page-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background-color: #f0f4f9;
+            border-radius: 2px 12px 12px 2px;
+            box-shadow: inset 4px 0 15px rgba(0,0,0,0.05), 5px 5px 20px rgba(0,0,0,0.15);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .page-back {
+            transform: rotateY(180deg);
+            border-radius: 12px 2px 2px 12px;
+            box-shadow: inset -4px 0 15px rgba(0,0,0,0.05), -5px 5px 20px rgba(0,0,0,0.15);
+        }
+
+        /* --- Typography & Layout within Pages --- */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+            color: #0b0d10;
         }
 
         h2 {
-            font-size: 3.5rem;
+            font-size: 2rem;
             font-weight: 400;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff 0%, #a1a7b0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #9b51e0;
         }
 
         p {
-            font-size: 1.25rem;
-            font-weight: 300;
-            color: #9aa0a6;
+            font-size: 1.05rem;
             line-height: 1.6;
+            color: #555;
+            margin-bottom: 1.5rem;
         }
 
-        /* Scene 5 Finale Styling */
-        .finale-links {
-            margin-top: 2rem;
+        .metric-row {
             display: flex;
-            gap: 1rem;
-            justify-content: center;
+            gap: 2rem;
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
         }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+        .metric {
+            display: flex;
+            flex-direction: column;
         }
 
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
+        .metric span.number {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #0b0d10;
+        }
+
+        .metric span.label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #888;
+        }
+
+        /* Layout Helpers */
+        .cover-content {
+            margin: auto 0;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        
+        .page-front .page-number { right: 2rem; }
+        .page-back .page-number { left: 2rem; }
+
+        .hint {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            font-size: 0.8rem;
+            color: #9b51e0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(5px); }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 800px) {
+            .book-container { width: 100vw; height: 100vh; max-height: none; }
+            .book { width: 100%; left: 0; }
+            .page-front, .page-back { border-radius: 0; padding: 2rem; }
+            .page.flipped { transform: rotateY(-180deg) translateX(-100%); opacity: 0; } /* Simple slide off for mobile */
         }
     </style>
 </head>
 <body>
 
-    <!-- The 3D World -->
-    <canvas id="webgl-canvas"></canvas>
+    <div class="bg-glow"></div>
 
-    <!-- The Scroll Content -->
-    <div id="scroll-container">
-        
-        <!-- Scene 1: The Genesis -->
-        <section class="scene-section" id="scene-1">
-            <div class="text-block">
-                <h2>I started by learning the foundations of human experience.</h2>
-                <p>Now, I architect them for the digital world.</p>
-            </div>
-        </section>
+    <div class="book-container">
+        <div class="book" id="book">
+            
+            <!-- PAGE 3 (Back Page / Contact) -->
+            <div class="page" id="page3">
+                <div class="page-front">
+                    <h2>Select Projects</h2>
+                    <h3>ComplioPro-X</h3>
+                    <p>Enterprise Compliance Platform. Transformed mandatory training into an intuitive, gamified experience.</p>
+                    
+                    <h3>Little Guru</h3>
+                    <p>Gamified language learning app launched by the ICCR. Made accessible to learners worldwide through mobile stores.</p>
 
-        <!-- Scene 2: Gamification -->
-        <section class="scene-section" id="scene-2">
-            <div class="text-block">
-                <h2>Complex problems don't need complicated interfaces.</h2>
-                <p>Driving engagement through gamified, intuitive design.</p>
-            </div>
-        </section>
-
-        <!-- Scene 3: Global Density -->
-        <section class="scene-section" id="scene-3">
-            <div class="text-block">
-                <h2>Designing for scale.</h2>
-                <p>Creating high-density ecosystems for global audiences.</p>
-            </div>
-        </section>
-
-        <!-- Scene 4: Empathy -->
-        <section class="scene-section" id="scene-4">
-            <div class="text-block">
-                <h2>Because the best digital products don't just process data.</h2>
-                <p>They create thoughtful spaces for the moments that matter.</p>
-            </div>
-        </section>
-
-        <!-- Scene 5: Finale -->
-        <section class="scene-section" id="scene-5">
-            <div class="text-block">
-                <h2>Vysakh S</h2>
-                <p>Let's build what's next.</p>
-                <div class="finale-links">
-                    <a href="#" class="btn">Download Resume</a>
-                    <a href="#" class="btn">Email Me</a>
+                    <div class="metric-row">
+                        <div class="metric">
+                            <span class="number">30%</span>
+                            <span class="label">Completion Increase</span>
+                        </div>
+                        <div class="metric">
+                            <span class="number">90%</span>
+                            <span class="label">Retention Boost</span>
+                        </div>
+                    </div>
+                    <span class="page-number">05</span>
+                </div>
+                <div class="page-back">
+                    <div class="cover-content">
+                        <h2>Designing with curiosity.</h2>
+                        <p>Growing with every problem. My work is driven by a simple goal - to understand the problem deeply and design something genuinely delightful.</p>
+                        <br>
+                        <h3>Let's Connect</h3>
+                        <p>vysakh.official98@gmail.com<br>Available for freelance & full-time roles.</p>
+                    </div>
+                    <span class="page-number">06</span>
                 </div>
             </div>
-        </section>
 
+            <!-- PAGE 2 (Experience) -->
+            <div class="page" id="page2">
+                <div class="page-front">
+                    <h2>Professional Experience</h2>
+                    
+                    <h3>White Paper Alliance (Dubai)</h3>
+                    <p>Enterprise SaaS, SportsTech & iGaming. Designed web and mobile products balancing high-density data with intuitive user flows for a global audience.</p>
+
+                    <h3>GameApp Tech (Bengaluru)</h3>
+                    <p>Enterprise SaaS & Gamification. Designed scalable web platforms serving enterprise clients across learning, sports, and corporate training.</p>
+
+                    <div class="metric-row">
+                        <div class="metric">
+                            <span class="number">03</span>
+                            <span class="label">Years Exp.</span>
+                        </div>
+                        <div class="metric">
+                            <span class="number">30+</span>
+                            <span class="label">Products Delivered</span>
+                        </div>
+                    </div>
+                    <span class="page-number">03</span>
+                </div>
+                <div class="page-back">
+                    <h2>Capabilities</h2>
+                    <p>Bridging the gap between human needs and technical constraints.</p>
+                    <br>
+                    <h3>UX Research & Strategy</h3>
+                    <p>User flows, information architecture, and neuro-inclusive emotional design (Felt).</p>
+                    
+                    <h3>Product & UI Design</h3>
+                    <p>Design systems, responsive web, mobile apps, and interactive prototyping.</p>
+                    <span class="page-number">04</span>
+                </div>
+            </div>
+
+            <!-- PAGE 1 (Cover / Intro) -->
+            <div class="page" id="page1">
+                <div class="page-front">
+                    <div class="cover-content">
+                        <h1>Vysakh S</h1>
+                        <p>UI/UX & Product Designer<br>2026 Portfolio</p>
+                    </div>
+                    <span class="hint">Click to open &rarr;</span>
+                </div>
+                <div class="page-back">
+                    <h2>About Me</h2>
+                    <p>I have over three years of experience designing digital products across SaaS, enterprise and mobile platforms.</p>
+                    <p>My work combines user research, interaction design and visual storytelling to transform complex problems into intuitive, user-centered experiences.</p>
+                    <p>Starting with a foundation in Hotel Management, I learned how to craft physical human experiences before pivoting to architecting digital ones.</p>
+                    <span class="page-number">02</span>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- Required Libraries: Three.js and GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
     <script>
-        // --- 1. THREE.JS SCENE SETUP ---
-        const canvas = document.getElementById('webgl-canvas');
-        const scene = new THREE.Scene();
-        
-        // Setup Camera
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 5); // Starting position
+        // --- Page Turn Physics & Logic ---
+        const pages = document.querySelectorAll('.page');
+        let currentZIndex = pages.length;
 
-        // Setup Renderer
-        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        // Setup Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambientLight);
-        
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(5, 5, 5);
-        scene.add(directionalLight);
-
-        // --- 2. GREY-BOX PLACEHOLDER ASSETS ---
-        // These are the basic shapes we will replace with your .glb files later
-        
-        const objects = []; // Array to hold our objects for easy rotation
-
-        // Object 1: The Cloche/Dome Placeholder (Scene 1)
-        const geo1 = new THREE.SphereGeometry(1, 32, 32);
-        const mat1 = new THREE.MeshStandardMaterial({ color: 0x888888, wireframe: true });
-        const obj1 = new THREE.Mesh(geo1, mat1);
-        obj1.position.set(0, 0, 0);
-        scene.add(obj1);
-        objects.push(obj1);
-
-        // Object 2: The Labyrinth Placeholder (Scene 2)
-        const geo2 = new THREE.TorusKnotGeometry(0.8, 0.2, 100, 16);
-        const mat2 = new THREE.MeshStandardMaterial({ color: 0x4a90e2 });
-        const obj2 = new THREE.Mesh(geo2, mat2);
-        obj2.position.set(0, -10, 0); // Positioned further down the scroll path
-        scene.add(obj2);
-        objects.push(obj2);
-
-        // Object 3: The Data Waterfall Placeholder (Scene 3)
-        const geo3 = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-        const mat3 = new THREE.MeshStandardMaterial({ color: 0x9b51e0, wireframe: true });
-        const obj3 = new THREE.Mesh(geo3, mat3);
-        obj3.position.set(0, -20, 0);
-        scene.add(obj3);
-        objects.push(obj3);
-
-        // Object 4: The Organic Shape Placeholder (Scene 4)
-        const geo4 = new THREE.IcosahedronGeometry(1, 1);
-        const mat4 = new THREE.MeshStandardMaterial({ color: 0x34c759, flatShading: true });
-        const obj4 = new THREE.Mesh(geo4, mat4);
-        obj4.position.set(0, -30, 0);
-        scene.add(obj4);
-        objects.push(obj4);
-
-        // Object 5: The "V" Logo Placeholder (Scene 5)
-        const geo5 = new THREE.CylinderGeometry(1, 0, 1.5, 4);
-        const mat5 = new THREE.MeshStandardMaterial({ color: 0xffffff });
-        const obj5 = new THREE.Mesh(geo5, mat5);
-        obj5.position.set(0, -40, 0);
-        scene.add(obj5);
-        objects.push(obj5);
-
-        // --- 3. THE ANIMATION LOOP ---
-        function animate() {
-            requestAnimationFrame(animate);
+        // Initialize Z-indexes so the cover is on top
+        pages.forEach((page, index) => {
+            page.style.zIndex = pages.length - index;
             
-            // Constantly rotate all objects slightly for an ambient feel
-            objects.forEach(obj => {
-                obj.rotation.x += 0.002;
-                obj.rotation.y += 0.003;
-            });
-
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // --- 4. GSAP SCROLL PHYSICS ---
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Camera Flight Path: Tie camera Y position to the scroll bar
-        // The camera plunges downward through the 3D space as you scroll
-        gsap.to(camera.position, {
-            y: -40, // Match this to the position of the final object
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#scroll-container",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1 // Makes the camera smoothly catch up to the scroll wheel
-            }
-        });
-
-        // Text Fade-Ins: Make the typography appear cleanly as you reach each section
-        const textBlocks = document.querySelectorAll('.text-block');
-        textBlocks.forEach((block) => {
-            gsap.to(block, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: block,
-                    start: "top 60%", // Triggers when text is 60% down the screen
-                    end: "top 40%",
-                    toggleActions: "play reverse play reverse" // Fades out if scrolled past
+            // Add click event listener to each page
+            page.addEventListener('click', function(e) {
+                // If the page is already flipped, we want to turn it back (unless clicking the front side somehow)
+                if (this.classList.contains('flipped')) {
+                    this.classList.remove('flipped');
+                    
+                    // Delay z-index change until halfway through the flip animation
+                    setTimeout(() => {
+                        this.style.zIndex = pages.length - Array.from(pages).indexOf(this);
+                    }, 450); 
+                } 
+                // If it's not flipped, we turn it forward
+                else {
+                    this.classList.add('flipped');
+                    
+                    // Delay z-index change until halfway through the flip animation
+                    setTimeout(() => {
+                        this.style.zIndex = Array.from(pages).indexOf(this) + 1;
+                    }, 450);
                 }
             });
-        });
-
-        // --- 5. WINDOW RESIZE HANDLER ---
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
 </body>
