@@ -58,10 +58,7 @@ body {
     width: 100%;
 }
 
-/* 
- * Ambient Noise Texture Overlay 
- * Generates an SVG fractal noise filter to give the background a premium, matte finish.
- */
+/* Ambient Noise Texture Overlay */
 body::before {
     content: "";
     position: fixed;
@@ -111,7 +108,7 @@ img { max-width: 100%; display: block; }
     backdrop-filter: blur(2px);
 }
 
-/* Fallback for Touch Devices (Mobiles/Tablets) */
+/* Fallback for Touch Devices */
 @media (hover: none) and (pointer: coarse) {
     *, *::before, *::after { cursor: auto !important; }
     .cursor-dot, .cursor-ring { display: none !important; }
