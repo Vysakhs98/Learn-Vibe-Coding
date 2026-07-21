@@ -3,617 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vysakh | Be back soon</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2319171d'/%3E%3Ctext x='50%25' y='55%25' font-family='-apple-system, sans-serif' font-weight='900' font-size='14' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'%3EV%3C/text%3E%3C/svg%3E">
+    <title>Vysakh S | Digital Architect</title>
     <style>
-        /* --- Reset & Base Styles --- */
+        /* --- Reset & Typography --- */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* Strict no-scroll constraint */
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-            background-color: #0b0d10; 
-            color: #f0f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #0b0d10;
+            color: #ffffff;
+            overflow-x: hidden;
         }
 
-        /* --- Ambient Motion Background --- */
-        .bg-glow-container {
-            position: absolute;
+        /* --- 3D Canvas Background --- */
+        #webgl-canvas {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            overflow: hidden;
-            opacity: 0.55;
-            pointer-events: none;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1; /* Sits behind the text */
+            pointer-events: none; /* Allows scrolling through it */
         }
 
-        /* Container specifically for the orbiting balls to keep them blurred */
-        .ambient-balls {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            filter: blur(130px);
-        }
-
-        .glow-ball {
-            position: absolute;
-            border-radius: 50%;
-            mix-blend-mode: screen;
-            transform: translate3d(0, 0, 0); 
-            will-change: transform;
-        }
-
-        .glow-ball.one {
-            width: 65vw;
-            height: 65vw;
-            top: -20%;
-            left: -10%;
-            background: radial-gradient(circle, rgba(74, 144, 226, 0.35) 0%, rgba(0,0,0,0) 70%);
-        }
-
-        .glow-ball.two {
-            width: 55vw;
-            height: 55vw;
-            bottom: -15%;
-            right: -10%;
-            background: radial-gradient(circle, rgba(155, 81, 224, 0.3) 0%, rgba(0,0,0,0) 70%);
-        }
-
-        .glow-ball.three {
-            width: 45vw;
-            height: 45vw;
-            top: 25%;
-            left: 35%;
-            background: radial-gradient(circle, rgba(224, 81, 184, 0.15) 0%, rgba(0,0,0,0) 70%);
-        }
-
-        /* --- Fireworks Canvas Layer --- */
-        #fireworks-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        /* --- Content Layout --- */
-        .content-card {
+        /* --- Scrollytelling UI Layer --- */
+        #scroll-container {
             position: relative;
             z-index: 2;
+        }
+
+        .scene-section {
+            height: 150vh; /* Gives plenty of scroll room per scene */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 2rem;
-            max-width: 560px;
-            width: 90%;
+            padding: 0 2rem;
         }
 
-        /* --- Motion Intros --- */
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(16px);
-            animation: cubicReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .text-block {
+            max-width: 800px;
+            opacity: 0; /* Hidden by default, animated by GSAP */
+            transform: translateY(30px);
         }
 
-        @keyframes cubicReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .delay-0 { animation-delay: 0.1s; }
-        .delay-1 { animation-delay: 0.25s; }
-        .delay-2 { animation-delay: 0.4s; }
-
-        /* Typography */
-        h1 {
-            font-size: 2.4rem;
+        h2 {
+            font-size: 3.5rem;
             font-weight: 400;
             letter-spacing: -0.02em;
-            margin-bottom: 1.2rem;
-            color: #ffffff;
-            line-height: 1.25;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a1a7b0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
-            font-size: 1.05rem;
+            font-size: 1.25rem;
             font-weight: 300;
+            color: #9aa0a6;
             line-height: 1.6;
-            color: #9aa0a6; 
-            margin-bottom: 2.5rem;
         }
 
-        /* --- Flexible Button Architecture --- */
-        .links-container {
+        /* Scene 5 Finale Styling */
+        .finale-links {
+            margin-top: 2rem;
             display: flex;
-            flex-wrap: wrap;
+            gap: 1rem;
             justify-content: center;
-            gap: 0.75rem;
         }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.75rem 1.35rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 100px;
-            color: #e3def2;
+            color: #ffffff;
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 400;
-            letter-spacing: 0.01em;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s ease;
         }
 
         .btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(155, 81, 224, 0.4);
-            color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(155, 81, 224, 0.1);
-        }
-
-        /* Distinct premium styling logic for the resume action pill */
-        .btn.resume-btn {
-            background: rgba(155, 81, 224, 0.06);
-            border-color: rgba(155, 81, 224, 0.2);
-            color: #ffffff;
-        }
-
-        .btn.resume-btn:hover {
-            background: rgba(155, 81, 224, 0.15);
-            border-color: rgba(155, 81, 224, 0.6);
-        }
-
-        /* --- Header / Footer Structure --- */
-        .utility-header {
-            position: absolute;
-            top: 2rem;
-            left: 0;
-            width: 100%;
-            padding: 0 2.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 3;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .brand-owner {
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 0.06em;
-            display: inline-block;
-            position: relative;
-            color: rgb(165, 173, 184);
-            white-space: nowrap; 
-        }
-
-        .brand-owner::after {
-            content: "Vysakh S"; 
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                105deg, 
-                rgba(255, 255, 255, 0) 20%, 
-                rgba(255, 255, 255, 1) 40%, 
-                rgba(255, 255, 255, 0) 60%,
-                rgba(255, 255, 255, 0) 80%
-            );
-            background-size: 200% 100%;
-            background-repeat: no-repeat;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: elegantSweep 4.5s cubic-bezier(0.0, 1, 0.5, 1) infinite;
-            pointer-events: none;
-        }
-
-        @keyframes elegantSweep {
-            0% { background-position: 200% center; }
-            30% { background-position: -120% center; }
-            100% { background-position: -120% center; }
-        }
-
-        #local-clock {
-            font-size: 0.8rem;
-            font-weight: 400;
-            color: #6c727a;
-        }
-
-        .utility-footer {
-            position: absolute;
-            bottom: 2rem;
-            left: 0;
-            width: 100%;
-            padding: 0 2.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.8rem;
-            z-index: 3;
-            font-size: 0.8rem;
-            text-align: center;
-        }
-
-        /* --- Clean Footer Audio Toggle --- */
-        .footer-audio-toggle {
-            background: transparent;
-            border: none;
-            color: #6c727a;
-            cursor: pointer;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-family: inherit;
-            font-size: 0.8rem;
-            font-weight: 400;
-            letter-spacing: 0.02em;
-            transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            margin-bottom: 0.2rem;
-        }
-
-        .footer-audio-toggle:hover {
-            color: #ffffff;
-            transform: scale(1.02);
-        }
-
-        .footer-audio-toggle svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        .description-line {
-            font-weight: 300;
-            color: #6c727a;
-            letter-spacing: 0.02em;
-        }
-
-        .freelance-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            font-weight: 400;
-            color: #a1a7b0;
-            letter-spacing: 0.02em;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background-color: #34c759;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #34c759;
-            animation: pulseGlow 2s infinite ease-in-out;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.6; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 12px #34c759; }
-        }
-
-        /* --- Media Queries --- */
-        @media (max-width: 600px) {
-            .ambient-balls {
-                filter: blur(110px); 
-            }
-            .bg-glow-container {
-                opacity: 0.75; 
-            }
-            .glow-ball {
-                mix-blend-mode: normal; 
-            }
-            .glow-ball.one {
-                width: 130vw; 
-                height: 130vw;
-                top: -25%;
-                left: -30%;
-                background: radial-gradient(circle, rgba(74, 144, 226, 0.45) 0%, rgba(0,0,0,0) 70%);
-            }
-            .glow-ball.two {
-                width: 120vw;
-                height: 120vw;
-                bottom: -20%;
-                right: -25%;
-                background: radial-gradient(circle, rgba(155, 81, 224, 0.4) 0%, rgba(0,0,0,0) 70%);
-            }
-            .glow-ball.three {
-                width: 100vw;
-                height: 100vw;
-                top: 20%;
-                left: 0%;
-                background: radial-gradient(circle, rgba(224, 81, 184, 0.25) 0%, rgba(0,0,0,0) 70%);
-            }
-            h1 { 
-                font-size: 1.85rem; 
-                margin-bottom: 1rem;
-            }
-            p { 
-                font-size: 0.95rem; 
-                margin-bottom: 2rem;
-            }
-            .utility-header { 
-                flex-direction: column; 
-                gap: 0.6rem; 
-                top: 1.5rem; 
-                padding: 0 1rem;
-            }
-            .links-container { 
-                flex-direction: column; 
-                width: 100%; 
-                gap: 0.65rem;
-            }
-            .btn { 
-                justify-content: center; 
-                width: 100%;
-                padding: 0.85rem 1rem; 
-            }
-            .utility-footer { 
-                bottom: 1.5rem; 
-                padding: 0 1.2rem;
-                gap: 0.6rem;
-            }
-            .description-line {
-                font-size: 0.75rem;
-                line-height: 1.4;
-            }
-        }
-
-        @media (max-height: 500px) {
-            body, html { overflow-y: auto; }
-            .utility-header, .utility-footer { position: relative; top: 0; bottom: 0; padding: 1.5rem 0; }
-            .content-card { padding: 1rem 0; }
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
 <body>
 
-    <audio id="ambient-audio" loop>
-        <source src="bg-music.mp3?v=2" type="audio/mpeg">
-    </audio>
+    <!-- The 3D World -->
+    <canvas id="webgl-canvas"></canvas>
 
-    <header class="utility-header">
-        <div class="brand-owner">Vysakh S</div>
-        <div id="local-clock">BENGALURU, IN — --:-- --</div>
-    </header>
-
-    <div class="bg-glow-container">
-        <div class="ambient-balls">
-            <div class="glow-ball one" id="ball1"></div>
-            <div class="glow-ball two" id="ball2"></div>
-            <div class="glow-ball three" id="ball3"></div>
-        </div>
+    <!-- The Scroll Content -->
+    <div id="scroll-container">
         
-        <canvas id="fireworks-canvas"></canvas>
+        <!-- Scene 1: The Genesis -->
+        <section class="scene-section" id="scene-1">
+            <div class="text-block">
+                <h2>I started by learning the foundations of human experience.</h2>
+                <p>Now, I architect them for the digital world.</p>
+            </div>
+        </section>
+
+        <!-- Scene 2: Gamification -->
+        <section class="scene-section" id="scene-2">
+            <div class="text-block">
+                <h2>Complex problems don't need complicated interfaces.</h2>
+                <p>Driving engagement through gamified, intuitive design.</p>
+            </div>
+        </section>
+
+        <!-- Scene 3: Global Density -->
+        <section class="scene-section" id="scene-3">
+            <div class="text-block">
+                <h2>Designing for scale.</h2>
+                <p>Creating high-density ecosystems for global audiences.</p>
+            </div>
+        </section>
+
+        <!-- Scene 4: Empathy -->
+        <section class="scene-section" id="scene-4">
+            <div class="text-block">
+                <h2>Because the best digital products don't just process data.</h2>
+                <p>They create thoughtful spaces for the moments that matter.</p>
+            </div>
+        </section>
+
+        <!-- Scene 5: Finale -->
+        <section class="scene-section" id="scene-5">
+            <div class="text-block">
+                <h2>Vysakh S</h2>
+                <p>Let's build what's next.</p>
+                <div class="finale-links">
+                    <a href="#" class="btn">Download Resume</a>
+                    <a href="#" class="btn">Email Me</a>
+                </div>
+            </div>
+        </section>
+
     </div>
 
-    <div class="content-card">
-        <h1 class="reveal-item delay-0">Refining my digital space.</h1>
-        <p class="reveal-item delay-1">I am currently restructuring my portfolio website to introduce a completely elevated creative experience. I'll be back soon.<br>And in the meantime, let's connect.</p>
-
-        <div class="links-container reveal-item delay-2">
-            <a href="Vysakh_S_Product_Designer_Resume_2026.pdf" download="Vysakh_S_Product_Designer_Resume_2026.pdf" class="btn resume-btn">Download Resume</a>
-            <button class="btn" id="email-btn" data-email="vysakh.official98@gmail.com">Email Me</button>
-            <a href="https://wa.me/917022017654" target="_blank" rel="noopener" class="btn">WhatsApp</a>
-            <a href="https://www.behance.net/Vysakh_98" target="_blank" rel="noopener" class="btn">Behance</a>
-            <a href="https://www.linkedin.com/in/vysakhdesigns/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
-        </div>
-    </div>
-
-    <footer class="utility-footer">
-        <button class="footer-audio-toggle" id="audio-toggle-btn" aria-label="Toggle Ambient Music">
-            <svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-            </svg>
-            <svg id="icon-playing" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-            </svg>
-            <span id="audio-text">Play Music</span>
-        </button>
-
-        <div class="freelance-status">
-            <span class="status-dot"></span>
-            <span>Available for freelance opportunities</span>
-        </div>
-        <div class="description-line">
-            Currently designing interfaces & exploring advanced digital interactions.
-        </div>
-    </footer>
+    <!-- Required Libraries: Three.js and GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // --- Audio Icon Toggle Logic ---
-        const audio = document.getElementById('ambient-audio');
-        const audioToggleBtn = document.getElementById('audio-toggle-btn');
-        const iconMuted = document.getElementById('icon-muted');
-        const iconPlaying = document.getElementById('icon-playing');
-        const audioText = document.getElementById('audio-text');
-        let isPlaying = false;
-
-        audioToggleBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                audio.pause();
-                iconMuted.style.display = 'block';
-                iconPlaying.style.display = 'none';
-                audioText.textContent = 'Play Music';
-            } else {
-                audio.play();
-                iconMuted.style.display = 'none';
-                iconPlaying.style.display = 'block';
-                audioText.textContent = 'Pause Music';
-            }
-            isPlaying = !isPlaying;
-        });
-
-        // --- High-Performance Mouse Fireworks System ---
-        const canvas = document.getElementById('fireworks-canvas');
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
-
-        const particles = [];
-        const colors = ['#00ffff', '#ff0096', '#ffdc00', '#9600ff']; 
+        // --- 1. THREE.JS SCENE SETUP ---
+        const canvas = document.getElementById('webgl-canvas');
+        const scene = new THREE.Scene();
         
-        let lastMouseX = window.innerWidth / 2;
-        let lastMouseY = window.innerHeight / 2;
+        // Setup Camera
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 5); // Starting position
 
-        document.addEventListener('mousemove', (e) => {
-            const dx = e.clientX - lastMouseX;
-            const dy = e.clientY - lastMouseY;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+        // Setup Renderer
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Setup Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        // --- 2. GREY-BOX PLACEHOLDER ASSETS ---
+        // These are the basic shapes we will replace with your .glb files later
+        
+        const objects = []; // Array to hold our objects for easy rotation
+
+        // Object 1: The Cloche/Dome Placeholder (Scene 1)
+        const geo1 = new THREE.SphereGeometry(1, 32, 32);
+        const mat1 = new THREE.MeshStandardMaterial({ color: 0x888888, wireframe: true });
+        const obj1 = new THREE.Mesh(geo1, mat1);
+        obj1.position.set(0, 0, 0);
+        scene.add(obj1);
+        objects.push(obj1);
+
+        // Object 2: The Labyrinth Placeholder (Scene 2)
+        const geo2 = new THREE.TorusKnotGeometry(0.8, 0.2, 100, 16);
+        const mat2 = new THREE.MeshStandardMaterial({ color: 0x4a90e2 });
+        const obj2 = new THREE.Mesh(geo2, mat2);
+        obj2.position.set(0, -10, 0); // Positioned further down the scroll path
+        scene.add(obj2);
+        objects.push(obj2);
+
+        // Object 3: The Data Waterfall Placeholder (Scene 3)
+        const geo3 = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+        const mat3 = new THREE.MeshStandardMaterial({ color: 0x9b51e0, wireframe: true });
+        const obj3 = new THREE.Mesh(geo3, mat3);
+        obj3.position.set(0, -20, 0);
+        scene.add(obj3);
+        objects.push(obj3);
+
+        // Object 4: The Organic Shape Placeholder (Scene 4)
+        const geo4 = new THREE.IcosahedronGeometry(1, 1);
+        const mat4 = new THREE.MeshStandardMaterial({ color: 0x34c759, flatShading: true });
+        const obj4 = new THREE.Mesh(geo4, mat4);
+        obj4.position.set(0, -30, 0);
+        scene.add(obj4);
+        objects.push(obj4);
+
+        // Object 5: The "V" Logo Placeholder (Scene 5)
+        const geo5 = new THREE.CylinderGeometry(1, 0, 1.5, 4);
+        const mat5 = new THREE.MeshStandardMaterial({ color: 0xffffff });
+        const obj5 = new THREE.Mesh(geo5, mat5);
+        obj5.position.set(0, -40, 0);
+        scene.add(obj5);
+        objects.push(obj5);
+
+        // --- 3. THE ANIMATION LOOP ---
+        function animate() {
+            requestAnimationFrame(animate);
             
-            // Generate sparks based on movement speed, tightly capped to prevent lag
-            const spawnCount = Math.min(Math.floor(dist * 0.15), 10);
-            
-            for(let i = 0; i < spawnCount; i++) {
-                particles.push({
-                    x: e.clientX,
-                    y: e.clientY,
-                    vx: (Math.random() - 0.5) * 5 + (dx * 0.03),
-                    vy: (Math.random() - 0.5) * 5 + (dy * 0.03) - 1.5, // Initial upward burst
-                    life: 1,
-                    decay: Math.random() * 0.02 + 0.015,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    size: Math.random() * 2.5 + 1.5
-                });
+            // Constantly rotate all objects slightly for an ambient feel
+            objects.forEach(obj => {
+                obj.rotation.x += 0.002;
+                obj.rotation.y += 0.003;
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- 4. GSAP SCROLL PHYSICS ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Camera Flight Path: Tie camera Y position to the scroll bar
+        // The camera plunges downward through the 3D space as you scroll
+        gsap.to(camera.position, {
+            y: -40, // Match this to the position of the final object
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#scroll-container",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1 // Makes the camera smoothly catch up to the scroll wheel
             }
-            
-            // Hard limit on particles to guarantee 60 FPS
-            if (particles.length > 300) {
-                particles.splice(0, particles.length - 300);
-            }
-            
-            lastMouseX = e.clientX;
-            lastMouseY = e.clientY;
         });
 
-        // --- Master Animation Controller ---
-        const ball1 = document.getElementById('ball1');
-        const ball2 = document.getElementById('ball2');
-        const ball3 = document.getElementById('ball3');
-
-        function animateBackground(time) {
-            const t = time * 0.0004;
-
-            // 1. Autonomous Orbiting Ambient Balls
-            const x1 = Math.sin(t * 0.7) * 90;
-            const y1 = Math.cos(t * 0.5) * 60;
-
-            const x2 = Math.cos(t * 0.6) * -75;
-            const y2 = Math.sin(t * 0.8) * -75;
-
-            const x3 = Math.sin(t * 0.5) * 50;
-            const y3 = Math.cos(t * 0.7) * 95;
-
-            ball1.style.transform = `translate3d(${x1}px, ${y1}px, 0)`;
-            ball2.style.transform = `translate3d(${x2}px, ${y2}px, 0)`;
-            ball3.style.transform = `translate3d(${x3}px, ${y3}px, 0)`;
-
-            // 2. High-Performance Canvas Sparks
-            ctx.clearRect(0, 0, width, height);
-            
-            // "lighter" mode makes overlapping colors physically glow brighter
-            ctx.globalCompositeOperation = 'lighter'; 
-
-            for (let i = particles.length - 1; i >= 0; i--) {
-                let p = particles[i];
-                
-                // Physics: Friction + Gravity
-                p.vx *= 0.94; // Air resistance slows horizontal spread
-                p.vy *= 0.97; // Air resistance slows vertical slightly
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.18; // Gravity pulling sparks down
-                p.life -= p.decay;
-
-                if (p.life <= 0) {
-                    particles.splice(i, 1);
-                } else {
-                    // FAST RENDER METHOD (Replaces shadowBlur)
-                    // Draw outer colored halo
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
-                    ctx.globalAlpha = p.life * 0.4;
-                    ctx.fill();
-
-                    // Draw bright white-hot core
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fillStyle = '#ffffff';
-                    ctx.globalAlpha = p.life;
-                    ctx.fill();
+        // Text Fade-Ins: Make the typography appear cleanly as you reach each section
+        const textBlocks = document.querySelectorAll('.text-block');
+        textBlocks.forEach((block) => {
+            gsap.to(block, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: block,
+                    start: "top 60%", // Triggers when text is 60% down the screen
+                    end: "top 40%",
+                    toggleActions: "play reverse play reverse" // Fades out if scrolled past
                 }
-            }
-            ctx.globalAlpha = 1;
-
-            requestAnimationFrame(animateBackground);
-        }
-        requestAnimationFrame(animateBackground);
-
-        // --- Clipboard Interactivity ---
-        const emailBtn = document.getElementById('email-btn');
-        emailBtn.addEventListener('click', () => {
-            const targetEmail = emailBtn.getAttribute('data-email');
-            navigator.clipboard.writeText(targetEmail).then(() => {
-                emailBtn.textContent = 'Copied';
-                emailBtn.style.borderColor = 'rgba(52, 199, 89, 0.4)';
-                
-                setTimeout(() => {
-                    emailBtn.textContent = 'Email Me';
-                    emailBtn.style.borderColor = '';
-                }, 2000);
-            }).catch(() => {
-                window.location.href = `mailto:${targetEmail}`;
             });
         });
 
-        // --- Clock Calculation (IST / UTC +5:30) ---
-        function refreshClock() {
-            const clockNode = document.getElementById('local-clock');
-            
-            const d = new Date();
-            const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-            const istDate = new Date(utc + (3600000 * 5.5));
-
-            let hours = istDate.getHours();
-            let minutes = istDate.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            
-            const strHours = hours < 10 ? '0' + hours : hours;
-            const strMinutes = minutes < 10 ? '0' + minutes : minutes;
-
-            clockNode.textContent = `BENGALURU, IN — ${strHours}:${strMinutes} ${ampm}`;
-        }
-        refreshClock();
-        setInterval(refreshClock, 1000);
+        // --- 5. WINDOW RESIZE HANDLER ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
