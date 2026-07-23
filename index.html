@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+]<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -57,7 +57,7 @@
   }
 
   /* =========================================
-     CUSTOM CURSOR
+     CUSTOM CURSOR & INVERT BUBBLE
      ========================================= */
   .cursor-dot,
   .cursor-outline {
@@ -72,20 +72,38 @@
     width: 6px;
     height: 6px;
     background-color: var(--accent-2);
+    transition: opacity 0.2s;
   }
   .cursor-outline {
     width: 40px;
     height: 40px;
     border: 1px solid rgba(250, 250, 250, 0.5);
-    transition: width 0.2s, height 0.2s, background-color 0.2s, mix-blend-mode 0.2s;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                background-color 0.2s, 
+                mix-blend-mode 0.2s,
+                border-color 0.2s;
   }
-  /* Cursor Hover State */
+  
+  /* Standard Hover State (Links, Buttons) */
   body.hovering .cursor-outline {
     width: 80px;
     height: 80px;
     background-color: var(--fg);
     mix-blend-mode: difference;
     border-color: transparent;
+  }
+
+  /* Massive Invert Bubble for Hero Name */
+  body.hovering-name .cursor-outline {
+    width: 350px;
+    height: 350px;
+    background-color: var(--fg);
+    mix-blend-mode: difference;
+    border-color: transparent;
+  }
+  body.hovering-name .cursor-dot {
+    opacity: 0; /* Hide the center dot when inspecting the name */
   }
 
   /* =========================================
@@ -108,14 +126,14 @@
   }
   .loader-counter {
     font-family: var(--font-head);
-    font-size: 5rem; /* Reduced from 15vw */
+    font-size: 5rem;
     font-weight: 800;
     line-height: 1;
     color: transparent;
     -webkit-text-stroke: 2px var(--fg);
   }
   .loader-text {
-    font-size: 0.9rem; /* Reduced size */
+    font-size: 0.9rem; 
     text-transform: uppercase;
     letter-spacing: 0.3em;
     color: var(--accent-2);
@@ -184,39 +202,15 @@
   }
   .hero-name {
     font-family: var(--font-head);
-    font-size: clamp(3rem, 9vw, 9.5rem); /* Reduced to prevent cutoff */
+    font-size: clamp(3rem, 9vw, 9.5rem); /* Scaled to prevent cutoff */
     font-weight: 800;
     line-height: 0.85;
     text-transform: uppercase;
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden; /* Contains the sweep animation cleanly */
-    padding-right: 2vw; /* Buffer to ensure H is fully visible */
+    padding-right: 2vw; 
     padding-bottom: 1vw;
-  }
-  
-  /* The Light Sweep Beam */
-  .hero-name.animate::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -50%;
-    width: 20%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
-    transform: skewX(-20deg);
-    animation: lightSweep 5s infinite 2s; /* Sweeps every 5s, starts 2s after reveal */
-    pointer-events: none;
-    mix-blend-mode: screen;
-  }
-
-  @keyframes lightSweep {
-    0% { left: -50%; opacity: 0; }
-    10% { opacity: 1; }
-    25% { left: 120%; opacity: 1; }
-    30% { left: 120%; opacity: 0; }
-    100% { left: 120%; opacity: 0; }
   }
 
   .name-word {
@@ -227,14 +221,16 @@
     transform: translateY(110%) rotate(10deg);
     display: inline-block;
   }
+  
   /* Triggered by JS after load */
   .hero-name.animate .char {
     animation: charReveal 1.2s forwards cubic-bezier(0.16, 1, 0.3, 1);
   }
+  
   .name-word:nth-child(2) {
     color: transparent;
     -webkit-text-stroke: 2px var(--fg);
-    margin-left: 3vw; /* Reduced from 10vw to keep Gireesh on screen */
+    margin-left: 3vw; 
   }
   
   .hero-meta {
@@ -543,7 +539,7 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-outline" id="cursor-outline"></div>
 
-  <!-- Loading Animation -->
+  <!-- Centered Loading Animation -->
   <div id="loader">
     <div class="loader-text">Loading Experience</div>
     <div class="loader-counter" id="counter">0%</div>
@@ -563,7 +559,8 @@
   <section id="hero">
     <div class="hero-role"><span>Product Designer</span></div>
     
-    <div class="hero-name-container">
+    <!-- Added ID for the massive invert hover effect -->
+    <div class="hero-name-container" id="hero-name-trigger">
       <h1 class="hero-name" id="hero-name">
         <span class="name-word">
           <!-- Characters populated by JS -->
@@ -729,6 +726,7 @@
       const cursorDot = document.getElementById("cursor-dot");
       const cursorOutline = document.getElementById("cursor-outline");
       const hoverTargets = document.querySelectorAll("a, button, .hover-target");
+      const nameHoverTarget = document.getElementById("hero-name-trigger");
 
       window.addEventListener("mousemove", (e) => {
         const posX = e.clientX;
@@ -744,10 +742,15 @@
         }, { duration: 500, fill: "forwards" });
       });
 
+      // Standard link hovers
       hoverTargets.forEach(target => {
         target.addEventListener("mouseenter", () => document.body.classList.add("hovering"));
         target.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
       });
+
+      // Massive Invert bubble for Hero Name
+      nameHoverTarget.addEventListener("mouseenter", () => document.body.classList.add("hovering-name"));
+      nameHoverTarget.addEventListener("mouseleave", () => document.body.classList.remove("hovering-name"));
 
       // 2. Centered Loader Animation
       let count = 0;
@@ -766,7 +769,7 @@
             loader.classList.add("hide");
             document.body.classList.remove("loading");
             
-            // Trigger Name Animation & Light Sweep
+            // Trigger Name Reveal Animation
             setTimeout(() => {
               heroName.classList.add("animate");
             }, 500);
@@ -781,8 +784,6 @@
       chars.forEach((char, index) => {
         char.style.animationDelay = `${(index * 0.05) + 0.5}s`;
       });
-
-      // (Parallax logic removed as requested)
 
       // 4. Scroll Reveal using Intersection Observer
       const reveals = document.querySelectorAll(".reveal");
