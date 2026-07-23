@@ -5,35 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sona Girish — Product Designer</title>
 <meta name="description" content="Sona Girish is a product designer based in Bangalore, designing enterprise, AI, and fintech products end-to-end.">
-<meta name="theme-color" content="#FFF5F8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23FF6B9E'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='16' font-weight='bold' fill='%23FFFFFF' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#F5F7F5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%233A5F45'/%3E%3Cpath d='M16 8C16 8 20 12 20 16C20 20 16 24 16 24C16 24 12 20 12 16C12 12 16 8 16 8Z' fill='%23FFFFFF'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 
 /* ============================================================
-   SONA GIRISH — PORTFOLIO (Soft, Colorful & Fluid Concept)
+   SONA GIRISH — PORTFOLIO (Professional Botanical & Sunrise)
    ============================================================ */
 
 /* ---------- Tokens ---------- */
 :root {
-  /* Soft Pastel & Vibrant Palette */
-  --bg-base:      #FFF5F8; /* Blush pink background */
-  --bg-surface:   rgba(255, 255, 255, 0.7); /* Glassy white */
+  /* Earthy & Sunrise Palette */
+  --bg-base:      #F5F7F5; /* Dewy morning white */
+  --bg-surface:   rgba(255, 255, 255, 0.65); /* Glassy white */
   --bg-solid:     #FFFFFF;
   
-  --ink:          #2A1124; /* Deep plum/eggplant instead of harsh black */
-  --ink-70:       rgba(42, 17, 36, 0.75);
-  --ink-45:       rgba(42, 17, 36, 0.5);
+  --ink:          #1B2620; /* Dark forest green for text */
+  --ink-70:       rgba(27, 38, 32, 0.75);
+  --ink-45:       rgba(27, 38, 32, 0.5);
   
-  --primary:      #FF6B9E; /* Vibrant pink */
-  --primary-glow: rgba(255, 107, 158, 0.35);
-  --secondary:    #9D74FF; /* Soft purple */
-  --accent:       #FF9E7D; /* Warm peach */
+  --primary:      #3A5F45; /* Deep Sage Green (Plants) */
+  --primary-glow: rgba(58, 95, 69, 0.25);
+  --secondary:    #D48C62; /* Sunrise Terracotta */
+  --accent:       #E3C586; /* Morning Gold */
   
-  --line-soft:    rgba(255, 107, 158, 0.15);
-  --line-hard:    rgba(255, 107, 158, 0.3);
+  --line-soft:    rgba(58, 95, 69, 0.12);
+  --line-hard:    rgba(58, 95, 69, 0.25);
 
   /* Typography */
   --font-display: 'Outfit', sans-serif;
@@ -48,9 +48,9 @@
   --radius-pill:  999px;
 
   /* Shadows & Motion */
-  --shadow-sm:    0 8px 24px -8px rgba(255, 107, 158, 0.12);
-  --shadow-md:    0 16px 32px -12px rgba(157, 116, 255, 0.15);
-  --shadow-hover: 0 24px 48px -12px rgba(255, 107, 158, 0.25);
+  --shadow-sm:    0 8px 24px -8px rgba(27, 38, 32, 0.08);
+  --shadow-md:    0 16px 32px -12px rgba(58, 95, 69, 0.12);
+  --shadow-hover: 0 24px 48px -12px rgba(212, 140, 98, 0.2);
   
   --ease-fluid:   cubic-bezier(0.25, 1, 0.5, 1);
   --dur-m:        0.5s;
@@ -111,25 +111,60 @@ h1,h2,h3,h4 {
 }
 .skip-link:focus { top: 12px; }
 
-/* ---------- Animated Background Orbs ---------- */
-.bg-orbs {
-  position: fixed; inset: 0; z-index: -1;
+/* ---------- Animated Background (Sunrise & Mist) ---------- */
+.bg-environment {
+  position: fixed; inset: 0; z-index: -2;
   overflow: hidden; pointer-events: none;
+  background: linear-gradient(180deg, #F5F7F5 0%, #FAF8F2 100%);
 }
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
-  animation: floatOrb 12s infinite alternate ease-in-out;
+  filter: blur(100px);
+  opacity: 0.6;
+  animation: floatOrb 15s infinite alternate ease-in-out;
 }
-.orb-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--primary-glow); }
-.orb-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: rgba(157, 116, 255, 0.25); animation-delay: -5s; }
-.orb-3 { top: 40%; left: 60%; width: 400px; height: 400px; background: rgba(255, 158, 125, 0.25); animation-delay: -8s; }
+/* The Sun */
+.orb-1 { top: -5%; right: -5%; width: 500px; height: 500px; background: rgba(227, 197, 134, 0.4); }
+/* Morning Mist */
+.orb-2 { bottom: -10%; left: -10%; width: 600px; height: 600px; background: rgba(58, 95, 69, 0.15); animation-delay: -5s; }
+/* Sunrise Glow */
+.orb-3 { top: 40%; left: 50%; width: 400px; height: 400px; background: rgba(212, 140, 98, 0.15); animation-delay: -8s; }
 
 @keyframes floatOrb {
   0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(5vw, 10vh) scale(1.1); }
+  100% { transform: translate(3vw, 5vh) scale(1.1); }
+}
+
+/* ---------- Coded Garden Accents ---------- */
+.css-leaf {
+  position: absolute;
+  background: linear-gradient(135deg, rgba(58,95,69,0.05), rgba(58,95,69,0.15));
+  /* CSS Geometry for a leaf shape */
+  border-radius: 0 50% 0 50%;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,0.4);
+  backdrop-filter: blur(4px);
+}
+.leaf-1 { width: 120px; height: 120px; top: -30px; left: -40px; transform: rotate(15deg); }
+.leaf-2 { width: 80px; height: 80px; bottom: -20px; right: 20px; transform: rotate(-45deg); }
+
+/* SVG Butterfly Animation */
+.svg-butterfly {
+  position: absolute;
+  width: 48px; height: 48px;
+  color: var(--secondary);
+  opacity: 0.8;
+  animation: flutter 6s infinite ease-in-out;
+  pointer-events: none;
+}
+.b-1 { top: 20%; right: 10%; transform: rotate(15deg) scale(0.8); }
+.b-2 { bottom: 30%; left: 5%; animation-delay: -2s; transform: rotate(-20deg) scale(0.6); color: var(--primary); }
+
+@keyframes flutter {
+  0%, 100% { transform: translateY(0) rotate(15deg) scale(0.8); }
+  50% { transform: translateY(-15px) rotate(25deg) scale(0.8); }
 }
 
 /* ---------- Layout utilities ---------- */
@@ -140,36 +175,37 @@ h1,h2,h3,h4 {
   position: relative;
 }
 
-section { padding-block: clamp(80px, 12vw, 140px); }
+section { padding-block: clamp(80px, 12vw, 140px); position: relative; }
 
 /* Glass Card Reusable Class */
 .glass-card {
   background: var(--bg-surface);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.9);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   transition: transform var(--dur-m) var(--ease-fluid), box-shadow var(--dur-m) var(--ease-fluid);
+  position: relative;
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--primary);
   margin-bottom: 20px;
   background: white;
-  padding: 8px 16px;
+  padding: 8px 18px;
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-sm);
 }
-.eyebrow span { font-size: 16px; }
+.eyebrow svg { width: 16px; height: 16px; }
 
 .section-head {
   max-width: 680px;
@@ -199,23 +235,26 @@ section { padding-block: clamp(80px, 12vw, 140px); }
 .btn svg { width: 18px; height: 18px; transition: transform var(--dur-m) var(--ease-fluid); }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: var(--primary);
   color: white;
   box-shadow: 0 8px 24px var(--primary-glow);
 }
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(157, 116, 255, 0.4);
+  background: var(--secondary); /* Hovers to sunrise color */
+  box-shadow: 0 12px 32px rgba(212, 140, 98, 0.3);
 }
 
 .btn-ghost {
   background: var(--bg-solid);
   color: var(--ink);
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--line-soft);
 }
 .btn-ghost:hover {
   transform: translateY(-3px);
   color: var(--primary);
+  border-color: var(--primary);
   box-shadow: var(--shadow-hover);
 }
 
@@ -230,31 +269,28 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   font-size: 13px;
   padding: 8px 16px;
   border-radius: var(--radius-pill);
-  background: linear-gradient(135deg, rgba(255,107,158,0.08), rgba(157,116,255,0.08));
+  background: rgba(255,255,255,0.7);
   color: var(--ink-70);
-  border: 1px solid rgba(255,255,255,0.5);
-  box-shadow: 0 2px 8px rgba(255,107,158,0.05);
+  border: 1px solid var(--line-soft);
   transition: all 0.3s ease;
 }
 .tag:hover {
   background: white;
-  color: var(--primary);
-  border-color: var(--primary-glow);
+  color: var(--secondary);
+  border-color: var(--secondary);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 140, 98, 0.1);
 }
 
 /* ---------- Reveal-on-scroll ---------- */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(40px) scale(0.97);
+  transform: translateY(40px) scale(0.98);
   transition: opacity var(--dur-l) var(--ease-fluid), transform var(--dur-l) var(--ease-fluid);
 }
 [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0) scale(1);
-}
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1; transform: none; }
 }
 
 /* ============================================================
@@ -271,7 +307,7 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   transition: all var(--dur-m) var(--ease-fluid);
 }
 .nav.is-scrolled {
-  background: rgba(255, 245, 248, 0.85);
+  background: rgba(245, 247, 245, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255,255,255,0.6);
@@ -287,11 +323,21 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   gap: 10px;
   letter-spacing: -0.02em;
 }
-.nav-mark .dot {
-  width: 12px; height: 12px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  border-radius: 50%;
+/* Coded geometric flower for logo */
+.nav-mark .logo-flower {
+  width: 16px; height: 16px;
+  position: relative;
+  display: flex; justify-content: center; align-items: center;
 }
+.nav-mark .logo-flower::before,
+.nav-mark .logo-flower::after {
+  content: ''; position: absolute;
+  width: 100%; height: 100%;
+  background: var(--secondary);
+  border-radius: 2px 10px 2px 10px;
+  opacity: 0.8;
+}
+.nav-mark .logo-flower::after { transform: rotate(90deg); background: var(--primary); }
 
 .nav-links { display: flex; align-items: center; gap: 40px; }
 .nav-links a {
@@ -306,9 +352,8 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   content: '';
   position: absolute;
   left: 50%; bottom: -6px;
-  width: 0; height: 3px;
-  background: var(--primary);
-  border-radius: 4px;
+  width: 0; height: 2px;
+  background: var(--secondary);
   transition: width 0.3s ease, left 0.3s ease;
 }
 .nav-links a:hover,
@@ -327,18 +372,17 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   z-index: 101;
 }
 .nav-toggle span {
-  height: 3px;
+  height: 2px;
   background: var(--ink);
-  border-radius: 4px;
   transition: all var(--dur-m) var(--ease-fluid);
 }
-.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(9px) rotate(45deg); background: var(--primary); }
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); background: var(--primary); }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background: var(--primary); }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: var(--primary); }
 
 .mobile-menu {
   position: fixed; inset: 0;
-  background: rgba(255, 245, 248, 0.98);
+  background: rgba(245, 247, 245, 0.98);
   backdrop-filter: blur(20px);
   z-index: 99;
   display: flex;
@@ -375,18 +419,18 @@ section { padding-block: clamp(80px, 12vw, 140px); }
 }
 .hero-frame {
   padding: clamp(40px, 6vw, 72px) clamp(24px, 6vw, 64px);
-  position: relative;
   overflow: hidden;
 }
-/* Shimmer effect inside hero card */
-.hero-frame::before {
+
+/* Elegant Sunrise Shimmer inside Card */
+.hero-frame::after {
   content: ''; position: absolute;
   top: -50%; left: -50%; width: 200%; height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, transparent 60%);
   opacity: 0; pointer-events: none;
   transition: opacity 0.5s ease;
 }
-.hero-frame:hover::before { opacity: 1; }
+.hero-frame:hover::after { opacity: 1; }
 
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
@@ -394,16 +438,19 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   font-family: var(--font-display); font-weight: 700; font-size: 14px;
   padding: 8px 16px; border-radius: var(--radius-pill);
   box-shadow: var(--shadow-sm);
-  margin-bottom: 32px;
+  margin-bottom: 32px; border: 1px solid var(--line-soft);
 }
 
 .hero h1 {
   font-size: clamp(48px, 9vw, 110px);
-  letter-spacing: -0.03em;
-  background: linear-gradient(120deg, var(--ink) 20%, var(--primary) 80%, var(--secondary));
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.05;
+}
+.hero h1 span {
+  background: linear-gradient(120deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  line-height: 1.05;
 }
 .hero .role {
   font-family: var(--font-display);
@@ -436,15 +483,17 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   color: var(--ink-70);
   line-height: 1.8;
   position: relative;
+  border: 1px solid var(--line-soft);
 }
 .hero-meta strong { color: var(--primary); font-weight: 800; font-family: var(--font-display); font-size: 18px;}
+/* Coded Sun/Flower icon for meta card */
 .hero-meta::before {
-  content: '✦';
-  position: absolute; top: -12px; right: -12px;
-  background: var(--accent); color: white;
+  content: '';
+  position: absolute; top: -14px; right: -14px;
+  background: var(--accent);
   width: 32px; height: 32px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; box-shadow: 0 4px 10px rgba(255, 158, 125, 0.4);
+  box-shadow: 0 4px 10px rgba(227, 197, 134, 0.4);
+  border: 4px solid white;
 }
 
 @media (max-width: 860px) {
@@ -500,16 +549,14 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   box-shadow: var(--shadow-sm);
   text-align: center;
   transition: transform 0.3s ease;
+  border: 1px solid var(--line-soft);
 }
-.stat-card:hover { transform: translateY(-5px); }
+.stat-card:hover { transform: translateY(-5px); border-color: var(--secondary); }
 .stat-num {
   font-family: var(--font-display);
   font-size: clamp(36px, 5vw, 56px);
   font-weight: 800;
   color: var(--primary);
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 .stat-label {
   margin-top: 8px;
@@ -536,7 +583,7 @@ section { padding-block: clamp(80px, 12vw, 140px); }
 .project-card {
   padding: clamp(32px, 5vw, 56px);
 }
-.project-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+.project-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); border-color: rgba(255,255,255,1); }
 
 .project-top {
   display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 24px;
@@ -544,10 +591,11 @@ section { padding-block: clamp(80px, 12vw, 140px); }
 }
 .project-index {
   font-family: var(--font-display); font-weight: 800;
-  font-size: 14px; color: var(--secondary);
-  background: rgba(157, 116, 255, 0.1);
+  font-size: 13px; color: var(--primary);
+  background: rgba(58, 95, 69, 0.1);
   padding: 6px 14px; border-radius: var(--radius-pill);
   margin-bottom: 16px; display: inline-block;
+  letter-spacing: 0.05em; text-transform: uppercase;
 }
 .project-title-row h3 { font-size: clamp(28px, 4vw, 42px); color: var(--ink); }
 .project-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
@@ -562,15 +610,15 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   gap: 16px;
 }
 .project-detail {
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.7);
   padding: 24px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,1);
 }
 .project-detail .d-label {
   font-family: var(--font-display); font-weight: 800;
   font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;
-  color: var(--primary); margin-bottom: 12px; display: block;
+  color: var(--secondary); margin-bottom: 12px; display: block;
 }
 .project-detail p { font-size: 15px; color: var(--ink-70); line-height: 1.5; }
 
@@ -580,14 +628,15 @@ section { padding-block: clamp(80px, 12vw, 140px); }
 .additional-projects {
   margin-top: 64px;
   padding: clamp(32px, 5vw, 48px);
-  background: linear-gradient(135deg, rgba(255,107,158,0.1), rgba(157,116,255,0.1));
-  border: 2px dashed rgba(255, 107, 158, 0.3);
+  background: white;
+  border: 1px dashed var(--secondary);
   border-radius: var(--radius-md);
   display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
 }
 .additional-projects p { font-size: 17px; color: var(--ink-70); max-width: 64ch; }
 .additional-projects .icon {
-  font-size: 32px; background: white;
+  font-size: 24px; background: var(--bg-base); color: var(--primary);
   width: 64px; height: 64px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   box-shadow: var(--shadow-sm); flex-shrink: 0;
@@ -608,12 +657,13 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   box-shadow: var(--shadow-sm);
   position: relative;
   transition: transform 0.4s ease;
+  border: 1px solid var(--line-soft);
 }
-.process-step:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+.process-step:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: var(--secondary); }
 
 .process-num {
   font-family: var(--font-display); font-size: 20px; font-weight: 800;
-  color: white; background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white; background: var(--primary);
   width: 48px; height: 48px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 24px; box-shadow: 0 6px 16px var(--primary-glow);
@@ -623,7 +673,7 @@ section { padding-block: clamp(80px, 12vw, 140px); }
 .process-tags { display: flex; flex-direction: column; gap: 10px; }
 .process-tags span {
   font-size: 14px; font-weight: 600; color: var(--secondary);
-  background: rgba(157,116,255,0.08); padding: 8px 12px; border-radius: 8px;
+  background: rgba(212, 140, 98, 0.08); padding: 8px 12px; border-radius: 8px;
 }
 
 @media (max-width: 1024px) { .process-list { grid-template-columns: repeat(2, 1fr); } }
@@ -640,14 +690,15 @@ section { padding-block: clamp(80px, 12vw, 140px); }
 .skill-group {
   background: white; padding: 40px;
   border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+  border: 1px solid var(--line-soft);
 }
 .skill-group h3 {
   font-family: var(--font-display); font-size: 24px; color: var(--ink);
   margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
 }
 .skill-group h3::after {
-  content: ''; flex-grow: 1; height: 2px;
-  background: linear-gradient(90deg, var(--line-soft), transparent);
+  content: ''; flex-grow: 1; height: 1px;
+  background: linear-gradient(90deg, var(--line-hard), transparent);
 }
 .pill-cloud { display: flex; flex-wrap: wrap; gap: 12px; }
 
@@ -668,17 +719,17 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   box-shadow: var(--shadow-sm);
   display: flex; flex-direction: column;
   transition: transform 0.3s ease;
+  border: 1px solid var(--line-soft);
 }
 .testimonial-card:hover { transform: translateY(-6px); }
 .testimonial-mark {
   font-family: var(--font-display); font-size: 64px; line-height: 1;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  color: var(--accent);
   margin-bottom: 16px;
 }
 .testimonial-card p { font-size: 16px; color: var(--ink-70); line-height: 1.7; flex-grow: 1; font-style: italic; }
 .testimonial-role {
-  margin-top: 32px; font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--secondary);
+  margin-top: 32px; font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--primary);
 }
 
 @media (max-width: 1024px) { .testimonial-grid { grid-template-columns: 1fr; } }
@@ -697,8 +748,9 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   transition: all 0.3s ease;
+  border: 1px solid var(--line-soft);
 }
-.why-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+.why-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: var(--secondary); }
 .why-num {
   font-family: var(--font-display); font-size: 18px; font-weight: 800;
   color: var(--primary); margin-bottom: 16px;
@@ -710,28 +762,27 @@ section { padding-block: clamp(80px, 12vw, 140px); }
 @media (max-width: 560px) { .why-grid { grid-template-columns: 1fr; } }
 
 /* ============================================================
-   CONTACT
+   CONTACT (Deep Forest Theme)
    ============================================================ */
 .contact {
-  background: linear-gradient(135deg, #371C35, #1A0D19);
+  background: var(--ink);
   color: white;
   border-radius: var(--radius-lg);
   margin-inline: var(--gutter);
   padding: clamp(64px, 10vw, 120px) clamp(32px, 6vw, 80px);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 32px 64px -16px rgba(42, 17, 36, 0.4);
+  box-shadow: 0 32px 64px -16px rgba(27, 38, 32, 0.4);
 }
-/* Shimmering stars in background */
-.contact::before, .contact::after {
-  content: ''; position: absolute; border-radius: 50%; filter: blur(60px); z-index: 0;
+/* Abstract sunrise overlay on dark */
+.contact::before {
+  content: ''; position: absolute; border-radius: 50%; filter: blur(80px); z-index: 0;
+  top: -20%; right: -10%; width: 500px; height: 500px; background: rgba(212, 140, 98, 0.2);
 }
-.contact::before { top: -20%; right: -10%; width: 400px; height: 400px; background: rgba(255, 107, 158, 0.4); }
-.contact::after { bottom: -20%; left: -10%; width: 300px; height: 300px; background: rgba(157, 116, 255, 0.4); }
 
 .contact-top { position: relative; z-index: 1; }
-.contact h2 { font-size: clamp(36px, 6vw, 64px); max-width: 16ch; line-height: 1.1; }
-.contact-intro { font-size: 18px; color: rgba(255,255,255,0.8); max-width: 50ch; margin-top: 24px; }
+.contact h2 { font-size: clamp(36px, 6vw, 64px); max-width: 16ch; line-height: 1.1; color: white; }
+.contact-intro { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 50ch; margin-top: 24px; }
 .contact-cta { margin-top: 40px; }
 
 .contact-links {
@@ -740,23 +791,23 @@ section { padding-block: clamp(80px, 12vw, 140px); }
   display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;
 }
 .contact-link {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.1);
   padding: 24px; border-radius: var(--radius-md);
   display: flex; flex-direction: column; gap: 12px;
   transition: all 0.3s ease; backdrop-filter: blur(10px);
 }
 .contact-link:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: var(--primary);
+  background: rgba(255,255,255,0.08);
+  border-color: var(--accent);
   transform: translateY(-5px);
 }
 .contact-link .cl-label {
   display: flex; align-items: center; gap: 12px;
-  font-family: var(--font-display); font-size: 20px; font-weight: 700;
+  font-family: var(--font-display); font-size: 20px; font-weight: 700; color: white;
 }
-.contact-link .cl-label svg { width: 24px; height: 24px; color: var(--primary); }
-.contact-link .cl-value { font-size: 15px; color: rgba(255,255,255,0.6); }
+.contact-link .cl-label svg { width: 24px; height: 24px; color: var(--accent); }
+.contact-link .cl-value { font-size: 15px; color: rgba(255,255,255,0.5); }
 
 /* ============================================================
    FOOTER
@@ -765,18 +816,18 @@ footer {
   padding: 48px var(--gutter);
   display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
 }
-.footer-name { font-size: 15px; color: var(--ink-70); font-weight: 600; }
+.footer-name { font-size: 15px; color: var(--ink-70); font-weight: 600; display: flex; align-items: center; gap: 8px;}
 .footer-name strong { color: var(--ink); font-family: var(--font-display); font-weight: 800; }
 .back-to-top {
   font-size: 15px; font-weight: 700; color: var(--primary);
   display: flex; align-items: center; gap: 8px;
   background: white; padding: 12px 24px; border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm); border: 1px solid var(--line-soft);
   opacity: 0; visibility: hidden; transform: translateY(10px);
   transition: all var(--dur-m) var(--ease-fluid);
 }
 .back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
-.back-to-top:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.back-to-top:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--primary); }
 
 </style>
 </head>
@@ -784,8 +835,8 @@ footer {
 
 <a href="#main" class="skip-link">Skip to content</a>
 
-<!-- Fluid background blobs -->
-<div class="bg-orbs" aria-hidden="true">
+<!-- Coded Background Environment: Sunrise & Mist -->
+<div class="bg-environment" aria-hidden="true">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
@@ -795,7 +846,10 @@ footer {
      NAV
      ============================================================ -->
 <header class="nav" id="siteNav">
-  <a href="#main" class="nav-mark"><span class="dot"></span>Sona Girish</a>
+  <a href="#main" class="nav-mark">
+    <div class="logo-flower"></div>
+    Sona Girish
+  </a>
 
   <nav class="nav-links" aria-label="Primary">
     <a href="#about">About</a>
@@ -806,7 +860,7 @@ footer {
   </nav>
 
   <div class="nav-right">
-    <a href="#contact" class="btn btn-ghost">Let's Chat ✨</a>
+    <a href="#contact" class="btn btn-ghost">Let's Connect</a>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
       <span></span><span></span><span></span>
     </button>
@@ -819,7 +873,7 @@ footer {
   <a href="#process">Process</a>
   <a href="#skills">Skills</a>
   <a href="#contact">Contact</a>
-  <a href="#contact" class="btn btn-primary">Let's Chat ✨</a>
+  <a href="#contact" class="btn btn-primary">Let's Connect</a>
 </div>
 
 <main id="main">
@@ -829,30 +883,42 @@ footer {
      ============================================================ -->
 <section class="hero">
   <div class="container">
+    
+    <!-- Coded Animated SVGs & CSS Leaves -->
+    <svg class="svg-butterfly b-1" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12,2C10.5,4 8,5 5,5C5,8 6,10.5 8,12C6,13.5 5,16 5,19C8,19 10.5,18 12,16C13.5,18 16,19 19,19C19,16 18,13.5 16,12C18,10.5 19,8 19,5C16,5 13.5,4 12,2Z"/>
+    </svg>
+    <svg class="svg-butterfly b-2" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12,2C10.5,4 8,5 5,5C5,8 6,10.5 8,12C6,13.5 5,16 5,19C8,19 10.5,18 12,16C13.5,18 16,19 19,19C19,16 18,13.5 16,12C18,10.5 19,8 19,5C16,5 13.5,4 12,2Z"/>
+    </svg>
+
     <div class="hero-frame glass-card" data-reveal>
       
+      <div class="css-leaf leaf-1"></div>
+      <div class="css-leaf leaf-2"></div>
+
       <div class="hero-badge">
-        <span>✨</span> Welcome to my portfolio
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5a4.5 4.5 0 0 0-4.5 4.5v1.5H6a4.5 4.5 0 0 0 0 9h12a4.5 4.5 0 0 0 0-9h-1.5V7a4.5 4.5 0 0 0-4.5-4.5z"></path></svg>
+        Designing Systems & Experiences
       </div>
 
-      <h1>Sona Girish</h1>
-      <p class="role">Product Designer</p>
-
+      <h1>Sona Girish <br><span>Product Designer</span></h1>
+      
       <div class="hero-grid">
         <div class="hero-intro">
-          <p>I design beautiful, intuitive digital products from the first research conversation to a system that actually ships. Over 5+ years, I've crafted enterprise platforms, AI-powered tools, and consumer fintech apps that users truly love.</p>
+          <p>I design beautiful, intuitive digital products from the first research conversation to a system that actually ships. Over 5+ years, I've crafted enterprise platforms, AI-powered tools, and seamless fintech apps.</p>
           <div class="hero-cta">
             <a href="#work" class="btn btn-primary">
-              View My Work
+              View Selected Work
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
             </a>
-            <a href="#contact" class="btn btn-ghost">Say Hello</a>
+            <a href="#contact" class="btn btn-ghost">Get in Touch</a>
           </div>
         </div>
         <div class="hero-meta">
           <strong>5+ years</strong> designing products<br>
           Assistant Manager &mdash; UI/UX<br>
-          Based in Bangalore, India 🌸
+          Based in Bangalore, India
         </div>
       </div>
     </div>
@@ -865,12 +931,12 @@ footer {
 <section id="about">
   <div class="container about-grid">
     <div class="about-lede" data-reveal>
-      <p>Good design isn't just beautiful — it <span>solves meaningful problems</span>, simplifies complexity, and creates real business value.</p>
+      <p>Good design isn't just beautiful — it <span>cultivates clarity</span>, simplifies complexity, and allows real business value to grow.</p>
     </div>
     <div class="about-body" data-reveal>
       <p>Since 2021, I've worked at the intersection of business strategy and user experience — first finding my footing in product design, and now leading UI/UX efforts as an <strong>Assistant Manager at EY GDS.</strong></p>
-      <p>My work spans the full product lifecycle: research, interaction design, product strategy, wireframing, prototyping, beautiful UI, accessibility, and everything in between. I love taking something genuinely complicated — a financial workflow, an enterprise dashboard, an AI tool — and making it feel <strong>effortless and delightful.</strong></p>
-      <p>I believe in design that is user-centered by default and perfected through warm collaboration. I see developer handoff as part of the creative journey — because a product isn't truly designed until it's beautifully built.</p>
+      <p>My work spans the full product lifecycle: research, interaction design, product strategy, wireframing, prototyping, structured UI, accessibility, and everything in between. I thrive on taking something genuinely complicated — a financial workflow, an enterprise dashboard, an AI tool — and making it feel <strong>natural and effortless.</strong></p>
+      <p>I believe in design that is user-centered by default and perfected through strong collaboration. I see developer handoff as part of the creative journey — because a product isn't truly designed until it's robustly built.</p>
     </div>
   </div>
 </section>
@@ -883,7 +949,7 @@ footer {
     <div class="stats-grid" data-reveal>
       <div class="stat-card">
         <div class="stat-num"><span class="js-counter" data-target="5" data-suffix="+">0</span></div>
-        <div class="stat-label">Years of Magic</div>
+        <div class="stat-label">Years of Experience</div>
       </div>
       <div class="stat-card">
         <div class="stat-num"><span class="js-counter" data-target="15" data-suffix="+">0</span></div>
@@ -891,7 +957,7 @@ footer {
       </div>
       <div class="stat-card">
         <div class="stat-num"><span class="js-counter" data-target="95" data-suffix="%+">0</span></div>
-        <div class="stat-label">Happy Clients</div>
+        <div class="stat-label">Client Satisfaction</div>
       </div>
       <div class="stat-card">
         <div class="stat-num"><span class="js-counter" data-target="10" data-suffix="+">0</span></div>
@@ -913,9 +979,12 @@ footer {
 <section id="work">
   <div class="container">
     <div class="section-head" data-reveal>
-      <div class="eyebrow"><span>✨</span> Selected Work</div>
-      <h2>Six products, beautifully simplified.</h2>
-      <p>From dense enterprise dashboards to seamless consumer fintech — explore how I turn complex problems into gorgeous interfaces.</p>
+      <div class="eyebrow">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9 9l-7 3 7 3 3 7 3-7 7-3-7-3z"/></svg>
+        Selected Work
+      </div>
+      <h2>Six products, elegantly structured.</h2>
+      <p>From dense enterprise dashboards to seamless consumer fintech — explore how I turn complex problems into highly functional interfaces.</p>
     </div>
 
     <div class="projects-list">
@@ -943,7 +1012,7 @@ footer {
           </div>
           <div class="project-detail">
             <span class="d-label">Approach</span>
-            <p>Restructured the architecture around how teams actually think, designing a gorgeous dashboard built for dense data.</p>
+            <p>Restructured the architecture around how teams actually think, designing a clean dashboard built for dense data.</p>
           </div>
           <div class="project-detail">
             <span class="d-label">Outcome</span>
@@ -982,7 +1051,7 @@ footer {
           </div>
           <div class="project-detail">
             <span class="d-label">Outcome</span>
-            <p>A beautiful, consistent design system that let the team design and build faster, with zero duplicated effort.</p>
+            <p>A consistent design system that let the team design and build faster, with minimal duplicated effort.</p>
           </div>
           <div class="project-detail">
             <span class="d-label">Impact</span>
@@ -991,7 +1060,7 @@ footer {
         </div>
       </article>
 
-      <!-- Add remaining projects exactly like above... -->
+      <!-- Project 3 -->
       <article class="project-card glass-card" data-reveal>
         <div class="project-top">
           <div>
@@ -1005,7 +1074,7 @@ footer {
             </div>
           </div>
         </div>
-        <p class="project-overview">Interface design for Spark AI, a stunning platform built around AI-assisted workflows and prompt-based interactions.</p>
+        <p class="project-overview">Interface design for Spark AI, a platform built around AI-assisted workflows and prompt-based interactions.</p>
         <div class="project-detail-grid">
           <div class="project-detail">
             <span class="d-label">Problem</span>
@@ -1013,7 +1082,7 @@ footer {
           </div>
           <div class="project-detail">
             <span class="d-label">Approach</span>
-            <p>Designed the experience around clarity, transparency, and warmth, giving users control over AI generated results.</p>
+            <p>Designed the experience around clarity, transparency, and structure, giving users control over AI generated results.</p>
           </div>
           <div class="project-detail">
             <span class="d-label">Outcome</span>
@@ -1029,8 +1098,10 @@ footer {
     </div>
 
     <div class="additional-projects" data-reveal>
-      <div class="icon">🌸</div>
-      <p>Alongside these, I've worked on a range of enterprise products across FinTech, enterprise software, and productivity apps — proving that beautiful design can live anywhere.</p>
+      <div class="icon">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      </div>
+      <p>Alongside these, I've worked on a range of enterprise products across FinTech, enterprise software, and productivity apps — ensuring that high-level functionality always meets polished design.</p>
     </div>
   </div>
 </section>
@@ -1041,8 +1112,11 @@ footer {
 <section id="process">
   <div class="container">
     <div class="section-head" data-reveal>
-      <div class="eyebrow"><span>💡</span> How I Work</div>
-      <h2>Finding the right problem, crafting the perfect screen.</h2>
+      <div class="eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Methodology
+      </div>
+      <h2>Finding the right problem, drafting the exact solution.</h2>
     </div>
 
     <div class="process-list" data-reveal>
@@ -1059,7 +1133,7 @@ footer {
       <div class="process-step">
         <div class="process-num">2</div>
         <h3>Ideation</h3>
-        <p>Turning deep research into a beautiful product direction the team loves.</p>
+        <p>Turning deep research into a scalable product direction the team aligns with.</p>
         <div class="process-tags">
           <span>Wireframing</span>
           <span>User Flows</span>
@@ -1069,7 +1143,7 @@ footer {
       <div class="process-step">
         <div class="process-num">3</div>
         <h3>Design</h3>
-        <p>Crafting polished, gorgeous UI that scales effortlessly.</p>
+        <p>Crafting polished, systemic UI that scales effortlessly across platforms.</p>
         <div class="process-tags">
           <span>UI Design</span>
           <span>Prototyping</span>
@@ -1079,7 +1153,7 @@ footer {
       <div class="process-step">
         <div class="process-num">4</div>
         <h3>Launch</h3>
-        <p>Getting it out the door and supporting the team through the build.</p>
+        <p>Getting it out the door and meticulously supporting the team through the build.</p>
         <div class="process-tags">
           <span>Handoff</span>
           <span>QA Support</span>
@@ -1096,8 +1170,11 @@ footer {
 <section id="skills">
   <div class="container">
     <div class="section-head" data-reveal>
-      <div class="eyebrow"><span>🎨</span> Skills & Tools</div>
-      <h2>The craft, and my favorite tools.</h2>
+      <div class="eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        Toolkit
+      </div>
+      <h2>The craft, and the instruments.</h2>
     </div>
 
     <div class="skills-grid" data-reveal>
@@ -1114,7 +1191,7 @@ footer {
         </div>
       </div>
       <div class="skill-group">
-        <h3>Software</h3>
+        <h3>Software & Platforms</h3>
         <div class="pill-cloud">
           <span class="tag">Figma</span>
           <span class="tag">Adobe Creative Suite</span>
@@ -1132,8 +1209,11 @@ footer {
 <section id="testimonials">
   <div class="container">
     <div class="section-head" data-reveal>
-      <div class="eyebrow"><span>💬</span> Kind Words</div>
-      <h2>Feedback from people I love working with.</h2>
+      <div class="eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Collaborators
+      </div>
+      <h2>Feedback from professional peers.</h2>
     </div>
 
     <div class="testimonial-grid" data-reveal>
@@ -1144,12 +1224,12 @@ footer {
       </div>
       <div class="testimonial-card">
         <div class="testimonial-mark">&ldquo;</div>
-        <p>Handoffs with Sona are a dream. The specs are clear, edge cases thought through, and she collaborates warmly instead of disappearing when designs are done.</p>
+        <p>Handoffs with Sona are a dream. The specs are clear, edge cases thought through, and she collaborates closely instead of disappearing when designs are done.</p>
         <div class="testimonial-role">Engineering Lead</div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-mark">&ldquo;</div>
-        <p>She consistently balances user needs with business goals. She brings a brilliant point of view and backs it up with design that holds up under scrutiny.</p>
+        <p>She consistently balances user needs with business goals. She brings a brilliant point of view and backs it up with design that holds up under professional scrutiny.</p>
         <div class="testimonial-role">Design Manager</div>
       </div>
     </div>
@@ -1162,7 +1242,10 @@ footer {
 <section id="why">
   <div class="container">
     <div class="section-head" data-reveal>
-      <div class="eyebrow"><span>🌟</span> Why Me?</div>
+      <div class="eyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        The Advantage
+      </div>
       <h2>What I bring to the table.</h2>
     </div>
 
@@ -1179,13 +1262,13 @@ footer {
       </div>
       <div class="why-card">
         <div class="why-num">03</div>
-        <h3>Warm Comm.</h3>
+        <h3>Clear Comm.</h3>
         <p>I explain my design choices clearly to developers, PMs, and stakeholders.</p>
       </div>
       <div class="why-card">
         <div class="why-num">04</div>
-        <h3>Team Player</h3>
-        <p>I love keeping product, engineering, and business teams aligned and happy.</p>
+        <h3>Team Alignment</h3>
+        <p>I love keeping product, engineering, and business teams aligned and moving forward.</p>
       </div>
     </div>
   </div>
@@ -1199,11 +1282,12 @@ footer {
     <div class="contact" data-reveal>
       <div class="contact-top">
         <div>
-          <h2>Let's create something beautiful.</h2>
-          <p class="contact-intro">I'm always open to talking about new products, collaborations, or just chatting about design. If you need a designer who cares deeply about aesthetics and functionality, let's talk!</p>
+          <h2>Let's build systems that grow.</h2>
+          <p class="contact-intro">I'm always open to talking about new products, enterprise solutions, or just discussing design logic. If you need a designer who deeply balances logic with aesthetics, let's connect.</p>
           <div class="contact-cta">
             <a href="mailto:sonagireeshpv@gmail.com" class="btn btn-primary" style="background: white; color: var(--ink);">
-              Send an Email 💌
+              Send an Email
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </a>
           </div>
         </div>
@@ -1242,9 +1326,12 @@ footer {
      FOOTER
      ============================================================ -->
 <footer>
-  <div class="footer-name"><strong>Sona Girish</strong> &mdash; Crafted with 💖 &copy; 2026</div>
+  <div class="footer-name">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    <strong>Sona Girish</strong> &mdash; 2026
+  </div>
   <a href="#main" class="back-to-top" id="backToTop">
-    Top
+    Return to Top
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
   </a>
 </footer>
@@ -1303,7 +1390,7 @@ footer {
     sections.forEach(function(s){ spy.observe(s); });
   }
 
-  /* ---------- Creamy Scroll reveal ---------- */
+  /* ---------- Smooth Scroll reveal ---------- */
   var revealEls = document.querySelectorAll('[data-reveal]');
   if ('IntersectionObserver' in window && !reduceMotion){
     var revealer = new IntersectionObserver(function(entries){
@@ -1335,7 +1422,6 @@ footer {
     function step(ts){
       if (!startTime) startTime = ts;
       var progress = Math.min((ts - startTime) / duration, 1);
-      // Ease out quartic for super smooth finish
       var eased = 1 - Math.pow(1 - progress, 4); 
       var current = Math.round(eased * target);
       el.textContent = current + suffix;
@@ -1362,7 +1448,6 @@ footer {
         var rect = btn.getBoundingClientRect();
         var x = e.clientX - rect.left - rect.width / 2;
         var y = e.clientY - rect.top - rect.height / 2;
-        // Reduced multiplier for a softer, more elegant pull
         btn.style.transform = 'translate(' + (x * 0.1) + 'px,' + (y * 0.15) + 'px)';
       });
       btn.addEventListener('mouseleave', function(){
