@@ -57,6 +57,16 @@
     outline: none;
   }
 
+  /* Disable custom cursor on mobile/touch devices */
+  @media (pointer: coarse) {
+    .cursor-dot, .cursor-outline {
+      display: none !important;
+    }
+    * {
+      cursor: auto !important;
+    }
+  }
+
   /* =========================================
      MAGICAL BACKGROUND LAYER (Canvas & Aura)
      ========================================= */
@@ -147,10 +157,12 @@
     justify-content: center;
     align-items: center;
     padding: 4vw;
-    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s;
   }
   #loader.hide {
-    transform: translateY(-100%);
+    transform: translateY(-100vh);
+    opacity: 0;
+    pointer-events: none; /* Prevents stuck clicks */
   }
   .loader-counter {
     font-family: var(--font-head);
@@ -394,13 +406,12 @@
     box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.1);
     transform-origin: center;
     transition: transform 0.1s ease-out, box-shadow 0.3s;
-    transform-style: preserve-3d; /* Keeps children in 3d space */
+    transform-style: preserve-3d;
   }
   .project-card.c-1 { top: 15vh; background: rgba(15, 15, 18, 0.8); }
   .project-card.c-2 { top: 18vh; background: rgba(20, 20, 23, 0.8); }
   .project-card.c-3 { top: 21vh; background: rgba(25, 25, 28, 0.8); }
   
-  /* Lift up child elements to pop out during tilt */
   .project-card > * {
     transform: translateZ(40px); 
   }
@@ -785,13 +796,13 @@
 
   <!-- Scripts -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      
+    // Bulletproof Init Wrapper - Solves issues with previewers firing DOMContentLoaded early
+    function initPortfolioApp() {
       // =========================================
       // 1. GLOBAL MOUSE TRACKING (For Aura, Cursor, etc)
       // =========================================
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
+      let mouseX = window.innerWidth / 2 || 0;
+      let mouseY = window.innerHeight / 2 || 0;
       let targetAuraX = mouseX;
       let targetAuraY = mouseY;
       
@@ -804,26 +815,29 @@
         mouseY = e.clientY;
 
         // Instant cursor update
-        cursorDot.style.left = `${mouseX}px`;
-        cursorDot.style.top = `${mouseY}px`;
+        if (cursorDot) {
+          cursorDot.style.left = `${mouseX}px`;
+          cursorDot.style.top = `${mouseY}px`;
+        }
 
         // Smooth follow for cursor outline
-        cursorOutline.animate({
-          left: `${mouseX}px`,
-          top: `${mouseY}px`
-        }, { duration: 400, fill: "forwards" });
+        if (cursorOutline) {
+          cursorOutline.animate({
+            left: `${mouseX}px`,
+            top: `${mouseY}px`
+          }, { duration: 400, fill: "forwards" });
+        }
       });
 
       // Ambient Aura LERP Loop (Smooth trailing background glow)
       function animateAura() {
-        // Interpolation (Math): Moves current position 5% towards target position every frame
+        if (!aura) return;
         targetAuraX += (mouseX - targetAuraX) * 0.05;
         targetAuraY += (mouseY - targetAuraY) * 0.05;
         
         aura.style.transform = `translate(calc(-50% + ${targetAuraX}px), calc(-50% + ${targetAuraY}px))`;
         
-        // Slightly change aura color based on horizontal position
-        const hueShift = (targetAuraX / window.innerWidth) * 60; 
+        const hueShift = (targetAuraX / (window.innerWidth || 1)) * 60; 
         aura.style.filter = `blur(80px) hue-rotate(${hueShift}deg)`;
 
         requestAnimationFrame(animateAura);
@@ -834,93 +848,91 @@
       // 2. CANVAS STARDUST PARTICLE SYSTEM
       // =========================================
       const canvas = document.getElementById('stardust-canvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
-
-      class Particle {
-        constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.size = Math.random() * 2;
-          this.speedY = Math.random() * -0.5 - 0.1; // Float up
-          this.speedX = (Math.random() - 0.5) * 0.3; // Drift left/right
-          this.opacity = Math.random() * 0.5 + 0.1;
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resizeCanvas() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
         }
-        update() {
-          this.x += this.speedX;
-          this.y += this.speedY;
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-          // Mouse Repel Physics
-          const dx = mouseX - this.x;
-          const dy = mouseY - this.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 100) {
-            this.x -= dx * 0.01;
-            this.y -= dy * 0.01;
-            this.opacity = 0.8; // Glow when touched
-          }
-
-          // Reset if offscreen
-          if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
-            this.y = canvas.height;
+        class Particle {
+          constructor() {
             this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2;
+            this.speedY = Math.random() * -0.5 - 0.1; 
+            this.speedX = (Math.random() - 0.5) * 0.3; 
             this.opacity = Math.random() * 0.5 + 0.1;
           }
-        }
-        draw() {
-          ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
+          update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
 
-      function initParticles() {
-        particles = [];
-        for (let i = 0; i < 80; i++) {
-          particles.push(new Particle());
-        }
-      }
-      initParticles();
+            // Mouse Repel Physics
+            const dx = mouseX - this.x;
+            const dy = mouseY - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 100) {
+              this.x -= dx * 0.01;
+              this.y -= dy * 0.01;
+              this.opacity = 0.8; 
+            }
 
-      function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-          p.update();
-          p.draw();
-        });
-        requestAnimationFrame(animateParticles);
+            // Reset if offscreen
+            if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+              this.y = canvas.height;
+              this.x = Math.random() * canvas.width;
+              this.opacity = Math.random() * 0.5 + 0.1;
+            }
+          }
+          draw() {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        function initParticles() {
+          particles = [];
+          for (let i = 0; i < 80; i++) {
+            particles.push(new Particle());
+          }
+        }
+        initParticles();
+
+        function animateParticles() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach(p => {
+            p.update();
+            p.draw();
+          });
+          requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
       }
-      animateParticles();
 
       // =========================================
       // 3. 3D CARD TILT EFFECT
       // =========================================
       const cards3d = document.querySelectorAll('.3d-card');
-      
       cards3d.forEach(card => {
         card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
-          // Calculate mouse position relative to card center
           const x = e.clientX - rect.left - rect.width / 2;
           const y = e.clientY - rect.top - rect.height / 2;
           
-          // Calculate rotation (dampened by dividing)
-          const rotateX = (y / rect.height) * -15; // Max 15 deg tilt
+          const rotateX = (y / rect.height) * -15; 
           const rotateY = (x / rect.width) * 15;
           
           card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
         });
 
         card.addEventListener('mouseleave', () => {
-          // Reset card position smoothly
           card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         });
       });
@@ -936,9 +948,10 @@
         target.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
       });
 
-      // Massive Invert bubble for Hero Name
-      nameHoverTarget.addEventListener("mouseenter", () => document.body.classList.add("hovering-name"));
-      nameHoverTarget.addEventListener("mouseleave", () => document.body.classList.remove("hovering-name"));
+      if (nameHoverTarget) {
+        nameHoverTarget.addEventListener("mouseenter", () => document.body.classList.add("hovering-name"));
+        nameHoverTarget.addEventListener("mouseleave", () => document.body.classList.remove("hovering-name"));
+      }
 
       // =========================================
       // 5. CENTERED LOADER & ENTRANCE ANIMATION
@@ -948,26 +961,32 @@
       const loader = document.getElementById("loader");
       const heroName = document.getElementById("hero-name");
 
-      const updateCounter = setInterval(() => {
-        count += Math.floor(Math.random() * 5) + 1;
-        if (count >= 100) {
-          count = 100;
-          clearInterval(updateCounter);
-          counterElement.innerText = count + "%";
-          
+      function endLoader() {
+        if (loader && !loader.classList.contains("hide")) {
+          loader.classList.add("hide");
+          document.body.classList.remove("loading");
           setTimeout(() => {
-            loader.classList.add("hide");
-            document.body.classList.remove("loading");
-            
-            // Trigger Name Reveal Animation
-            setTimeout(() => {
-              heroName.classList.add("animate");
-            }, 500);
-          }, 800);
-        } else {
-          counterElement.innerText = count + "%";
+            if (heroName) heroName.classList.add("animate");
+          }, 500);
         }
-      }, 30);
+      }
+
+      if (counterElement && loader) {
+        const updateCounter = setInterval(() => {
+          count += Math.floor(Math.random() * 5) + 1;
+          if (count >= 100) {
+            count = 100;
+            clearInterval(updateCounter);
+            counterElement.innerText = count + "%";
+            setTimeout(endLoader, 500);
+          } else {
+            counterElement.innerText = count + "%";
+          }
+        }, 30);
+      }
+
+      // Fallback in case interval gets stuck
+      setTimeout(endLoader, 4000);
 
       const chars = document.querySelectorAll('.char');
       chars.forEach((char, index) => {
@@ -978,34 +997,40 @@
       // 6. SCROLL REVEAL (Intersection Observer)
       // =========================================
       const reveals = document.querySelectorAll(".reveal");
-      const revealOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-      };
+      if (window.IntersectionObserver) {
+        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("active");
+            observer.unobserve(entry.target); 
+          });
+        }, revealOptions);
 
-      const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("active");
-          observer.unobserve(entry.target); // Stop observing once revealed
-        });
-      }, revealOptions);
-
-      reveals.forEach(reveal => {
-        revealOnScroll.observe(reveal);
-      });
+        reveals.forEach(reveal => revealOnScroll.observe(reveal));
+      } else {
+        // Fallback for older browsers
+        reveals.forEach(reveal => reveal.classList.add("active"));
+      }
 
       // Smooth Scrolling for Anchor Links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-          });
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
         });
       });
+    }
 
-    });
+    // Run the app reliably, regardless of when the script is injected
+    if (document.readyState === 'loading') {
+      document.addEventListener("DOMContentLoaded", initPortfolioApp);
+    } else {
+      initPortfolioApp();
+    }
   </script>
 </body>
 </html>
