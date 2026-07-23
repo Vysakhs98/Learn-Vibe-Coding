@@ -13,11 +13,11 @@
      CSS VARIABLES & RESET
      ========================================= */
   :root {
-    --bg: #050505; /* Deepest black/gray */
+    --bg: #050505;
     --fg: #ffffff;
-    --accent-1: #c084fc; /* Neon Purple */
-    --accent-2: #2dd4bf; /* Teal */
-    --accent-3: #f43f5e; /* Rose */
+    --accent-1: #c084fc; 
+    --accent-2: #2dd4bf; 
+    --accent-3: #f43f5e; 
     
     --font-head: 'Syne', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
@@ -27,7 +27,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor: none; /* Hide default cursor */
+    cursor: none; 
   }
 
   body {
@@ -57,7 +57,6 @@
     outline: none;
   }
 
-  /* Disable custom cursor on mobile/touch devices */
   @media (pointer: coarse) {
     .cursor-dot, .cursor-outline {
       display: none !important;
@@ -68,7 +67,7 @@
   }
 
   /* =========================================
-     MAGICAL BACKGROUND LAYER (Canvas & Aura)
+     MAGICAL BACKGROUND LAYER
      ========================================= */
   #stardust-canvas {
     position: fixed;
@@ -162,7 +161,7 @@
   #loader.hide {
     transform: translateY(-100vh);
     opacity: 0;
-    pointer-events: none; /* Prevents stuck clicks */
+    pointer-events: none; 
   }
   .loader-counter {
     font-family: var(--font-head);
@@ -390,7 +389,7 @@
     position: sticky;
     top: 15vh;
     height: 70vh;
-    perspective: 1500px; /* Crucial for 3D tilt */
+    perspective: 1500px; 
   }
   .project-card {
     width: 100%;
@@ -601,11 +600,11 @@
     .p-num, .p-title, .p-desc { width: 100%; transform: none; }
     .cards-container { gap: 2rem; }
     .card-wrapper { position: relative; height: auto; top: 0; }
-    #ambient-aura { display: none; } /* Disable aura on mobile for perf */
+    #ambient-aura { display: none; } 
   }
 </style>
 </head>
-<body class="loading">
+<body>
 
   <!-- Magical Background Elements -->
   <canvas id="stardust-canvas"></canvas>
@@ -639,7 +638,6 @@
     <div class="hero-name-container" id="hero-name-trigger">
       <h1 class="hero-name" id="hero-name">
         <span class="name-word">
-          <!-- Characters populated by JS -->
           <span class="char">S</span><span class="char">O</span><span class="char">N</span><span class="char">A</span>
         </span>
         <span class="name-word">
@@ -794,243 +792,233 @@
     </div>
   </section>
 
-  <!-- Scripts -->
+  <!-- SCRIPTS - Restructured to guarantee loader executes immediately -->
   <script>
-    // Bulletproof Init Wrapper - Solves issues with previewers firing DOMContentLoaded early
-    function initPortfolioApp() {
-      // =========================================
-      // 1. GLOBAL MOUSE TRACKING (For Aura, Cursor, etc)
-      // =========================================
-      let mouseX = window.innerWidth / 2 || 0;
-      let mouseY = window.innerHeight / 2 || 0;
-      let targetAuraX = mouseX;
-      let targetAuraY = mouseY;
-      
-      const cursorDot = document.getElementById("cursor-dot");
-      const cursorOutline = document.getElementById("cursor-outline");
-      const aura = document.getElementById("ambient-aura");
-
-      window.addEventListener("mousemove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-
-        // Instant cursor update
-        if (cursorDot) {
-          cursorDot.style.left = `${mouseX}px`;
-          cursorDot.style.top = `${mouseY}px`;
-        }
-
-        // Smooth follow for cursor outline
-        if (cursorOutline) {
-          cursorOutline.animate({
-            left: `${mouseX}px`,
-            top: `${mouseY}px`
-          }, { duration: 400, fill: "forwards" });
-        }
-      });
-
-      // Ambient Aura LERP Loop (Smooth trailing background glow)
-      function animateAura() {
-        if (!aura) return;
-        targetAuraX += (mouseX - targetAuraX) * 0.05;
-        targetAuraY += (mouseY - targetAuraY) * 0.05;
-        
-        aura.style.transform = `translate(calc(-50% + ${targetAuraX}px), calc(-50% + ${targetAuraY}px))`;
-        
-        const hueShift = (targetAuraX / (window.innerWidth || 1)) * 60; 
-        aura.style.filter = `blur(80px) hue-rotate(${hueShift}deg)`;
-
-        requestAnimationFrame(animateAura);
-      }
-      animateAura();
-
-      // =========================================
-      // 2. CANVAS STARDUST PARTICLE SYSTEM
-      // =========================================
-      const canvas = document.getElementById('stardust-canvas');
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        
-        function resizeCanvas() {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-          constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2;
-            this.speedY = Math.random() * -0.5 - 0.1; 
-            this.speedX = (Math.random() - 0.5) * 0.3; 
-            this.opacity = Math.random() * 0.5 + 0.1;
-          }
-          update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-
-            // Mouse Repel Physics
-            const dx = mouseX - this.x;
-            const dy = mouseY - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < 100) {
-              this.x -= dx * 0.01;
-              this.y -= dy * 0.01;
-              this.opacity = 0.8; 
-            }
-
-            // Reset if offscreen
-            if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
-              this.y = canvas.height;
-              this.x = Math.random() * canvas.width;
-              this.opacity = Math.random() * 0.5 + 0.1;
-            }
-          }
-          draw() {
-            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-
-        function initParticles() {
-          particles = [];
-          for (let i = 0; i < 80; i++) {
-            particles.push(new Particle());
-          }
-        }
-        initParticles();
-
-        function animateParticles() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          particles.forEach(p => {
-            p.update();
-            p.draw();
-          });
-          requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-      }
-
-      // =========================================
-      // 3. 3D CARD TILT EFFECT
-      // =========================================
-      const cards3d = document.querySelectorAll('.3d-card');
-      cards3d.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          
-          const rotateX = (y / rect.height) * -15; 
-          const rotateY = (x / rect.width) * 15;
-          
-          card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-        });
-      });
-
-      // =========================================
-      // 4. CURSOR HOVER STATES & INVERT BUBBLE
-      // =========================================
-      const hoverTargets = document.querySelectorAll("a, button, .hover-target");
-      const nameHoverTarget = document.getElementById("hero-name-trigger");
-
-      hoverTargets.forEach(target => {
-        target.addEventListener("mouseenter", () => document.body.classList.add("hovering"));
-        target.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
-      });
-
-      if (nameHoverTarget) {
-        nameHoverTarget.addEventListener("mouseenter", () => document.body.classList.add("hovering-name"));
-        nameHoverTarget.addEventListener("mouseleave", () => document.body.classList.remove("hovering-name"));
-      }
-
-      // =========================================
-      // 5. CENTERED LOADER & ENTRANCE ANIMATION
-      // =========================================
-      let count = 0;
-      const counterElement = document.getElementById("counter");
+    // 1. ISOLATED LOADER - Guarantees execution immediately on parse
+    (function initLoader() {
+      document.body.classList.add("loading");
       const loader = document.getElementById("loader");
+      const counterElement = document.getElementById("counter");
       const heroName = document.getElementById("hero-name");
+      
+      let count = 0;
+      let loaderInterval;
 
-      function endLoader() {
+      function hideLoader() {
         if (loader && !loader.classList.contains("hide")) {
           loader.classList.add("hide");
           document.body.classList.remove("loading");
           setTimeout(() => {
             if (heroName) heroName.classList.add("animate");
-          }, 500);
+          }, 400);
         }
       }
 
-      if (counterElement && loader) {
-        const updateCounter = setInterval(() => {
-          count += Math.floor(Math.random() * 5) + 1;
+      // Hard fallback: Force hide after 4 seconds no matter what environment we are in
+      setTimeout(hideLoader, 4000);
+
+      if (counterElement) {
+        loaderInterval = setInterval(() => {
+          count += Math.floor(Math.random() * 6) + 2;
           if (count >= 100) {
             count = 100;
-            clearInterval(updateCounter);
+            clearInterval(loaderInterval);
             counterElement.innerText = count + "%";
-            setTimeout(endLoader, 500);
+            setTimeout(hideLoader, 300);
           } else {
             counterElement.innerText = count + "%";
           }
-        }, 30);
-      }
-
-      // Fallback in case interval gets stuck
-      setTimeout(endLoader, 4000);
-
-      const chars = document.querySelectorAll('.char');
-      chars.forEach((char, index) => {
-        char.style.animationDelay = `${(index * 0.05) + 0.5}s`;
-      });
-
-      // =========================================
-      // 6. SCROLL REVEAL (Intersection Observer)
-      // =========================================
-      const reveals = document.querySelectorAll(".reveal");
-      if (window.IntersectionObserver) {
-        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-          entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add("active");
-            observer.unobserve(entry.target); 
-          });
-        }, revealOptions);
-
-        reveals.forEach(reveal => revealOnScroll.observe(reveal));
+        }, 35);
       } else {
-        // Fallback for older browsers
-        reveals.forEach(reveal => reveal.classList.add("active"));
+        hideLoader();
       }
+    })();
 
-      // Smooth Scrolling for Anchor Links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
+    // 2. ISOLATED INTERACTIVE EFFECTS - Wrapped safely to prevent crashes
+    window.addEventListener("DOMContentLoaded", () => {
+      try {
+        // Setup initial variables
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let targetAuraX = mouseX;
+        let targetAuraY = mouseY;
+        
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+        const aura = document.getElementById("ambient-aura");
+
+        // Global Mouse Tracking
+        window.addEventListener("mousemove", (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+
+          if (cursorDot) {
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+          }
+
+          if (cursorOutline) {
+            cursorOutline.animate({
+              left: `${mouseX}px`,
+              top: `${mouseY}px`
+            }, { duration: 400, fill: "forwards" });
           }
         });
-      });
-    }
 
-    // Run the app reliably, regardless of when the script is injected
-    if (document.readyState === 'loading') {
-      document.addEventListener("DOMContentLoaded", initPortfolioApp);
-    } else {
-      initPortfolioApp();
-    }
+        // Ambient Aura LERP Loop 
+        function animateAura() {
+          if (!aura) return;
+          targetAuraX += (mouseX - targetAuraX) * 0.05;
+          targetAuraY += (mouseY - targetAuraY) * 0.05;
+          
+          aura.style.transform = `translate(calc(-50% + ${targetAuraX}px), calc(-50% + ${targetAuraY}px))`;
+          
+          const hueShift = (targetAuraX / (window.innerWidth || 1)) * 60; 
+          aura.style.filter = `blur(80px) hue-rotate(${hueShift}deg)`;
+
+          requestAnimationFrame(animateAura);
+        }
+        animateAura();
+
+        // Canvas Stardust
+        const canvas = document.getElementById('stardust-canvas');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          let particles = [];
+          
+          function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          }
+          window.addEventListener('resize', resizeCanvas);
+          resizeCanvas();
+
+          class Particle {
+            constructor() {
+              this.x = Math.random() * canvas.width;
+              this.y = Math.random() * canvas.height;
+              this.size = Math.random() * 2;
+              this.speedY = Math.random() * -0.5 - 0.1; 
+              this.speedX = (Math.random() - 0.5) * 0.3; 
+              this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+              this.x += this.speedX;
+              this.y += this.speedY;
+
+              const dx = mouseX - this.x;
+              const dy = mouseY - this.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              if (distance < 100) {
+                this.x -= dx * 0.015;
+                this.y -= dy * 0.015;
+                this.opacity = 0.8; 
+              }
+
+              if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+                this.y = canvas.height;
+                this.x = Math.random() * canvas.width;
+                this.opacity = Math.random() * 0.5 + 0.1;
+              }
+            }
+            draw() {
+              ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+
+          function initParticles() {
+            particles = [];
+            for (let i = 0; i < 80; i++) {
+              particles.push(new Particle());
+            }
+          }
+          initParticles();
+
+          function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+              p.update();
+              p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+          }
+          animateParticles();
+        }
+
+        // 3D Card Tilt Effect
+        const cards3d = document.querySelectorAll('.3d-card');
+        cards3d.forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            const rotateX = (y / rect.height) * -15; 
+            const rotateY = (x / rect.width) * 15;
+            
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+          });
+
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+          });
+        });
+
+        // Cursor Hover States
+        const hoverTargets = document.querySelectorAll("a, button, .hover-target");
+        const nameHoverTarget = document.getElementById("hero-name-trigger");
+
+        hoverTargets.forEach(target => {
+          target.addEventListener("mouseenter", () => document.body.classList.add("hovering"));
+          target.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
+        });
+
+        if (nameHoverTarget) {
+          nameHoverTarget.addEventListener("mouseenter", () => document.body.classList.add("hovering-name"));
+          nameHoverTarget.addEventListener("mouseleave", () => document.body.classList.remove("hovering-name"));
+        }
+
+        // Staggered Text Reveal Setup
+        const chars = document.querySelectorAll('.char');
+        chars.forEach((char, index) => {
+          char.style.animationDelay = `${(index * 0.05) + 0.3}s`;
+        });
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll(".reveal");
+        if (window.IntersectionObserver) {
+          const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+          const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("active");
+              observer.unobserve(entry.target); 
+            });
+          }, revealOptions);
+
+          reveals.forEach(reveal => revealOnScroll.observe(reveal));
+        } else {
+          reveals.forEach(reveal => reveal.classList.add("active"));
+        }
+
+        // Smooth Scrolling Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+        });
+
+      } catch (err) {
+        console.error("Non-critical visual effect failed to load:", err);
+      }
+    });
   </script>
 </body>
 </html>
