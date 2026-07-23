@@ -21,8 +21,6 @@
     
     --font-head: 'Syne', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
-    
-    --cursor-size: 20px;
   }
 
   * {
@@ -91,7 +89,7 @@
   }
 
   /* =========================================
-     LOADING ANIMATION
+     CENTERED LOADING ANIMATION
      ========================================= */
   #loader {
     position: fixed;
@@ -100,7 +98,8 @@
     z-index: 9998;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center; /* Centered vertically */
+    align-items: center;     /* Centered horizontally */
     padding: 4vw;
     transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
   }
@@ -109,18 +108,19 @@
   }
   .loader-counter {
     font-family: var(--font-head);
-    font-size: 15vw;
+    font-size: 5rem; /* Reduced from 15vw */
     font-weight: 800;
     line-height: 1;
     color: transparent;
     -webkit-text-stroke: 2px var(--fg);
   }
   .loader-text {
-    font-size: 1.5rem;
+    font-size: 0.9rem; /* Reduced size */
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.3em;
     color: var(--accent-2);
-    margin-bottom: 2vh;
+    margin-bottom: 1.5rem;
+    text-align: center;
   }
 
   /* =========================================
@@ -176,21 +176,49 @@
     transform: translateY(100%);
     animation: slideUp 1s 1.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
   }
+  
   .hero-name-container {
-    perspective: 1000px;
+    position: relative;
+    display: inline-block;
+    align-self: flex-start;
   }
   .hero-name {
     font-family: var(--font-head);
-    font-size: clamp(4rem, 12vw, 15rem);
+    font-size: clamp(3rem, 9vw, 9.5rem); /* Reduced to prevent cutoff */
     font-weight: 800;
     line-height: 0.85;
     text-transform: uppercase;
     display: flex;
     flex-direction: column;
     position: relative;
-    /* Mouse Parallax Target */
-    transition: transform 0.1s ease-out;
+    overflow: hidden; /* Contains the sweep animation cleanly */
+    padding-right: 2vw; /* Buffer to ensure H is fully visible */
+    padding-bottom: 1vw;
   }
+  
+  /* The Light Sweep Beam */
+  .hero-name.animate::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    animation: lightSweep 5s infinite 2s; /* Sweeps every 5s, starts 2s after reveal */
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  @keyframes lightSweep {
+    0% { left: -50%; opacity: 0; }
+    10% { opacity: 1; }
+    25% { left: 120%; opacity: 1; }
+    30% { left: 120%; opacity: 0; }
+    100% { left: 120%; opacity: 0; }
+  }
+
   .name-word {
     display: flex;
     overflow: hidden;
@@ -206,7 +234,7 @@
   .name-word:nth-child(2) {
     color: transparent;
     -webkit-text-stroke: 2px var(--fg);
-    margin-left: 10vw;
+    margin-left: 3vw; /* Reduced from 10vw to keep Gireesh on screen */
   }
   
   .hero-meta {
@@ -313,7 +341,7 @@
   .cards-container {
     display: flex;
     flex-direction: column;
-    gap: 100vh; /* Pushes them apart to allow scrolling */
+    gap: 100vh;
     padding-bottom: 20vh;
   }
   .card-wrapper {
@@ -721,7 +749,7 @@
         target.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
       });
 
-      // 2. Loader Animation
+      // 2. Centered Loader Animation
       let count = 0;
       const counterElement = document.getElementById("counter");
       const loader = document.getElementById("loader");
@@ -738,7 +766,7 @@
             loader.classList.add("hide");
             document.body.classList.remove("loading");
             
-            // Trigger Name Animation
+            // Trigger Name Animation & Light Sweep
             setTimeout(() => {
               heroName.classList.add("animate");
             }, 500);
@@ -754,18 +782,9 @@
         char.style.animationDelay = `${(index * 0.05) + 0.5}s`;
       });
 
-      // 4. Hero Parallax Effect on Mousemove
-      const hero = document.getElementById("hero");
-      hero.addEventListener("mousemove", (e) => {
-        const x = (window.innerWidth / 2 - e.pageX) / 25;
-        const y = (window.innerHeight / 2 - e.pageY) / 25;
-        heroName.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-      });
-      hero.addEventListener("mouseleave", () => {
-        heroName.style.transform = `rotateY(0deg) rotateX(0deg)`;
-      });
+      // (Parallax logic removed as requested)
 
-      // 5. Scroll Reveal using Intersection Observer
+      // 4. Scroll Reveal using Intersection Observer
       const reveals = document.querySelectorAll(".reveal");
       const revealOptions = {
         threshold: 0.15,
@@ -784,7 +803,7 @@
         revealOnScroll.observe(reveal);
       });
 
-      // 6. Smooth Scrolling for Anchor Links
+      // 5. Smooth Scrolling for Anchor Links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
