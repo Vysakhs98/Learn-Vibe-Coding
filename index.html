@@ -6,33 +6,41 @@
     <title>Sona Gireesh | Product Designer</title>
     <meta name="description" content="Portfolio of Sona Gireesh, Product Designer based in Bangalore.">
     
-    <!-- Apple-inspired typography -->
+    <!-- Fonts to match the sleek, modern typography of the image -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* =========================================
-           APPLE-INSPIRED BENTO DESIGN SYSTEM
+           CSS VARIABLES & THEME
            ========================================= */
         :root {
-            --bg-color: #000000;
-            --surface-color: rgba(255, 255, 255, 0.03);
-            --surface-hover: rgba(255, 255, 255, 0.06);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --border-hover: rgba(255, 255, 255, 0.3);
+            /* Earthy, Dark Garden Theme for sections below the video */
+            --bg-dark: #0a0b0a; 
+            --bg-surface: rgba(20, 22, 20, 0.6);
+            --bg-surface-solid: #141614;
             
-            --text-main: #f5f5f7;
-            --text-muted: #86868b;
+            /* Text colors */
+            --text-main: #ffffff;
+            --text-muted: #a3a8a4;
             
+            /* Accents */
             --accent: #eab26a; /* Golden lily accent */
+            --border-color: rgba(255, 255, 255, 0.15);
+            --border-hover: rgba(255, 255, 255, 0.4);
             
-            --font-display: 'Outfit', -apple-system, sans-serif;
-            --font-body: 'Inter', -apple-system, sans-serif;
+            /* Typography */
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
             
-            --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+            /* Easing */
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* =========================================
+           RESET & BASE
+           ========================================= */
         * {
             margin: 0;
             padding: 0;
@@ -41,9 +49,9 @@
 
         body {
             font-family: var(--font-body);
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
             color: var(--text-main);
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -58,89 +66,100 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 0 32px;
+            padding: 0 5vw;
         }
 
         section {
-            padding: 100px 0;
+            padding: 120px 0;
             position: relative;
+            z-index: 2;
+            background-color: var(--bg-dark);
         }
 
         /* =========================================
-           CENTERED LIGHT NAVIGATION BAR
+           TOP NAVIGATION (Centered & Lightened)
            ========================================= */
         nav {
-            position: fixed;
-            top: 24px;
-            left: 0;
+            position: absolute;
+            top: 0; left: 0;
             width: 100%;
+            padding: 30px 4vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 40px;
-            z-index: 1000;
-            pointer-events: none;
+            z-index: 100;
         }
 
         .nav-logo {
             font-family: var(--font-display);
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 500;
-            letter-spacing: -0.01em;
-            color: var(--text-main);
-            pointer-events: auto;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 10px 20px;
-            border-radius: 100px;
-            border: 1px solid var(--border-color);
+            letter-spacing: -0.02em;
         }
 
-        .nav-links-container {
+        /* --- Center-Aligned & Lightened Navbar Background --- */
+        .nav-links-wrapper {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: auto;
         }
 
         .nav-links {
             display: flex;
             gap: 4px;
             list-style: none;
-            background: rgba(255, 255, 255, 0.12); /* Clean light translucent bg */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.15); /* Changed to a clean light translucent background */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 6px 12px;
             border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .nav-links a {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.9);
-            padding: 8px 18px;
+            color: rgba(255, 255, 255, 0.95);
+            padding: 8px 20px;
             border-radius: 100px;
-            transition: all 0.3s var(--ease-apple);
+            transition: all 0.3s var(--ease);
+            display: block;
         }
 
         .nav-links a:hover {
             color: var(--text-main);
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        /* -------------------------------------------------- */
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 10px 24px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 100px;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-cta:hover {
+            border-color: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.05);
         }
 
-        .nav-right-placeholder {
-            width: 100px; /* Balances the flex layout */
-        }
-
-        @media (max-width: 868px) {
-            .nav-links-container { position: relative; left: auto; transform: none; }
-            nav { padding: 0 20px; }
-            .nav-right-placeholder { display: none; }
+        .nav-cta .dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
         }
 
         /* =========================================
@@ -151,466 +170,402 @@
             height: 100vh;
             display: flex;
             align-items: center;
-            padding: 0 5vw;
+            padding: 0 4vw;
             overflow: hidden;
             z-index: 1;
         }
 
+        /* The Background Video */
         .hero-video {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             z-index: 0;
         }
 
+        /* Gradient overlay to ensure text readability on the left */
         #hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 100%);
             z-index: 1;
         }
 
+        /* Bottom fade to transition smoothly into the dark sections below */
         #hero::after {
             content: '';
             position: absolute;
             bottom: 0; left: 0;
-            width: 100%; height: 25vh;
-            background: linear-gradient(to bottom, transparent, var(--bg-color));
+            width: 100%; height: 20vh;
+            background: linear-gradient(to bottom, transparent, var(--bg-dark));
             z-index: 1;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 650px;
+            max-width: 600px;
+            margin-top: 5vh;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 1s var(--ease-apple) 0.3s forwards;
+            transform: translateY(30px);
+            animation: fadeUp 1.2s var(--ease) 0.3s forwards;
         }
 
         .hero-greeting {
             font-family: var(--font-display);
-            font-size: 24px;
-            font-weight: 300;
-            color: var(--text-muted);
-            margin-bottom: 8px;
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: -10px;
+            color: rgba(255,255,255,0.9);
         }
 
         .hero-title {
             font-family: var(--font-display);
-            font-size: clamp(48px, 7vw, 90px);
-            font-weight: 600;
-            line-height: 1.05;
+            font-size: clamp(60px, 8vw, 110px);
+            font-weight: 500;
+            line-height: 0.95;
             letter-spacing: -0.03em;
             margin-bottom: 24px;
         }
 
         .hero-desc {
-            font-size: 17px;
+            font-family: var(--font-body);
+            font-size: 18px;
             font-weight: 300;
-            color: var(--text-muted);
-            line-height: 1.6;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.5;
+            max-width: 320px;
             margin-bottom: 40px;
-            white-space: pre-line; /* Respects line breaks */
         }
 
         .hero-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 14px 28px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border-color);
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 400;
+            padding: 12px 32px;
+            border: 1px solid rgba(255,255,255,0.4);
             border-radius: 100px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s var(--ease-apple);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
 
         .hero-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: var(--border-hover);
-            transform: scale(1.02);
-        }
-
-        /* =========================================
-           BENTO GRID SYSTEM (Apple Style)
-           ========================================= */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
+            border-color: #fff;
+            background: rgba(255,255,255,0.1);
+            padding-right: 24px; 
             gap: 20px;
         }
 
-        .bento-card {
-            background-color: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 32px;
-            padding: 48px;
-            transition: all 0.4s var(--ease-apple);
-            position: relative;
-            overflow: hidden;
+        /* =========================================
+           SECTION TYPOGRAPHY & UTILS
+           ========================================= */
+        .section-header {
+            margin-bottom: 64px;
         }
-
-        .bento-card:hover {
-            background-color: var(--surface-hover);
-            border-color: var(--border-hover);
-        }
-
-        .bento-label {
-            font-size: 12px;
+        .section-label {
+            font-family: var(--font-display);
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.2em;
             color: var(--accent);
             margin-bottom: 16px;
             display: block;
-            font-weight: 500;
         }
-
-        .bento-heading {
+        .section-title {
             font-family: var(--font-display);
-            font-size: clamp(28px, 3vw, 42px);
-            font-weight: 500;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 400;
             letter-spacing: -0.02em;
             line-height: 1.2;
-            margin-bottom: 24px;
-        }
-
-        .bento-text {
-            font-size: 16px;
-            color: var(--text-muted);
-            font-weight: 300;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        /* Specific Bento spans */
-        .span-7 { grid-column: span 7; }
-        .span-5 { grid-column: span 5; }
-        .span-12 { grid-column: span 12; }
-        .span-6 { grid-column: span 6; }
-        .span-4 { grid-column: span 4; }
-        .span-8 { grid-column: span 8; }
-
-        @media (max-width: 992px) {
-            .span-7, .span-5, .span-6, .span-4, .span-8 { grid-column: span 12; }
-            .bento-card { padding: 32px; }
         }
 
         /* =========================================
-           PROJECTS SECTION (Bento Style)
+           ABOUT SECTION
            ========================================= */
-        .project-bento-grid {
+        .about-grid {
             display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
-            margin-top: 40px;
+            grid-template-columns: 1fr 1fr;
+            gap: 6vw;
+            align-items: start;
         }
-
-        .project-card {
-            background-color: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 32px;
-            padding: 48px;
-            transition: all 0.4s var(--ease-apple);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .project-card:hover {
-            background-color: var(--surface-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-4px);
-        }
-
-        .project-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 32px;
-        }
-
-        .project-title {
-            font-family: var(--font-display);
-            font-size: 32px;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-        }
-
-        .project-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 6px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 100px;
+        .about-text p {
+            font-size: 18px;
             color: var(--text-muted);
+            margin-bottom: 24px;
+            font-weight: 300;
         }
-
-        .project-details-grid {
+        .about-text strong {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-top: 32px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 32px;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: var(--border-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
         }
-
-        .detail-item h5 {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+        .stat-card {
+            background: var(--bg-surface-solid);
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 400;
             color: var(--accent);
             margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .detail-item p {
-            font-size: 14px;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
-        @media (max-width: 768px) {
-            .project-details-grid { grid-template-columns: 1fr; gap: 16px; }
-            .project-card { padding: 32px; }
-        }
-
-        /* =========================================
-           PROCESS SECTION (Bento Row)
-           ========================================= */
-        .process-bento-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .process-card {
-            background-color: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 28px;
-            padding: 36px 30px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s var(--ease-apple);
-        }
-
-        .process-card:hover {
-            background-color: var(--surface-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-4px);
-        }
-
-        .process-step-num {
-            font-family: var(--font-display);
-            font-size: 64px;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.04);
-            position: absolute;
-            top: 10px; right: 20px;
             line-height: 1;
         }
-
-        .process-card h4 {
-            font-family: var(--font-display);
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 12px;
-        }
-
-        .process-card p {
-            font-size: 14px;
+        .stat-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             color: var(--text-muted);
-            font-weight: 300;
-            margin-bottom: 20px;
-        }
-
-        .process-list {
-            list-style: none;
-        }
-
-        .process-list li {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 6px;
-            padding-left: 14px;
-            position: relative;
-        }
-
-        .process-list li::before {
-            content: '—';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        @media (max-width: 1024px) {
-            .process-bento-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .process-bento-grid { grid-template-columns: 1fr; }
         }
 
         /* =========================================
-           SKILLS & TESTIMONIALS BENTO
+           WORK SECTION (Glassmorphism Cards)
            ========================================= */
-        .skills-flex {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 24px;
-        }
-
-        .skill-tag {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 100px;
-            font-size: 14px;
-            font-weight: 300;
-            color: var(--text-main);
-            transition: all 0.3s ease;
-        }
-
-        .skill-tag:hover {
-            border-color: var(--border-hover);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .testimonial-bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .testimonial-card {
-            background-color: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 28px;
-            padding: 40px 32px;
+        .work-grid {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.4s var(--ease-apple);
+            gap: 40px;
         }
-
-        .testimonial-card:hover {
-            background-color: var(--surface-hover);
+        .project-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: transform 0.4s var(--ease), border-color 0.4s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
             border-color: var(--border-hover);
         }
-
-        .t-text {
+        .project-meta h3 {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        .project-meta p {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .tag {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 8px 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 100px;
+            color: rgba(255,255,255,0.8);
+        }
+        .project-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .detail-block h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        .detail-block p {
             font-size: 15px;
             color: var(--text-muted);
             font-weight: 300;
-            line-height: 1.6;
-            margin-bottom: 24px;
-            font-style: italic;
-        }
-
-        .t-author {
-            font-family: var(--font-display);
-            font-size: 13px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent);
-        }
-
-        @media (max-width: 1024px) {
-            .testimonial-bento-grid { grid-template-columns: 1fr; }
         }
 
         /* =========================================
-           CONTACT & FOOTER (Apple Minimalist)
+           PROCESS SECTION
            ========================================= */
-        #contact {
-            text-align: center;
-            padding: 140px 0 60px 0;
+        .process-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
         }
-
-        .contact-bento {
-            background-color: var(--surface-color);
+        .process-step {
+            background: var(--bg-surface-solid);
             border: 1px solid var(--border-color);
-            border-radius: 40px;
-            padding: 80px 40px;
+            border-radius: 20px;
+            padding: 40px 30px;
             position: relative;
             overflow: hidden;
         }
-
-        .contact-heading {
+        .p-number {
             font-family: var(--font-display);
-            font-size: clamp(36px, 5vw, 64px);
-            font-weight: 500;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
-        }
-
-        .contact-sub {
-            font-size: 17px;
-            color: var(--text-muted);
+            font-size: 80px;
             font-weight: 300;
-            margin-bottom: 48px;
+            color: rgba(255,255,255,0.03);
+            position: absolute;
+            top: -10px; right: 10px;
+            line-height: 1;
+        }
+        .process-step h3 {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--text-main);
+        }
+        .process-step p {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+        .p-items {
+            list-style: none;
+        }
+        .p-items li {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+            padding-left: 16px;
+            position: relative;
+        }
+        .p-items li::before {
+            content: '•';
+            color: var(--accent);
+            position: absolute;
+            left: 0;
         }
 
-        .contact-links-row {
+        /* =========================================
+           SKILLS & TESTIMONIALS
+           ========================================= */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 80px;
+        }
+        .skill-pill {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            padding: 14px 24px;
+            border-radius: 100px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        .skill-pill:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.4);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .t-card {
+            padding: 40px;
+            background: var(--bg-surface-solid);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+        .t-quote {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 32px;
+            font-style: italic;
+        }
+        .t-author {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* =========================================
+           CONTACT & FOOTER
+           ========================================= */
+        #contact {
+            text-align: center;
+            padding: 150px 0 80px 0;
+            border-top: 1px solid var(--border-color);
+        }
+        .contact-title {
+            font-family: var(--font-display);
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 400;
+            margin-bottom: 24px;
+        }
+        .contact-desc {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 60px;
+        }
+        .contact-links {
             display: flex;
             justify-content: center;
-            gap: 32px;
+            gap: 40px;
             flex-wrap: wrap;
+            margin-bottom: 120px;
         }
-
-        .contact-pill {
-            font-size: 14px;
+        .contact-link {
+            font-size: 16px;
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            padding: 12px 28px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 100px;
-            transition: all 0.3s var(--ease-apple);
+            position: relative;
+            padding-bottom: 4px;
         }
-
-        .contact-pill:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
+        .contact-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 1px;
+            background-color: var(--text-main);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s var(--ease);
         }
-
+        .contact-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
         footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 40px 5vw;
             border-top: 1px solid var(--border-color);
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-muted);
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 768px) {
-            footer { flex-direction: column; gap: 16px; text-align: center; }
-            .contact-bento { padding: 48px 20px; }
-            .contact-links-row { flex-direction: column; gap: 16px; }
         }
 
         /* =========================================
-           ANIMATIONS
+           ANIMATIONS & RESPONSIVE
            ========================================= */
         @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
@@ -618,22 +573,41 @@
 
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s var(--ease-apple), transform 0.8s var(--ease-apple);
+            transform: translateY(40px);
+            transition: opacity 1s var(--ease), transform 1s var(--ease);
         }
-
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .project-card { grid-template-columns: 1fr; gap: 40px; padding: 40px; }
+            .process-list { grid-template-columns: repeat(2, 1fr); }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .nav-links-wrapper { position: relative; left: auto; transform: none; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 20px; flex-direction: column; gap: 16px; }
+            .nav-links-wrapper { position: relative; left: auto; transform: none; }
+            .hero-title { font-size: 64px; }
+            .process-list { grid-template-columns: 1fr; }
+            .project-details { grid-template-columns: 1fr; gap: 24px; }
+            .contact-links { flex-direction: column; gap: 24px; }
+            footer { flex-direction: column; gap: 16px; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Centered Light Navigation Bar (No Contact Pill) -->
+    <!-- Top Navigation -->
     <nav>
         <div class="nav-logo">Sona Gireesh</div>
-        <div class="nav-links-container">
+        
+        <!-- Center-aligned navigation links with lightened background -->
+        <div class="nav-links-wrapper">
             <ul class="nav-links">
                 <li><a href="#work">Works</a></li>
                 <li><a href="#about">About</a></li>
@@ -641,11 +615,16 @@
                 <li><a href="#skills">Skills</a></li>
             </ul>
         </div>
-        <div class="nav-right-placeholder"></div>
+
+        <a href="#contact" class="nav-cta">
+            Let's Connect <span class="dot"></span>
+        </a>
     </nav>
 
     <!-- Hero Section with Background Video -->
     <header id="hero">
+        
+        <!-- Autoplaying Background Video -->
         <video class="hero-video" autoplay loop muted playsinline>
             <source src="hero-background.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -653,213 +632,244 @@
 
         <div class="hero-content">
             <p class="hero-greeting">Hi I am</p>
-            <h1 class="hero-title">Sona Gireesh</h1>
-            <p class="hero-desc">Currently working as
-Assistant Manager - UI/UX design 
-at EY GDS Bengaluru.</p>
+            <h1 class="hero-title">Sona<br>Gireesh</h1>
+            <p class="hero-desc">Currently working as Assistant Manager of UI/UX design at EY GDS Bengaluru.</p>
             <a href="#work" class="hero-btn">
                 Explore My Work <span>&rarr;</span>
             </a>
         </div>
     </header>
 
-    <!-- About Section (Apple Bento Style) -->
+    <!-- About Section -->
     <section id="about">
-        <div class="container">
-            <div class="bento-grid">
-                
-                <!-- Main Statement Bento -->
-                <div class="bento-card span-7 reveal">
-                    <span class="bento-label">About Me</span>
-                    <h2 class="bento-heading">Bridging business goals with human needs.</h2>
-                    <p class="bento-text">
-                        I am an <strong>Assistant Manager – UI/UX at EY GDS, Bangalore</strong>. Since 2021, I have been transforming complex business problems into intuitive digital experiences.
-                    </p>
-                    <p class="bento-text">
-                        My expertise spans the entire product lifecycle—from UX Research and Strategy to Visual Design and Developer Handoff. I strongly believe that good design is not only beautiful, but it should fundamentally simplify complexity and create measurable business value.
-                    </p>
+        <div class="container about-grid">
+            <div class="reveal">
+                <div class="section-header">
+                    <span class="section-label">About Me</span>
+                    <h2 class="section-title">Bridging business goals with human needs.</h2>
                 </div>
-
-                <!-- Stats Bento (2x2 inside span-5) -->
-                <div class="bento-card span-5 reveal" style="transition-delay: 0.1s;">
-                    <span class="bento-label">Impact Metrics</span>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px;">
-                        <div>
-                            <div style="font-family: var(--font-display); font-size: 40px; font-weight: 500; color: var(--accent); margin-bottom: 4px;">5+</div>
-                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Years Exp.</div>
-                        </div>
-                        <div>
-                            <div style="font-family: var(--font-display); font-size: 40px; font-weight: 500; color: var(--accent); margin-bottom: 4px;">15+</div>
-                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Products</div>
-                        </div>
-                        <div>
-                            <div style="font-family: var(--font-display); font-size: 40px; font-weight: 500; color: var(--accent); margin-bottom: 4px;">95%</div>
-                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Satisfaction</div>
-                        </div>
-                        <div>
-                            <div style="font-family: var(--font-display); font-size: 40px; font-weight: 500; color: var(--accent); margin-bottom: 4px;">10+</div>
-                            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Teams</div>
-                        </div>
-                    </div>
+                <div class="about-text">
+                    <p>I am an <strong>Assistant Manager – UI/UX at EY GDS, Bangalore</strong>. Since 2021, I have been transforming complex business problems into intuitive digital experiences.</p>
+                    <p>My expertise spans the entire product lifecycle—from UX Research and Strategy to Visual Design and Developer Handoff. I strongly believe that good design is not only beautiful, but it should fundamentally simplify complexity and create <strong>measurable business value</strong>.</p>
                 </div>
-
+            </div>
+            
+            <div class="stats-grid reveal">
+                <div class="stat-card">
+                    <div class="stat-num">5+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">15+</div>
+                    <div class="stat-label">Products Delivered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">95%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">10+</div>
+                    <div class="stat-label">Cross-functional Teams</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Featured Projects Section (Bento Style) -->
+    <!-- Featured Projects -->
     <section id="work">
         <div class="container">
-            <div class="reveal">
-                <span class="bento-label">Selected Works</span>
-                <h2 class="bento-heading" style="margin-bottom: 0;">Featured Projects</h2>
+            <div class="section-header reveal">
+                <span class="section-label">Selected Works</span>
+                <h2 class="section-title">Featured Projects</h2>
             </div>
             
-            <div class="project-bento-grid">
+            <div class="work-grid">
                 
-                <!-- Project 1: Neo CFO -->
-                <div class="project-card span-12 reveal">
-                    <div>
-                        <div class="project-header-row">
-                            <h3 class="project-title">Neo CFO</h3>
-                            <div class="project-tags">
-                                <span class="tag">Enterprise</span>
-                                <span class="tag">Dashboard Design</span>
-                            </div>
+                <!-- Project 1 -->
+                <div class="project-card reveal">
+                    <div class="project-meta">
+                        <h3>Neo CFO</h3>
+                        <p>Complete UI/UX Design for an enterprise financial platform focusing on complex workflows, data visualisation, and enterprise usability.</p>
+                        <div class="project-tags">
+                            <span class="tag">Enterprise</span>
+                            <span class="tag">Dashboard Design</span>
                         </div>
-                        <p class="bento-text">Complete UI/UX Design for an enterprise financial platform focusing on complex workflows, data visualisation, and enterprise usability.</p>
                     </div>
-                    <div class="project-details-grid">
-                        <div class="detail-item">
-                            <h5>Problem</h5>
+                    <div class="project-details">
+                        <div class="detail-block">
+                            <h4>Problem</h4>
                             <p>Fragmented financial data visualization and convoluted legacy workflows hindering rapid decision-making.</p>
                         </div>
-                        <div class="detail-item">
-                            <h5>Approach</h5>
+                        <div class="detail-block">
+                            <h4>Approach</h4>
                             <p>Restructured information architecture, designing an intuitive dashboard focused on enterprise usability.</p>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Project 2: Spark AI -->
-                <div class="project-card span-6 reveal">
-                    <div>
-                        <div class="project-header-row">
-                            <h3 class="project-title">Spark AI</h3>
-                            <div class="project-tags">
-                                <span class="tag">AI</span>
-                                <span class="tag">Interface</span>
-                            </div>
+                        <div class="detail-block">
+                            <h4>Outcome</h4>
+                            <p>Delivered a streamlined, scalable platform that significantly reduced workflow friction.</p>
                         </div>
-                        <p class="bento-text">An AI-powered platform centered around AI-assisted workflows, user efficiency, and modern prompt experiences.</p>
-                    </div>
-                    <div class="project-details-grid" style="grid-template-columns: 1fr;">
-                        <div class="detail-item">
-                            <h5>Approach & Impact</h5>
-                            <p>Designed guided prompt experiences and contextual AI workflows to dramatically reduce user friction and increase feature adoption rates.</p>
+                        <div class="detail-block">
+                            <h4>Impact</h4>
+                            <p>Set a new standard for internal data tools, empowering CFOs to make faster financial decisions.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 3: Maiven -->
-                <div class="project-card span-6 reveal">
-                    <div>
-                        <div class="project-header-row">
-                            <h3 class="project-title">Maiven</h3>
-                            <div class="project-tags">
-                                <span class="tag">SaaS</span>
-                                <span class="tag">Strategy</span>
-                            </div>
+                <!-- Project 2 -->
+                <div class="project-card reveal">
+                    <div class="project-meta">
+                        <h3>Spark AI</h3>
+                        <p>An AI-powered platform centered around AI-assisted workflows, user efficiency, and modern prompt experiences.</p>
+                        <div class="project-tags">
+                            <span class="tag">Artificial Intelligence</span>
+                            <span class="tag">Interface Design</span>
                         </div>
-                        <p class="bento-text">A scalable AI-powered software platform focusing on enterprise workflows and user-first experiences.</p>
                     </div>
-                    <div class="project-details-grid" style="grid-template-columns: 1fr;">
-                        <div class="detail-item">
-                            <h5>Approach & Impact</h5>
-                            <p>Developed a modular UI architecture enabling the enterprise to scale operations effectively while maintaining pristine usability.</p>
+                    <div class="project-details">
+                        <div class="detail-block">
+                            <h4>Problem</h4>
+                            <p>Users struggled with steep learning curves when interacting with underlying AI models.</p>
+                        </div>
+                        <div class="detail-block">
+                            <h4>Approach</h4>
+                            <p>Designed guided prompt experiences and contextual AI-assisted workflows to lower the barrier to entry.</p>
+                        </div>
+                        <div class="detail-block">
+                            <h4>Outcome</h4>
+                            <p>A modern, conversational, and highly intuitive interface that demystifies AI interactions.</p>
+                        </div>
+                        <div class="detail-block">
+                            <h4>Impact</h4>
+                            <p>Dramatically increased user efficiency and overall feature adoption rates.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 4: Slice Credit Card -->
-                <div class="project-card span-12 reveal">
-                    <div>
-                        <div class="project-header-row">
-                            <h3 class="project-title">Slice Credit Card</h3>
-                            <div class="project-tags">
-                                <span class="tag">FinTech</span>
-                                <span class="tag">Mobile UX</span>
-                            </div>
+                <!-- Project 3 -->
+                <div class="project-card reveal">
+                    <div class="project-meta">
+                        <h3>Maiven</h3>
+                        <p>A scalable AI-powered software platform focusing on enterprise workflows and user-first experiences.</p>
+                        <div class="project-tags">
+                            <span class="tag">Enterprise SaaS</span>
+                            <span class="tag">Product Thinking</span>
                         </div>
-                        <p class="bento-text">A mobile-first financial experience designed around the core pillars of trust, security, and absolute simplicity.</p>
                     </div>
-                    <div class="project-details-grid">
-                        <div class="detail-item">
-                            <h5>Problem</h5>
+                    <div class="project-details">
+                        <div class="detail-block">
+                            <h4>Problem</h4>
+                            <p>Scaling complex AI capabilities within an enterprise environment without degrading usability.</p>
+                        </div>
+                        <div class="detail-block">
+                            <h4>Approach</h4>
+                            <p>Developed a modular UI architecture emphasizing user-first interactions and robust product strategy.</p>
+                        </div>
+                        <div class="detail-block">
+                            <h4>Outcome</h4>
+                            <p>A highly adaptable platform that seamlessly integrates complex AI tools.</p>
+                        </div>
+                        <div class="detail-block">
+                            <h4>Impact</h4>
+                            <p>Enabled the enterprise to scale operations effectively while maintaining a pristine user experience.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card reveal">
+                    <div class="project-meta">
+                        <h3>Slice Credit Card</h3>
+                        <p>A mobile-first financial experience designed around the core pillars of trust, security, and absolute simplicity.</p>
+                        <div class="project-tags">
+                            <span class="tag">FinTech</span>
+                            <span class="tag">Mobile UX</span>
+                        </div>
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-block">
+                            <h4>Problem</h4>
                             <p>Traditional credit card apps are often cluttered, inducing anxiety and reducing user trust.</p>
                         </div>
-                        <div class="detail-item">
-                            <h5>Outcome</h5>
-                            <p>A secure, simple-to-use application that bolstered user confidence and daily engagement.</p>
+                        <div class="detail-block">
+                            <h4>Approach</h4>
+                            <p>Applied strict minimalist principles to prioritize transparent data display and frictionless actions.</p>
+                        </div>
+                        <div class="detail-block">
+                            <h4>Outcome</h4>
+                            <p>A highly secure, simple-to-use application that feels native and intuitive.</p>
+                        </div>
+                        <div class="detail-block">
+                            <h4>Impact</h4>
+                            <p>Bolstered user confidence and significantly increased daily active engagement.</p>
                         </div>
                     </div>
                 </div>
 
+            </div>
+            
+            <div class="reveal" style="text-align: center; margin-top: 60px;">
+                <p style="color: var(--text-muted); font-size: 16px; max-width: 600px; margin: 0 auto;">
+                    In addition to the above, I have designed several other enterprise products across AI, FinTech, productivity platforms, and internal business applications.
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- Process Section (Bento Row) -->
+    <!-- Process Section -->
     <section id="process">
         <div class="container">
-            <div class="reveal">
-                <span class="bento-label">Methodology</span>
-                <h2 class="bento-heading">Design Process</h2>
+            <div class="section-header reveal">
+                <span class="section-label">Methodology</span>
+                <h2 class="section-title">Design Process</h2>
             </div>
             
-            <div class="process-bento-grid">
+            <div class="process-list">
                 
-                <div class="process-card reveal" style="transition-delay: 0s;">
-                    <span class="process-step-num">01</span>
-                    <h4>Discovery</h4>
-                    <p>Understanding business rules, user constraints, and project objectives.</p>
-                    <ul class="process-list">
+                <div class="process-step reveal" style="transition-delay: 0s;">
+                    <span class="p-number">01</span>
+                    <h3>Discovery</h3>
+                    <p>Understanding the business, users, goals, competitors, and constraints.</p>
+                    <ul class="p-items">
                         <li>Stakeholder Interviews</li>
                         <li>User Research</li>
+                        <li>Product Discovery</li>
                         <li>Competitive Analysis</li>
                     </ul>
                 </div>
 
-                <div class="process-card reveal" style="transition-delay: 0.1s;">
-                    <span class="process-step-num">02</span>
-                    <h4>Ideation</h4>
-                    <p>Translating initial insights into structured product frameworks.</p>
-                    <ul class="process-list">
+                <div class="process-step reveal" style="transition-delay: 0.1s;">
+                    <span class="p-number">02</span>
+                    <h3>Ideation</h3>
+                    <p>Transforming raw research and insights into a concrete product direction.</p>
+                    <ul class="p-items">
+                        <li>Brainstorming</li>
                         <li>User Flows</li>
                         <li>Information Architecture</li>
                         <li>Wireframing</li>
                     </ul>
                 </div>
 
-                <div class="process-card reveal" style="transition-delay: 0.2s;">
-                    <span class="process-step-num">03</span>
-                    <h4>Design</h4>
-                    <p>Crafting accessible, high-fidelity interfaces and interactive systems.</p>
-                    <ul class="process-list">
-                        <li>Design Systems</li>
+                <div class="process-step reveal" style="transition-delay: 0.2s;">
+                    <span class="p-number">03</span>
+                    <h3>Design</h3>
+                    <p>Turning foundational ideas into polished, accessible user experiences.</p>
+                    <ul class="p-items">
+                        <li>UI Design & Systems</li>
                         <li>High-Fidelity Screens</li>
-                        <li>Prototyping</li>
+                        <li>Interactive Prototypes</li>
+                        <li>Accessibility</li>
                     </ul>
                 </div>
 
-                <div class="process-card reveal" style="transition-delay: 0.3s;">
-                    <span class="process-step-num">04</span>
-                    <h4>Launch</h4>
-                    <p>Ensuring flawless build quality through handoff and iteration.</p>
-                    <ul class="process-list">
+                <div class="process-step reveal" style="transition-delay: 0.3s;">
+                    <span class="p-number">04</span>
+                    <h3>Launch</h3>
+                    <p>Delivering products successfully and iterating based on real feedback.</p>
+                    <ul class="p-items">
                         <li>Developer Handoff</li>
                         <li>QA Support</li>
                         <li>Design Reviews</li>
+                        <li>Continuous Iteration</li>
                     </ul>
                 </div>
 
@@ -870,83 +880,65 @@ at EY GDS Bengaluru.</p>
     <!-- Skills & Testimonials Section -->
     <section id="skills">
         <div class="container">
-            <div class="reveal">
-                <span class="bento-label">Capabilities</span>
-                <h2 class="bento-heading">Skills & Colleagues</h2>
+            <div class="section-header reveal">
+                <span class="section-label">Capabilities</span>
+                <h2 class="section-title">Skills & Tools</h2>
             </div>
             
-            <div class="bento-grid" style="margin-top: 40px;">
+            <div class="skills-container reveal">
+                <span class="skill-pill">UX Design</span>
+                <span class="skill-pill">UI Design</span>
+                <span class="skill-pill">Product Strategy</span>
+                <span class="skill-pill">User Research</span>
+                <span class="skill-pill">Design Systems</span>
+                <span class="skill-pill">Interaction Design</span>
+                <span class="skill-pill">Information Architecture</span>
+                <span class="skill-pill">Wireframing</span>
+                <span class="skill-pill">Prototyping</span>
+                <span class="skill-pill">Usability Testing</span>
+                <span class="skill-pill">Developer Handoff</span>
                 
-                <!-- Skills Box -->
-                <div class="bento-card span-6 reveal">
-                    <span class="bento-label">Expertise & Tools</span>
-                    <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 500; margin-bottom: 20px;">Product Design Stack</h3>
-                    <div class="skills-flex">
-                        <span class="skill-tag">UX Design</span>
-                        <span class="skill-tag">UI Design</span>
-                        <span class="skill-tag">Product Strategy</span>
-                        <span class="skill-tag">User Research</span>
-                        <span class="skill-tag">Design Systems</span>
-                        <span class="skill-tag">Interaction Design</span>
-                        <span class="skill-tag">Information Architecture</span>
-                        <span class="skill-tag">Prototyping</span>
-                        <span class="skill-tag" style="border-color: var(--accent); color: var(--accent);">Figma</span>
-                        <span class="skill-tag" style="border-color: var(--accent); color: var(--accent);">Framer</span>
-                        <span class="skill-tag" style="border-color: var(--accent); color: var(--accent);">Power Apps</span>
-                    </div>
-                </div>
-
-                <!-- Why Work With Me Box -->
-                <div class="bento-card span-6 reveal" style="transition-delay: 0.1s;">
-                    <span class="bento-label">Mindset</span>
-                    <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 500; margin-bottom: 20px;">Why Work With Me</h3>
-                    <div class="skills-flex">
-                        <span class="skill-tag">Strategic thinking</span>
-                        <span class="skill-tag">User-centred mindset</span>
-                        <span class="skill-tag">Strong communication</span>
-                        <span class="skill-tag">Cross-functional collaboration</span>
-                        <span class="skill-tag">Enterprise experience</span>
-                        <span class="skill-tag">End-to-end execution</span>
-                    </div>
-                </div>
-
+                <!-- Tools -->
+                <span class="skill-pill" style="border-color: var(--accent); color: var(--accent);">Figma</span>
+                <span class="skill-pill" style="border-color: var(--accent); color: var(--accent);">Adobe Creative Suite</span>
+                <span class="skill-pill" style="border-color: var(--accent); color: var(--accent);">Framer</span>
+                <span class="skill-pill" style="border-color: var(--accent); color: var(--accent);">Power Apps</span>
+                <span class="skill-pill" style="border-color: var(--accent); color: var(--accent);">Power BI</span>
             </div>
 
-            <!-- Testimonials Bento Row -->
-            <div class="testimonial-bento-grid">
-                
-                <div class="testimonial-card reveal">
-                    <p class="t-text">"Sona brings a rare mix of strategic thinking and execution. She understands how user needs align with business metrics, driving products that truly succeed."</p>
-                    <div class="t-author">— Product Manager</div>
-                </div>
+            <div class="section-header reveal" style="margin-top: 120px;">
+                <span class="section-label">Testimonials</span>
+                <h2 class="section-title">What They Say</h2>
+            </div>
 
-                <div class="testimonial-card reveal" style="transition-delay: 0.1s;">
-                    <p class="t-text">"Collaborating with Sona is seamless. Her developer handoffs are thorough, and she stays engaged during implementation, making complex builds easy."</p>
-                    <div class="t-author">— Engineering Lead</div>
+            <div class="testimonial-grid">
+                <div class="t-card reveal">
+                    <p class="t-quote">"Sona brings a rare mix of strategic thinking and execution. She understands how user needs align with business metrics, driving products that truly succeed in the market."</p>
+                    <p class="t-author">Product Manager</p>
                 </div>
-
-                <div class="testimonial-card reveal" style="transition-delay: 0.2s;">
-                    <p class="t-text">"A true product thinker. Sona goes beyond making things look beautiful; she creates scalable systems and tackles architecture with absolute confidence."</p>
-                    <div class="t-author">— Design Manager</div>
+                <div class="t-card reveal" style="transition-delay: 0.1s;">
+                    <p class="t-quote">"Collaborating with Sona is seamless. Her developer handoffs are incredibly thorough, and she stays engaged during implementation. It makes building complex enterprise interfaces so much easier."</p>
+                    <p class="t-author">Engineering Lead</p>
                 </div>
-
+                <div class="t-card reveal" style="transition-delay: 0.2s;">
+                    <p class="t-quote">"A true product thinker. Sona goes beyond making things look beautiful; she creates scalable design systems and tackles intricate information architecture with absolute confidence."</p>
+                    <p class="t-author">Design Manager</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Bento Section -->
+    <!-- Contact Section -->
     <section id="contact">
-        <div class="container">
-            <div class="contact-bento reveal">
-                <h2 class="contact-heading">Let’s Build Better Products Together</h2>
-                <p class="contact-sub">From strategic thinking to end-to-end execution, let's connect.</p>
-                
-                <div class="contact-links-row">
-                    <a href="mailto:sonagireeshpv@gmail.com" class="contact-pill">sonagireeshpv@gmail.com</a>
-                    <a href="https://www.linkedin.com/in/sona-gireesh/" target="_blank" rel="noopener noreferrer" class="contact-pill">LinkedIn</a>
-                    <a href="https://www.behance.net/sonagireesh" target="_blank" rel="noopener noreferrer" class="contact-pill">Behance</a>
-                    <a href="https://www.instagram.com/dooodlesanddiaries/?igsh=MTgzY25qOXk1MnUxag%3D%3D&utm_source=qr#" target="_blank" rel="noopener noreferrer" class="contact-pill">Instagram</a>
-                </div>
+        <div class="container reveal">
+            <h2 class="contact-title">Let’s Build Better Products Together</h2>
+            <p class="contact-desc">From strategic thinking to end-to-end execution, I am ready to help transform your ideas into quality-focused designs.</p>
+            
+            <div class="contact-links">
+                <a href="mailto:sonagireeshpv@gmail.com" class="contact-link">sonagireeshpv@gmail.com</a>
+                <a href="https://www.linkedin.com/in/sona-gireesh/" target="_blank" rel="noopener noreferrer" class="contact-link">LinkedIn</a>
+                <a href="https://www.behance.net/sonagireesh" target="_blank" rel="noopener noreferrer" class="contact-link">Behance</a>
+                <a href="https://www.instagram.com/dooodlesanddiaries/?igsh=MTgzY25qOXk1MnUxag%3D%3D&utm_source=qr#" target="_blank" rel="noopener noreferrer" class="contact-link">Instagram</a>
             </div>
         </div>
     </section>
@@ -957,32 +949,44 @@ at EY GDS Bengaluru.</p>
         <div>Copyright &copy; 2026</div>
     </footer>
 
-    <!-- JavaScript for Scroll Reveals & Smooth Scrolling -->
+    <!-- JavaScript for Interactions -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Scroll Reveal Logic ---
             const revealElements = document.querySelectorAll('.reveal');
             
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
             const revealObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        observer.unobserve(entry.target);
+                        observer.unobserve(entry.target); 
                     }
                 });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+            }, revealOptions);
 
-            revealElements.forEach(el => revealObserver.observe(el));
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+            });
 
-            // Smooth scroll
+            // --- Smooth Scrolling for Links ---
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
                     if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
                     }
                 });
             });
+            
         });
     </script>
 </body>
