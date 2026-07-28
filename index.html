@@ -1,1024 +1,1106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sona Gireesh | Creative Product Designer</title>
-<meta name="description" content="Portfolio of Sona Gireesh, Product Designer based in Bangalore.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-  /* =========================================
-     CSS VARIABLES & RESET
-     ========================================= */
-  :root {
-    --bg: #050505;
-    --fg: #ffffff;
-    --accent-1: #c084fc; 
-    --accent-2: #2dd4bf; 
-    --accent-3: #f43f5e; 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sona Girish | Product Designer</title>
+    <meta name="description" content="Portfolio of Sona Girish, a Product Designer based in Bangalore with 5+ years of experience in creating user-centered digital products.">
     
-    --font-head: 'Syne', sans-serif;
-    --font-body: 'Space Grotesk', sans-serif;
-  }
+    <style>
+        /* ==========================================================================
+           CSS VARIABLES & RESET
+           ========================================================================== */
+        :root {
+            --bg-color: #ffffff;
+            --surface-color: #f5f5f7;
+            --surface-color-alt: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-color: #0071e3;
+            --accent-hover: #0077ed;
+            --border-color: rgba(0, 0, 0, 0.08);
+            
+            --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-stack-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            
+            --nav-height: 80px;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 8rem;
+            
+            --border-radius-sm: 12px;
+            --border-radius-md: 24px;
+            --border-radius-lg: 32px;
+            
+            --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fast: 0.3s ease;
+        }
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    cursor: none; 
-  }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-  body {
-    background-color: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-body);
-    overflow-x: hidden;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    position: relative;
-  }
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
 
-  body.loading {
-    overflow: hidden;
-  }
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
 
-  ::selection {
-    background: var(--accent-1);
-    color: var(--bg);
-  }
+        body.loading-active {
+            overflow: hidden;
+        }
 
-  a, button {
-    color: inherit;
-    text-decoration: none;
-    border: none;
-    background: none;
-    outline: none;
-  }
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
 
-  @media (pointer: coarse) {
-    .cursor-dot, .cursor-outline {
-      display: none !important;
-    }
-    * {
-      cursor: auto !important;
-    }
-  }
+        li {
+            list-style: none;
+        }
 
-  /* =========================================
-     MAGICAL BACKGROUND LAYER
-     ========================================= */
-  #stardust-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -3;
-    pointer-events: none;
-  }
+        /* ==========================================================================
+           TYPOGRAPHY
+           ========================================================================== */
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
 
-  #ambient-aura {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(192, 132, 252, 0.15) 0%, rgba(45, 212, 191, 0.1) 40%, transparent 70%);
-    filter: blur(80px);
-    z-index: -2;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    transition: background 1s ease;
-  }
+        .text-headline {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
 
-  /* =========================================
-     CUSTOM CURSOR & INVERT BUBBLE
-     ========================================= */
-  .cursor-dot,
-  .cursor-outline {
-    position: fixed;
-    top: 0; left: 0;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    z-index: 9999;
-    pointer-events: none;
-  }
-  .cursor-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--accent-2);
-    box-shadow: 0 0 10px var(--accent-2);
-    transition: opacity 0.2s;
-  }
-  .cursor-outline {
-    width: 40px;
-    height: 40px;
-    border: 1px solid rgba(250, 250, 250, 0.4);
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                background-color 0.2s, 
-                mix-blend-mode 0.2s,
-                border-color 0.2s;
-  }
-  
-  body.hovering .cursor-outline {
-    width: 80px;
-    height: 80px;
-    background-color: var(--fg);
-    mix-blend-mode: difference;
-    border-color: transparent;
-  }
+        .text-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+        }
 
-  body.hovering-name .cursor-outline {
-    width: 400px;
-    height: 400px;
-    background-color: var(--fg);
-    mix-blend-mode: difference;
-    border-color: transparent;
-  }
-  body.hovering-name .cursor-dot {
-    opacity: 0; 
-  }
+        .text-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            font-weight: 400;
+            line-height: 1.4;
+        }
 
-  /* =========================================
-     CENTERED LOADING ANIMATION
-     ========================================= */
-  #loader {
-    position: fixed;
-    inset: 0;
-    background-color: var(--bg);
-    z-index: 9998;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 4vw;
-    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s;
-  }
-  #loader.hide {
-    transform: translateY(-100vh);
-    opacity: 0;
-    pointer-events: none; 
-  }
-  .loader-counter {
-    font-family: var(--font-head);
-    font-size: 5rem;
-    font-weight: 800;
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 2px var(--accent-2);
-    text-shadow: 0 0 20px rgba(45, 212, 191, 0.4);
-  }
-  .loader-text {
-    font-size: 0.9rem; 
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: var(--accent-1);
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
+        .text-body {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
 
-  /* =========================================
-     NAVIGATION
-     ========================================= */
-  nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 2rem 4vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-    mix-blend-mode: difference;
-  }
-  .logo {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 1.5rem;
-    text-transform: uppercase;
-  }
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-  }
+        .text-body-large {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            line-height: 1.5;
+            font-weight: 400;
+        }
 
-  /* =========================================
-     HERO SECTION
-     ========================================= */
-  #hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 4vw;
-    position: relative;
-  }
-  .hero-role {
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: var(--accent-1);
-    margin-bottom: 1rem;
-    overflow: hidden;
-    text-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
-  }
-  .hero-role span {
-    display: block;
-    transform: translateY(100%);
-    animation: slideUp 1s 1.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  .hero-name-container {
-    position: relative;
-    display: inline-block;
-    align-self: flex-start;
-  }
-  .hero-name {
-    font-family: var(--font-head);
-    font-size: clamp(3rem, 9vw, 9.5rem); 
-    font-weight: 800;
-    line-height: 0.85;
-    text-transform: uppercase;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding-right: 2vw; 
-    padding-bottom: 1vw;
-  }
+        .label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+        }
 
-  .name-word {
-    display: flex;
-    overflow: hidden;
-  }
-  .char {
-    transform: translateY(110%) rotate(10deg);
-    display: inline-block;
-  }
-  
-  .hero-name.animate .char {
-    animation: charReveal 1.2s forwards cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  .name-word:nth-child(2) {
-    color: transparent;
-    -webkit-text-stroke: 2px var(--fg);
-    margin-left: 3vw; 
-  }
-  
-  .hero-meta {
-    position: absolute;
-    bottom: 4vw;
-    right: 4vw;
-    text-align: right;
-    font-size: 1rem;
-    opacity: 0;
-    animation: fadeIn 1s 2.5s forwards;
-    color: #a1a1aa;
-  }
+        /* ==========================================================================
+           UTILITIES & LAYOUT
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
 
-  /* =========================================
-     SCROLL MARQUEE
-     ========================================= */
-  .marquee-container {
-    width: 100%;
-    overflow: hidden;
-    background: var(--accent-1);
-    color: var(--bg);
-    padding: 1.5rem 0;
-    transform: rotate(-2deg) scale(1.05);
-    position: relative;
-    z-index: 10;
-    box-shadow: 0 0 40px rgba(192, 132, 252, 0.2);
-  }
-  .marquee {
-    display: flex;
-    white-space: nowrap;
-    animation: marquee 25s linear infinite;
-  }
-  .marquee span {
-    font-family: var(--font-head);
-    font-size: 3rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 0 2rem;
-  }
+        .section {
+            padding: var(--spacing-xl) 0;
+        }
 
-  /* =========================================
-     ABOUT SECTION
-     ========================================= */
-  .section-pad {
-    padding: 12vw 4vw;
-  }
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-  .huge-text {
-    font-family: var(--font-head);
-    font-size: clamp(2rem, 4.5vw, 4.5rem);
-    line-height: 1.1;
-    font-weight: 700;
-  }
-  .huge-text .highlight {
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--accent-2);
-    text-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
-  }
-  .about-content p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    color: #a1a1aa;
-  }
-  .stats-container {
-    display: flex;
-    gap: 3rem;
-    margin-top: 3rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 2rem;
-  }
-  .stat {
-    display: flex;
-    flex-direction: column;
-  }
-  .stat-num {
-    font-family: var(--font-head);
-    font-size: 3.5rem;
-    font-weight: 800;
-    color: var(--fg);
-    text-shadow: 0 0 20px rgba(255,255,255,0.2);
-  }
-  .stat-label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent-1);
-  }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+        }
 
-  /* =========================================
-     WORK (STICKY STACKING 3D CARDS)
-     ========================================= */
-  .work-section {
-    position: relative;
-  }
-  .section-title {
-    font-family: var(--font-head);
-    font-size: 6vw;
-    text-transform: uppercase;
-    margin-bottom: 8vw;
-    text-align: center;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.2);
-    color: transparent;
-  }
-  .cards-container {
-    display: flex;
-    flex-direction: column;
-    gap: 100vh;
-    padding-bottom: 20vh;
-  }
-  .card-wrapper {
-    position: sticky;
-    top: 15vh;
-    height: 70vh;
-    perspective: 1500px; 
-  }
-  .project-card {
-    width: 100%;
-    height: 100%;
-    background: rgba(24, 24, 27, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 2rem;
-    padding: 4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.1);
-    transform-origin: center;
-    transition: transform 0.1s ease-out, box-shadow 0.3s;
-    transform-style: preserve-3d;
-  }
-  .project-card.c-1 { top: 15vh; background: rgba(15, 15, 18, 0.8); }
-  .project-card.c-2 { top: 18vh; background: rgba(20, 20, 23, 0.8); }
-  .project-card.c-3 { top: 21vh; background: rgba(25, 25, 28, 0.8); }
-  
-  .project-card > * {
-    transform: translateZ(40px); 
-  }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
 
-  .project-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .project-tags {
-    display: flex;
-    gap: 1rem;
-  }
-  .tag {
-    padding: 0.5rem 1.2rem;
-    border-radius: 2rem;
-    border: 1px solid rgba(255,255,255,0.2);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    background: rgba(255,255,255,0.02);
-  }
-  .project-number {
-    font-family: var(--font-head);
-    font-size: 5rem;
-    font-weight: 800;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--accent-3);
-    line-height: 1;
-    text-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
-  }
-  .project-info h3 {
-    font-family: var(--font-head);
-    font-size: 4rem;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  .project-info p {
-    font-size: 1.2rem;
-    max-width: 60%;
-    color: #a1a1aa;
-  }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+        }
 
-  /* =========================================
-     INTERACTIVE PROCESS ACCORDION
-     ========================================= */
-  .process-container {
-    border-top: 1px solid rgba(255,255,255,0.1);
-  }
-  .process-row {
-    display: flex;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding: 3rem 0;
-    cursor: none;
-    transition: padding 0.4s ease, background 0.4s;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .process-row::before {
-    content: '';
-    position: absolute;
-    left: 0; bottom: 0;
-    width: 0%; height: 100%;
-    background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, transparent 100%);
-    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: -1;
-  }
-  .process-row:hover::before {
-    width: 100%;
-  }
-  .process-row:hover {
-    padding: 4.5rem 0;
-  }
-  .p-num {
-    font-family: var(--font-head);
-    font-size: 2rem;
-    width: 10%;
-    color: var(--accent-2);
-  }
-  .p-title {
-    font-family: var(--font-head);
-    font-size: 3rem;
-    width: 40%;
-    text-transform: uppercase;
-  }
-  .p-desc {
-    width: 50%;
-    font-size: 1.1rem;
-    color: #a1a1aa;
-    opacity: 0.5;
-    transition: opacity 0.4s, transform 0.4s;
-    transform: translateX(-20px);
-  }
-  .process-row:hover .p-desc {
-    opacity: 1;
-    transform: translateX(0);
-  }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+        }
 
-  /* =========================================
-     CONTACT / FOOTER
-     ========================================= */
-  #contact {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: transparent;
-    color: var(--fg);
-    padding: 4vw;
-    position: relative;
-  }
-  .contact-title {
-    font-family: var(--font-head);
-    font-size: 8vw;
-    font-weight: 800;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: 2rem;
-    transition: color 0.3s;
-  }
-  .contact-title:hover {
-    color: var(--accent-1);
-    text-shadow: 0 0 40px rgba(192, 132, 252, 0.4);
-  }
-  .social-links {
-    display: flex;
-    gap: 3rem;
-    margin-top: 4rem;
-  }
-  .social-links a {
-    font-family: var(--font-head);
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    position: relative;
-  }
-  .social-links a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: var(--accent-2);
-    bottom: -5px;
-    left: 0;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s ease;
-  }
-  .social-links a:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
+        .btn-primary {
+            background-color: var(--text-primary);
+            color: var(--bg-color);
+        }
 
-  /* =========================================
-     ANIMATIONS & RESPONSIVE
-     ========================================= */
-  @keyframes slideUp {
-    to { transform: translateY(0); }
-  }
-  @keyframes charReveal {
-    to { transform: translateY(0) rotate(0deg); }
-  }
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  
-  .reveal {
-    opacity: 0;
-    transform: translateY(60px);
-    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
 
-  @media (max-width: 768px) {
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .project-info p { max-width: 100%; }
-    .process-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .p-num, .p-title, .p-desc { width: 100%; transform: none; }
-    .cards-container { gap: 2rem; }
-    .card-wrapper { position: relative; height: auto; top: 0; }
-    #ambient-aura { display: none; } 
-  }
-</style>
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--surface-color);
+        }
+
+        /* ==========================================================================
+           LOADING SCREEN
+           ========================================================================== */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background-color: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform var(--transition-smooth), opacity var(--transition-smooth);
+        }
+
+        .loader-content {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        body.loaded #loader {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ==========================================================================
+           NAVIGATION
+           ========================================================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid transparent;
+            transition: border-color var(--transition-fast);
+        }
+
+        nav.scrolled {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            padding-top: calc(var(--nav-height) + var(--spacing-xl));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-title-wrapper {
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            transform: translateY(100%);
+            opacity: 0;
+            animation: revealUp 1s var(--transition-smooth) forwards;
+            animation-delay: 0.5s;
+        }
+
+        .hero-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeUp 1s var(--transition-smooth) forwards;
+            animation-delay: 0.7s;
+        }
+
+        .hero-desc {
+            margin-bottom: var(--spacing-lg);
+            max-width: 700px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeUp 1s var(--transition-smooth) forwards;
+            animation-delay: 0.9s;
+        }
+
+        .hero-cta {
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeUp 1s var(--transition-smooth) forwards;
+            animation-delay: 1.1s;
+        }
+
+        /* ==========================================================================
+           ABOUT & STATS
+           ========================================================================== */
+        .about-section {
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl) var(--spacing-lg);
+            margin: 0 2rem;
+        }
+
+        .stats-grid {
+            margin-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-color);
+            padding-top: var(--spacing-lg);
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ==========================================================================
+           WORK SECTION
+           ========================================================================== */
+        .project-card {
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        }
+
+        .project-header {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .project-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-type {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+        }
+
+        .project-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            background-color: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius-md);
+        }
+
+        .detail-block h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .additional-projects {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-md);
+            background: var(--surface-color);
+            border-radius: var(--border-radius-md);
+        }
+
+        /* ==========================================================================
+           PROCESS SECTION
+           ========================================================================== */
+        .process-grid {
+            margin-top: var(--spacing-lg);
+        }
+
+        .process-card {
+            padding: 2rem;
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius-md);
+            height: 100%;
+        }
+
+        .process-number {
+            font-family: var(--font-stack-mono);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .process-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .process-list {
+            margin-top: 1.5rem;
+        }
+
+        .process-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .process-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        /* ==========================================================================
+           SKILLS & TOOLS
+           ========================================================================== */
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .pill-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .pill {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--surface-color);
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-fast);
+        }
+
+        .pill:hover {
+            background-color: var(--text-primary);
+            color: var(--bg-color);
+        }
+
+        /* ==========================================================================
+           TESTIMONIALS & WHY ME
+           ========================================================================== */
+        .testimonial-card {
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-text {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .why-me-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: var(--spacing-lg);
+        }
+
+        .why-me-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.125rem;
+            font-weight: 500;
+            padding: 1.5rem;
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius-sm);
+        }
+
+        /* ==========================================================================
+           CONTACT & FOOTER
+           ========================================================================== */
+        .contact-section {
+            text-align: center;
+            padding: var(--spacing-xl) 2rem;
+            background-color: var(--text-primary);
+            color: var(--bg-color);
+            margin: 0 2rem 2rem 2rem;
+            border-radius: var(--border-radius-lg);
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: var(--spacing-lg);
+        }
+
+        .contact-link {
+            font-size: 1.25rem;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .contact-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--transition-fast);
+        }
+
+        .contact-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* ==========================================================================
+           ANIMATIONS (SCROLL REVEAL)
+           ========================================================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes revealUp {
+            0% { transform: translateY(100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* ==========================================================================
+           RESPONSIVE DESIGN
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            
+            .about-section {
+                padding: var(--spacing-lg) var(--spacing-sm);
+                margin: 0 1rem;
+            }
+
+            .contact-section {
+                margin: 0 1rem 1rem 1rem;
+                padding: var(--spacing-lg) 1rem;
+            }
+
+            .project-details {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+
+            .why-me-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="loading-active">
 
-  <!-- Magical Background Elements -->
-  <canvas id="stardust-canvas"></canvas>
-  <div id="ambient-aura"></div>
-
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" id="cursor-dot"></div>
-  <div class="cursor-outline" id="cursor-outline"></div>
-
-  <!-- Centered Loading Animation -->
-  <div id="loader">
-    <div class="loader-text">Loading Experience</div>
-    <div class="loader-counter" id="counter">0%</div>
-  </div>
-
-  <!-- Navigation -->
-  <nav>
-    <div class="logo">SG.</div>
-    <div class="nav-links">
-      <a href="#about" class="hover-target">About</a>
-      <a href="#work" class="hover-target">Work</a>
-      <a href="#contact" class="hover-target">Contact</a>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section id="hero">
-    <div class="hero-role"><span>Product Designer</span></div>
-    
-    <!-- Massive invert hover effect target -->
-    <div class="hero-name-container" id="hero-name-trigger">
-      <h1 class="hero-name" id="hero-name">
-        <span class="name-word">
-          <span class="char">S</span><span class="char">O</span><span class="char">N</span><span class="char">A</span>
-        </span>
-        <span class="name-word">
-          <span class="char">G</span><span class="char">I</span><span class="char">R</span><span class="char">E</span><span class="char">E</span><span class="char">S</span><span class="char">H</span>
-        </span>
-      </h1>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">SG.</div>
     </div>
 
-    <div class="hero-meta">
-      Based in Bangalore, India <br>
-      Assistant Manager — UI/UX @ EY GDS
-    </div>
-  </section>
-
-  <!-- Infinite Marquee -->
-  <div class="marquee-container hover-target">
-    <div class="marquee">
-      <span>Enterprise Platforms</span><span>✦</span>
-      <span>AI-Powered Tools</span><span>✦</span>
-      <span>FinTech</span><span>✦</span>
-      <span>Design Systems</span><span>✦</span>
-      <span>UI/UX Architecture</span><span>✦</span>
-      <span>Enterprise Platforms</span><span>✦</span>
-      <span>AI-Powered Tools</span><span>✦</span>
-      <span>FinTech</span><span>✦</span>
-    </div>
-  </div>
-
-  <!-- About Section -->
-  <section id="about" class="section-pad">
-    <div class="about-grid">
-      <div class="reveal">
-        <h2 class="huge-text">I bridge the gap between <span class="highlight">business strategy</span> & user experience.</h2>
-      </div>
-      <div class="about-content reveal">
-        <p>With over 5 years of experience, my work spans the full product lifecycle. I take genuinely complex domains—financial workflows, massive enterprise dashboards, and AI tools—and architect them into experiences that feel obvious, natural, and effortless.</p>
-        <p>I don't just design screens; I build scalable systems and stay deeply involved through developer handoff because a product isn't truly designed until it's perfectly built.</p>
-        
-        <div class="stats-container">
-          <div class="stat">
-            <span class="stat-num">5+</span>
-            <span class="stat-label">Years Exp.</span>
-          </div>
-          <div class="stat">
-            <span class="stat-num">15+</span>
-            <span class="stat-label">Products Shipped</span>
-          </div>
-          <div class="stat">
-            <span class="stat-num">95%</span>
-            <span class="stat-label">Client Satisfaction</span>
-          </div>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="nav-logo">Sona Girish</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
         </div>
-      </div>
-    </div>
-  </section>
+    </nav>
 
-  <!-- Work Section -->
-  <section id="work" class="section-pad work-section">
-    <h2 class="section-title reveal">Selected Archives</h2>
-    
-    <div class="cards-container">
-      
-      <!-- Card 1 -->
-      <div class="card-wrapper">
-        <div class="project-card c-1 hover-target 3d-card">
-          <div class="project-meta">
-            <div class="project-tags">
-              <span class="tag">Enterprise</span>
-              <span class="tag">FinTech</span>
+    <!-- Hero Section -->
+    <header class="hero container" id="home">
+        <div class="hero-content">
+            <div class="hero-title-wrapper">
+                <h1 class="text-headline hero-title">Sona Girish</h1>
             </div>
-            <div class="project-number">01</div>
-          </div>
-          <div class="project-info">
-            <h3>Neo CFO</h3>
-            <p>A complete UI/UX overhaul of an enterprise financial platform used by finance teams to manage complex reporting, forecasting, and analysis workflows.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="card-wrapper">
-        <div class="project-card c-2 hover-target 3d-card">
-          <div class="project-meta">
-            <div class="project-tags">
-              <span class="tag">AI Product</span>
-              <span class="tag">Interface</span>
+            <div class="hero-title-wrapper">
+                <h2 class="text-headline hero-title" style="color: var(--text-secondary);">Product Designer.</h2>
             </div>
-            <div class="project-number">02</div>
-          </div>
-          <div class="project-info">
-            <h3>Spark AI</h3>
-            <p>Designing an interface built around AI-assisted workflows. Focused on clarity and transparency, giving users absolute control over prompt-generated results without the black-box feeling.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="card-wrapper">
-        <div class="project-card c-3 hover-target 3d-card">
-          <div class="project-meta">
-            <div class="project-tags">
-              <span class="tag">Design Systems</span>
+            <p class="text-body-large hero-desc">
+                Designing digital experiences that balance human needs with business goals. 
+                With 5+ years of experience, I build products from concept to launch, 
+                solving complex business challenges through intuitive, user-centered design.
+            </p>
+            <div class="hero-cta">
+                <a href="#work" class="btn btn-primary">View My Work</a>
+                <a href="#contact" class="btn btn-secondary" style="margin-left: 1rem;">Let's Connect</a>
             </div>
-            <div class="project-number">03</div>
-          </div>
-          <div class="project-info">
-            <h3>F Index Software</h3>
-            <p>End-to-end product design from early research to a fully shipped, robust design system that empowered engineering teams to build exponentially faster.</p>
-          </div>
         </div>
-      </div>
+    </header>
 
-    </div>
-  </section>
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="about-section reveal">
+            <span class="label">About Me</span>
+            <div class="grid-2">
+                <div>
+                    <h2 class="text-title">Designing for clarity, scaling for complexity.</h2>
+                </div>
+                <div>
+                    <p class="text-body" style="margin-bottom: 1.5rem;">
+                        Since 2021, I have been bridging the gap between intricate business problems and seamless digital solutions. Currently operating as an Assistant Manager (UI/UX) at EY GDS Bangalore, my work spans the entire product lifecycle—from foundational UX research to visual design and developer collaboration.
+                    </p>
+                    <p class="text-body">
+                        I believe that design is fundamentally a strategic tool. Whether I'm architecting enterprise systems or prototyping AI-driven workflows, my focus remains on iterative improvements, strong cross-functional partnerships, and ensuring that every handoff translates perfectly into code.
+                    </p>
+                </div>
+            </div>
 
-  <!-- Process Section -->
-  <section id="process" class="section-pad">
-    <h2 class="section-title reveal">Methodology</h2>
-    <div class="process-container reveal">
-      <div class="process-row hover-target">
-        <div class="p-num">01</div>
-        <div class="p-title">Discovery</div>
-        <div class="p-desc">Deep diving into user psychology, business constraints, and competitive landscapes before a single pixel is placed.</div>
-      </div>
-      <div class="process-row hover-target">
-        <div class="p-num">02</div>
-        <div class="p-title">Ideation</div>
-        <div class="p-desc">Architecting user flows, wireframing concepts, and defining a product direction that aligns with core strategic goals.</div>
-      </div>
-      <div class="process-row hover-target">
-        <div class="p-num">03</div>
-        <div class="p-title">Design</div>
-        <div class="p-desc">Crafting scalable design systems and high-fidelity, polished interfaces that balance aesthetics with extreme usability.</div>
-      </div>
-      <div class="process-row hover-target">
-        <div class="p-num">04</div>
-        <div class="p-title">Execution</div>
-        <div class="p-desc">Seamless developer handoff, rigorous QA support, and post-launch iteration to ensure the final build matches the vision.</div>
-      </div>
-    </div>
-  </section>
+            <div class="stats-grid grid-4">
+                <div class="stat-item">
+                    <h3>5+</h3>
+                    <p>Years Experience</p>
+                </div>
+                <div class="stat-item">
+                    <h3>15+</h3>
+                    <p>Products Delivered</p>
+                </div>
+                <div class="stat-item">
+                    <h3>95%</h3>
+                    <p>Client Satisfaction</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10+</h3>
+                    <p>Teams Collaborated</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Contact Section -->
-  <section id="contact">
-    <a href="mailto:sonagireeshpv@gmail.com" class="contact-title hover-target">
-      Let's Create <br> Something Bold.
-    </a>
-    <div class="social-links">
-      <a href="https://linkedin.com/in/sona-gireesh" target="_blank" class="hover-target">LinkedIn</a>
-      <a href="https://behance.net/sonagireesh" target="_blank" class="hover-target">Behance</a>
-      <a href="https://instagram.com/dooodlesanddiaries" target="_blank" class="hover-target">Instagram</a>
-    </div>
-  </section>
+    <!-- Featured Projects Section -->
+    <section id="work" class="section container">
+        <span class="label reveal">Selected Work</span>
+        <h2 class="text-title reveal" style="margin-bottom: var(--spacing-lg);">Featured Projects</h2>
 
-  <!-- SCRIPTS - Restructured to guarantee loader executes immediately -->
-  <script>
-    // 1. ISOLATED LOADER - Guarantees execution immediately on parse
-    (function initLoader() {
-      document.body.classList.add("loading");
-      const loader = document.getElementById("loader");
-      const counterElement = document.getElementById("counter");
-      const heroName = document.getElementById("hero-name");
-      
-      let count = 0;
-      let loaderInterval;
-
-      function hideLoader() {
-        if (loader && !loader.classList.contains("hide")) {
-          loader.classList.add("hide");
-          document.body.classList.remove("loading");
-          setTimeout(() => {
-            if (heroName) heroName.classList.add("animate");
-          }, 400);
-        }
-      }
-
-      // Hard fallback: Force hide after 4 seconds no matter what environment we are in
-      setTimeout(hideLoader, 4000);
-
-      if (counterElement) {
-        loaderInterval = setInterval(() => {
-          count += Math.floor(Math.random() * 6) + 2;
-          if (count >= 100) {
-            count = 100;
-            clearInterval(loaderInterval);
-            counterElement.innerText = count + "%";
-            setTimeout(hideLoader, 300);
-          } else {
-            counterElement.innerText = count + "%";
-          }
-        }, 35);
-      } else {
-        hideLoader();
-      }
-    })();
-
-    // 2. ISOLATED INTERACTIVE EFFECTS - Wrapped safely to prevent crashes
-    window.addEventListener("DOMContentLoaded", () => {
-      try {
-        // Setup initial variables
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let targetAuraX = mouseX;
-        let targetAuraY = mouseY;
-        
-        const cursorDot = document.getElementById("cursor-dot");
-        const cursorOutline = document.getElementById("cursor-outline");
-        const aura = document.getElementById("ambient-aura");
-
-        // Global Mouse Tracking
-        window.addEventListener("mousemove", (e) => {
-          mouseX = e.clientX;
-          mouseY = e.clientY;
-
-          if (cursorDot) {
-            cursorDot.style.left = `${mouseX}px`;
-            cursorDot.style.top = `${mouseY}px`;
-          }
-
-          if (cursorOutline) {
-            cursorOutline.animate({
-              left: `${mouseX}px`,
-              top: `${mouseY}px`
-            }, { duration: 400, fill: "forwards" });
-          }
-        });
-
-        // Ambient Aura LERP Loop 
-        function animateAura() {
-          if (!aura) return;
-          targetAuraX += (mouseX - targetAuraX) * 0.05;
-          targetAuraY += (mouseY - targetAuraY) * 0.05;
-          
-          aura.style.transform = `translate(calc(-50% + ${targetAuraX}px), calc(-50% + ${targetAuraY}px))`;
-          
-          const hueShift = (targetAuraX / (window.innerWidth || 1)) * 60; 
-          aura.style.filter = `blur(80px) hue-rotate(${hueShift}deg)`;
-
-          requestAnimationFrame(animateAura);
-        }
-        animateAura();
-
-        // Canvas Stardust
-        const canvas = document.getElementById('stardust-canvas');
-        if (canvas) {
-          const ctx = canvas.getContext('2d');
-          let particles = [];
-          
-          function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-          }
-          window.addEventListener('resize', resizeCanvas);
-          resizeCanvas();
-
-          class Particle {
-            constructor() {
-              this.x = Math.random() * canvas.width;
-              this.y = Math.random() * canvas.height;
-              this.size = Math.random() * 2;
-              this.speedY = Math.random() * -0.5 - 0.1; 
-              this.speedX = (Math.random() - 0.5) * 0.3; 
-              this.opacity = Math.random() * 0.5 + 0.1;
-            }
-            update() {
-              this.x += this.speedX;
-              this.y += this.speedY;
-
-              const dx = mouseX - this.x;
-              const dy = mouseY - this.y;
-              const distance = Math.sqrt(dx * dx + dy * dy);
-              if (distance < 100) {
-                this.x -= dx * 0.015;
-                this.y -= dy * 0.015;
-                this.opacity = 0.8; 
-              }
-
-              if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
-                this.y = canvas.height;
-                this.x = Math.random() * canvas.width;
-                this.opacity = Math.random() * 0.5 + 0.1;
-              }
-            }
-            draw() {
-              ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-              ctx.beginPath();
-              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-              ctx.fill();
-            }
-          }
-
-          function initParticles() {
-            particles = [];
-            for (let i = 0; i < 80; i++) {
-              particles.push(new Particle());
-            }
-          }
-          initParticles();
-
-          function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-              p.update();
-              p.draw();
-            });
-            requestAnimationFrame(animateParticles);
-          }
-          animateParticles();
-        }
-
-        // 3D Card Tilt Effect
-        const cards3d = document.querySelectorAll('.3d-card');
-        cards3d.forEach(card => {
-          card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
             
-            const rotateX = (y / rect.height) * -15; 
-            const rotateY = (x / rect.width) * 15;
+            <!-- Project 1 -->
+            <article class="project-card reveal">
+                <div class="project-header">
+                    <h3 class="project-title">Neo CFO</h3>
+                    <span class="project-type">Enterprise Financial Platform</span>
+                </div>
+                <p class="text-body-large">A complete UI/UX overhaul focusing on complex financial data visualization and enterprise usability.</p>
+                
+                <div class="project-details">
+                    <div class="detail-block">
+                        <h4>Problem</h4>
+                        <p class="text-body">Fragmented financial data and convoluted reporting structures hindered efficient decision-making for executive teams.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Approach</h4>
+                        <p class="text-body">Restructured the information architecture and designed modular dashboards to simplify complex workflows.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Outcome</h4>
+                        <p class="text-body">A cohesive, intuitive enterprise platform that centralizes forecasting, reporting, and analysis.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Impact</h4>
+                        <p class="text-body">Significantly reduced time-on-task for financial workflows and improved data comprehension across the organization.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 2 -->
+            <article class="project-card reveal">
+                <div class="project-header">
+                    <h3 class="project-title">Spark AI</h3>
+                    <span class="project-type">AI-Powered Platform</span>
+                </div>
+                <p class="text-body-large">Modern interface design centered around intuitive prompt experiences and AI-assisted workflows.</p>
+                
+                <div class="project-details">
+                    <div class="detail-block">
+                        <h4>Problem</h4>
+                        <p class="text-body">Users struggled to interact effectively with underlying AI models due to steep learning curves in prompt engineering.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Approach</h4>
+                        <p class="text-body">Designed conversational, guided prompt experiences to abstract technical complexity and focus on user intent.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Outcome</h4>
+                        <p class="text-body">A seamless, modern interface that makes AI assistance feel natural and integrated.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Impact</h4>
+                        <p class="text-body">Dramatically increased user efficiency and adoption rates among non-technical user segments.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="project-card reveal">
+                <div class="project-header">
+                    <h3 class="project-title">Maiven</h3>
+                    <span class="project-type">Enterprise Software Platform</span>
+                </div>
+                <p class="text-body-large">Scalable UI design applying robust product thinking to streamline enterprise AI operations.</p>
+                
+                <div class="project-details">
+                    <div class="detail-block">
+                        <h4>Problem</h4>
+                        <p class="text-body">Legacy systems were unable to scale with the integration of new AI capabilities, causing workflow bottlenecks.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Approach</h4>
+                        <p class="text-body">Adopted a user-first product strategy, creating a scalable design system flexible enough for future integrations.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Outcome</h4>
+                        <p class="text-body">A robust, scalable UI architecture that elegantly houses complex enterprise workflows.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Impact</h4>
+                        <p class="text-body">Future-proofed the platform, accelerating the design-to-development pipeline for subsequent feature releases.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Project 4 -->
+            <article class="project-card reveal">
+                <div class="project-header">
+                    <h3 class="project-title">Slice Credit Card</h3>
+                    <span class="project-type">FinTech Product</span>
+                </div>
+                <p class="text-body-large">A mobile-first financial experience prioritizing trust, security, and absolute simplicity.</p>
+                
+                <div class="project-details">
+                    <div class="detail-block">
+                        <h4>Problem</h4>
+                        <p class="text-body">Traditional credit card management apps felt opaque, causing user anxiety regarding security and spending.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Approach</h4>
+                        <p class="text-body">Utilized clean aesthetics, transparent interactions, and a mobile-first philosophy to demystify financial data.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Outcome</h4>
+                        <p class="text-body">A frictionless, highly secure mobile application that empowers users to manage finances confidently.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h4>Impact</h4>
+                        <p class="text-body">Elevated brand trust and achieved high user engagement metrics within the FinTech space.</p>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="additional-projects reveal">
+            <p class="text-body">
+                I have also designed and shipped several other enterprise products across AI, FinTech, productivity platforms, and internal business applications.
+            </p>
+        </div>
+    </section>
+
+    <!-- Design Process Section -->
+    <section id="process" class="section container">
+        <span class="label reveal">Methodology</span>
+        <h2 class="text-title reveal" style="margin-bottom: var(--spacing-lg);">Design Process</h2>
+
+        <div class="process-grid grid-4">
+            <div class="process-card reveal">
+                <span class="process-number">01</span>
+                <h3>Discovery</h3>
+                <p class="text-body">Understanding the business context, users, constraints, and opportunities.</p>
+                <ul class="process-list text-body">
+                    <li>Stakeholder Interviews</li>
+                    <li>User Research</li>
+                    <li>Product Discovery</li>
+                    <li>Competitive Analysis</li>
+                    <li>Requirement Gathering</li>
+                </ul>
+            </div>
             
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-          });
+            <div class="process-card reveal">
+                <span class="process-number">02</span>
+                <h3>Ideation</h3>
+                <p class="text-body">Transforming raw research and insights into a tangible product direction.</p>
+                <ul class="process-list text-body">
+                    <li>Brainstorming</li>
+                    <li>User Flows</li>
+                    <li>Information Architecture</li>
+                    <li>Journey Mapping</li>
+                    <li>Wireframing</li>
+                </ul>
+            </div>
 
-          card.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-          });
-        });
+            <div class="process-card reveal">
+                <span class="process-number">03</span>
+                <h3>Design</h3>
+                <p class="text-body">Crafting polished, accessible, and scalable user experiences.</p>
+                <ul class="process-list text-body">
+                    <li>UI Design & Systems</li>
+                    <li>Component Libraries</li>
+                    <li>High-Fidelity Screens</li>
+                    <li>Interactive Prototypes</li>
+                    <li>Responsive Design</li>
+                </ul>
+            </div>
 
-        // Cursor Hover States
-        const hoverTargets = document.querySelectorAll("a, button, .hover-target");
-        const nameHoverTarget = document.getElementById("hero-name-trigger");
+            <div class="process-card reveal">
+                <span class="process-number">04</span>
+                <h3>Launch</h3>
+                <p class="text-body">Ensuring flawless execution and iterating based on real-world feedback.</p>
+                <ul class="process-list text-body">
+                    <li>Developer Handoff</li>
+                    <li>QA Support</li>
+                    <li>Design Reviews</li>
+                    <li>Iteration & Feedback</li>
+                    <li>Continuous Improvement</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        hoverTargets.forEach(target => {
-          target.addEventListener("mouseenter", () => document.body.classList.add("hovering"));
-          target.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
-        });
+    <!-- Skills & Tools Section -->
+    <section class="section container">
+        <div class="skills-container">
+            <div class="reveal">
+                <span class="label">Capabilities</span>
+                <h2 class="text-title">Product Design</h2>
+                <div class="pill-group">
+                    <span class="pill">UX Design</span>
+                    <span class="pill">UI Design</span>
+                    <span class="pill">Product Strategy</span>
+                    <span class="pill">User Research</span>
+                    <span class="pill">Design Systems</span>
+                    <span class="pill">Interaction Design</span>
+                    <span class="pill">Information Architecture</span>
+                    <span class="pill">Wireframing</span>
+                    <span class="pill">Prototyping</span>
+                    <span class="pill">Usability Testing</span>
+                    <span class="pill">Accessibility</span>
+                    <span class="pill">Developer Handoff</span>
+                </div>
+            </div>
+            <div class="reveal">
+                <span class="label">Software</span>
+                <h2 class="text-title">Tools</h2>
+                <div class="pill-group">
+                    <span class="pill">Figma</span>
+                    <span class="pill">Adobe Creative Suite</span>
+                    <span class="pill">Framer</span>
+                    <span class="pill">Microsoft PowerPoint</span>
+                    <span class="pill">Power Apps (Basic)</span>
+                    <span class="pill">Power BI (Basic)</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        if (nameHoverTarget) {
-          nameHoverTarget.addEventListener("mouseenter", () => document.body.classList.add("hovering-name"));
-          nameHoverTarget.addEventListener("mouseleave", () => document.body.classList.remove("hovering-name"));
-        }
+    <!-- Testimonials Section -->
+    <section class="section container">
+        <span class="label reveal">Feedback</span>
+        <h2 class="text-title reveal" style="margin-bottom: var(--spacing-lg);">What teams say</h2>
+        
+        <div class="grid-3">
+            <div class="testimonial-card reveal">
+                <p class="testimonial-text">"Sona translates ambiguous requirements into clear, user-centric designs. She consistently aligns our business goals with exceptional user experiences, making her an invaluable partner in product strategy."</p>
+                <span class="testimonial-author">Product Manager</span>
+            </div>
+            
+            <div class="testimonial-card reveal">
+                <p class="testimonial-text">"Her developer handoffs are impeccable. Sona understands technical constraints and collaborates closely with engineering to ensure the final build matches the vision perfectly. She speaks our language."</p>
+                <span class="testimonial-author">Engineering Lead</span>
+            </div>
+            
+            <div class="testimonial-card reveal">
+                <p class="testimonial-text">"A strategic thinker and a meticulous designer. Sona's ability to navigate enterprise complexity and deliver beautifully scalable design systems is truly outstanding. She elevates the standard of our output."</p>
+                <span class="testimonial-author">Design Manager</span>
+            </div>
+        </div>
+    </section>
 
-        // Staggered Text Reveal Setup
-        const chars = document.querySelectorAll('.char');
-        chars.forEach((char, index) => {
-          char.style.animationDelay = `${(index * 0.05) + 0.3}s`;
-        });
+    <!-- Why Work With Me Section -->
+    <section class="section container">
+        <div class="reveal">
+            <span class="label">Value Proposition</span>
+            <h2 class="text-title">Why work with me</h2>
+            <p class="text-body-large" style="margin-top: 1rem; max-width: 800px;">
+                I bring a holistic approach to product creation, ensuring that every pixel serves a purpose and every interaction builds trust.
+            </p>
+            
+            <div class="why-me-list">
+                <div class="why-me-item">Strategic Thinking</div>
+                <div class="why-me-item">User-Centred Mindset</div>
+                <div class="why-me-item">Strong Communication</div>
+                <div class="why-me-item">Cross-Functional Collaboration</div>
+                <div class="why-me-item">Enterprise Experience</div>
+                <div class="why-me-item">Extreme Ownership</div>
+                <div class="why-me-item">Attention to Detail</div>
+                <div class="why-me-item">Business Acumen</div>
+                <div class="why-me-item">End-to-End Execution</div>
+                <div class="why-me-item">Quality-Focused Design</div>
+            </div>
+        </div>
+    </section>
 
-        // Scroll Reveal
-        const reveals = document.querySelectorAll(".reveal");
-        if (window.IntersectionObserver) {
-          const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-          const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-              if (!entry.isIntersecting) return;
-              entry.target.classList.add("active");
-              observer.unobserve(entry.target); 
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="contact-section reveal">
+            <h2 class="text-headline" style="margin-bottom: 1.5rem;">Let’s Build Better Products Together.</h2>
+            <p class="text-body-large" style="color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto;">
+                Whether you have a complex enterprise problem or a new product vision, I'm always open to discussing how design can drive your business forward.
+            </p>
+            
+            <div class="contact-links">
+                <a href="https://www.linkedin.com/in/sona-gireesh/" target="_blank" rel="noopener noreferrer" class="contact-link">LinkedIn</a>
+                <a href="https://www.behance.net/sonagireesh" target="_blank" rel="noopener noreferrer" class="contact-link">Behance</a>
+                <a href="https://www.instagram.com/dooodlesanddiaries/?igsh=MTgzY25qOXk1MnUxag%3D%3D&utm_source=qr#" target="_blank" rel="noopener noreferrer" class="contact-link">Instagram</a>
+                <a href="mailto:sonagireeshpv@gmail.com" class="contact-link">Email Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Sona Girish</strong></p>
+        <p>Product Designer</p>
+        <p>Copyright &copy; 2026</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- 1. Loading Screen Logic ---
+            const loader = document.getElementById('loader');
+            // Remove loader after a slight delay to allow rendering and typography to settle
+            setTimeout(() => {
+                document.body.classList.remove('loading-active');
+                document.body.classList.add('loaded');
+            }, 800);
+
+            // --- 2. Sticky Nav Blur & Border on Scroll ---
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
             });
-          }, revealOptions);
 
-          reveals.forEach(reveal => revealOnScroll.observe(reveal));
-        } else {
-          reveals.forEach(reveal => reveal.classList.add("active"));
-        }
+            // --- 3. Intersection Observer for Scroll Reveals ---
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
 
-        // Smooth Scrolling Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-              target.scrollIntoView({ behavior: 'smooth' });
-            }
-          });
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Stop observing once revealed
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => {
+                revealOnScroll.observe(el);
+            });
+
+            // --- 4. Mobile Menu Toggle (Basic implementation) ---
+            // Note: Keeping it simple per standard minimal sites.
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            mobileBtn.addEventListener('click', () => {
+                if (navLinks.style.display === 'flex') {
+                    navLinks.style.display = 'none';
+                } else {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'column';
+                    navLinks.style.position = 'absolute';
+                    navLinks.style.top = '100%';
+                    navLinks.style.left = '0';
+                    navLinks.style.width = '100%';
+                    navLinks.style.backgroundColor = 'rgba(255,255,255,0.95)';
+                    navLinks.style.padding = '2rem';
+                    navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.05)';
+                }
+            });
+
+            // Reset mobile menu on window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'row';
+                    navLinks.style.position = 'static';
+                    navLinks.style.padding = '0';
+                    navLinks.style.backgroundColor = 'transparent';
+                    navLinks.style.boxShadow = 'none';
+                } else {
+                    navLinks.style.display = 'none';
+                }
+            });
         });
-
-      } catch (err) {
-        console.error("Non-critical visual effect failed to load:", err);
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>
