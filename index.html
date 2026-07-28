@@ -1,8 +1,3 @@
-Here is the corrected, premium, production-ready HTML. I have ensured that the name **Sona Gireesh** is used consistently and perfectly throughout the entire file, from the hero animation and metadata down to the footer.
-
-The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic with smooth scroll interactions, a percentage loader, and the staggered name reveal animation.
-
-```html
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -15,37 +10,34 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS Variables & Apple/Google Minimalist Theme --- */
+        /* --- CSS Variables & Golden Hour Garden Theme --- */
         :root {
-            --bg-color: #fbfbfd;
-            --surface-color: #ffffff;
-            --text-main: #1d1d1f;
-            --text-muted: #86868b;
-            --border-color: rgba(0, 0, 0, 0.08);
-            --accent: #000000;
-            --glass-bg: rgba(251, 251, 253, 0.8);
-            --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.08);
+            /* Deep, rich earthy forest tones */
+            --bg-color: #080c09; 
+            
+            /* Frosted glass effects for cards */
+            --surface-color: rgba(22, 33, 25, 0.4); 
+            --surface-color-hover: rgba(22, 33, 25, 0.7);
+            --glass-bg: rgba(8, 12, 9, 0.75);
+            
+            /* Text colors */
+            --text-main: #fdfbf7; /* Sunlit off-white */
+            --text-muted: #a3b3a6; /* Sage green */
+            
+            /* Floral & Sunlight Accents matching the image */
+            --accent-gold: #f2a65a; /* Golden lily / sunlight */
+            --accent-floral: #d87b99; /* Pink blooms */
+            --border-color: rgba(242, 166, 90, 0.15); /* Subtle golden borders */
+            
+            /* Shadows & Geometry */
+            --shadow-sm: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 12px 48px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 20px 60px rgba(242, 166, 90, 0.12); /* Golden glow on hover */
+            
             --border-radius-lg: 24px;
             --border-radius-md: 16px;
             --border-radius-sm: 8px;
             --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #000000;
-                --surface-color: #151516;
-                --text-main: #f5f5f7;
-                --text-muted: #a1a1a6;
-                --border-color: rgba(255, 255, 255, 0.1);
-                --accent: #ffffff;
-                --glass-bg: rgba(0, 0, 0, 0.8);
-                --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.2);
-                --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
-                --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
-            }
         }
 
         /* --- Reset & Base --- */
@@ -61,8 +53,9 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
         }
 
         body.loading-active {
@@ -72,11 +65,46 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         a {
             color: inherit;
             text-decoration: none;
-            transition: opacity 0.3s ease;
+            transition: color 0.3s ease, opacity 0.3s ease;
         }
 
         ul {
             list-style: none;
+        }
+
+        /* --- Ambient Garden Lighting (Pure CSS Magic) --- */
+        .ambient-lighting {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .ambient-lighting::before, .ambient-lighting::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.4;
+            animation: breathe 12s infinite alternate ease-in-out;
+        }
+        .ambient-lighting::before {
+            /* Golden sunlight streaming from top right */
+            top: -10%; right: -10%;
+            width: 70vw; height: 70vw;
+            background: radial-gradient(circle, var(--accent-gold) 0%, transparent 60%);
+        }
+        .ambient-lighting::after {
+            /* Soft pink floral glow from bottom left */
+            bottom: -20%; left: -10%;
+            width: 60vw; height: 60vw;
+            background: radial-gradient(circle, var(--accent-floral) 0%, transparent 60%);
+            animation-delay: -6s;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+            100% { transform: scale(1.1) translate(-2vw, 2vh); opacity: 0.5; }
         }
 
         /* --- Loading Screen --- */
@@ -100,19 +128,19 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         .loader-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border-color);
-            border-top-color: var(--accent);
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(242, 166, 90, 0.2);
+            border-top-color: var(--accent-gold);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
         .loader-text {
             font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--accent-gold);
             text-transform: uppercase;
         }
 
@@ -126,37 +154,48 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             top: 0;
             left: 0;
             width: 100%;
-            padding: 20px 40px;
+            padding: 24px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
+            background: transparent;
+            transition: padding var(--transition-smooth), background var(--transition-smooth), border var(--transition-smooth), backdrop-filter var(--transition-smooth);
+        }
+
+        nav.scrolled {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border-color);
-            transition: padding var(--transition-smooth);
+            padding: 16px 40px;
         }
 
         .nav-brand {
-            font-weight: 600;
-            font-size: 18px;
+            font-weight: 700;
+            font-size: 20px;
             letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .nav-brand span {
+            color: var(--accent-gold);
         }
 
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 36px;
         }
 
         .nav-links a {
             font-size: 14px;
             font-weight: 500;
             color: var(--text-muted);
+            letter-spacing: 0.02em;
         }
 
         .nav-links a:hover {
-            color: var(--text-main);
+            color: var(--accent-gold);
         }
 
         /* --- Typography & Layout Utility --- */
@@ -167,19 +206,20 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         section {
-            padding: 120px 0;
+            padding: 140px 0;
             position: relative;
         }
 
         .section-header {
-            margin-bottom: 64px;
+            margin-bottom: 72px;
         }
 
         .section-title {
-            font-size: clamp(32px, 4vw, 48px);
+            font-size: clamp(36px, 4vw, 56px);
             font-weight: 700;
             letter-spacing: -0.03em;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            color: var(--text-main);
         }
 
         .section-subtitle {
@@ -192,9 +232,9 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         .label {
             font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             font-weight: 600;
-            color: var(--text-muted);
+            color: var(--accent-gold);
             margin-bottom: 16px;
             display: block;
         }
@@ -214,10 +254,10 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         .hero-title {
-            font-size: clamp(48px, 8vw, 96px);
+            font-size: clamp(56px, 9vw, 120px);
             font-weight: 700;
             letter-spacing: -0.04em;
-            line-height: 1.1;
+            line-height: 1.05;
         }
 
         .hero-title span {
@@ -229,8 +269,8 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
 
         .hero-role {
             font-size: clamp(24px, 4vw, 40px);
-            font-weight: 500;
-            color: var(--text-muted);
+            font-weight: 400;
+            color: var(--accent-gold);
             letter-spacing: -0.02em;
             margin-bottom: 40px;
             opacity: 0;
@@ -242,8 +282,8 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             font-size: clamp(18px, 2vw, 24px);
             max-width: 700px;
             color: var(--text-muted);
-            margin-bottom: 48px;
-            line-height: 1.4;
+            margin-bottom: 56px;
+            line-height: 1.5;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards;
@@ -258,21 +298,33 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 16px 32px;
-            background-color: var(--text-main);
+            padding: 18px 36px;
+            background-color: var(--accent-gold);
             color: var(--bg-color);
             border-radius: 100px;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 16px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+            box-shadow: 0 4px 20px rgba(242, 166, 90, 0.3);
         }
 
         .btn:hover {
-            transform: scale(1.02) translateY(-2px);
-            box-shadow: var(--shadow-md);
+            transform: scale(1.03) translateY(-2px);
+            box-shadow: 0 8px 30px rgba(242, 166, 90, 0.5);
+            background-color: #ffb76e;
+        }
+
+        /* --- Glass Cards Utility --- */
+        .glass-card {
+            background: var(--surface-color);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
         }
 
         /* --- About Section --- */
@@ -291,7 +343,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         .about-text p strong {
-            color: var(--text-main);
+            color: var(--accent-gold);
             font-weight: 500;
         }
 
@@ -299,29 +351,26 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 32px;
-            background: var(--surface-color);
             padding: 48px;
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
         }
 
         .stat-item h4 {
-            font-size: 40px;
+            font-size: 48px;
             font-weight: 700;
             letter-spacing: -0.03em;
             margin-bottom: 8px;
+            color: var(--text-main);
         }
 
         .stat-item p {
             font-size: 14px;
-            color: var(--text-muted);
-            font-weight: 500;
+            color: var(--accent-gold);
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        /* --- Work Section (Bento Grid Style) --- */
+        /* --- Work Section --- */
         .projects-grid {
             display: flex;
             flex-direction: column;
@@ -329,17 +378,14 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         .project-card {
-            background: var(--surface-color);
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--border-color);
             padding: 64px;
-            box-shadow: var(--shadow-sm);
-            transition: box-shadow var(--transition-smooth), transform var(--transition-smooth);
+            transition: box-shadow var(--transition-smooth), transform var(--transition-smooth), background var(--transition-smooth);
         }
 
         .project-card:hover {
             box-shadow: var(--shadow-hover);
             transform: translateY(-4px);
+            background: var(--surface-color-hover);
         }
 
         .project-header {
@@ -347,7 +393,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         .project-title {
-            font-size: 32px;
+            font-size: 40px;
             font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 16px;
@@ -366,37 +412,42 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         .bento-item {
-            background: var(--bg-color);
+            background: rgba(0, 0, 0, 0.2);
             padding: 32px;
             border-radius: var(--border-radius-md);
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .bento-item h5 {
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            color: var(--accent-gold);
             margin-bottom: 12px;
         }
 
         .bento-item p {
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 400;
+            color: var(--text-main);
+            line-height: 1.6;
         }
 
         .additional-work {
             margin-top: 64px;
-            padding: 40px;
-            background: var(--surface-color);
-            border-radius: var(--border-radius-md);
-            border: 1px dashed var(--border-color);
+            padding: 48px;
             text-align: center;
+            border: 1px dashed rgba(242, 166, 90, 0.3);
         }
 
         .additional-work p {
             font-size: 18px;
             color: var(--text-muted);
+        }
+        
+        .additional-work strong {
+            color: var(--text-main);
+            font-weight: 500;
         }
 
         /* --- Process Section --- */
@@ -407,25 +458,26 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         .process-card {
-            background: var(--surface-color);
             padding: 40px;
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
             position: relative;
             overflow: hidden;
         }
 
         .process-num {
-            font-size: 80px;
+            font-size: 100px;
             font-weight: 700;
-            color: var(--border-color);
+            color: rgba(242, 166, 90, 0.05);
             position: absolute;
-            top: -10px;
-            right: 20px;
+            top: -20px;
+            right: 10px;
             line-height: 1;
             letter-spacing: -0.05em;
             z-index: 0;
+            transition: color var(--transition-smooth);
+        }
+
+        .process-card:hover .process-num {
+            color: rgba(242, 166, 90, 0.15);
         }
 
         .process-card h3 {
@@ -434,6 +486,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             margin-bottom: 16px;
             position: relative;
             z-index: 1;
+            color: var(--text-main);
         }
 
         .process-card p {
@@ -447,17 +500,19 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         .process-list li {
             font-size: 14px;
             font-weight: 500;
-            margin-bottom: 8px;
-            padding-left: 20px;
+            margin-bottom: 10px;
+            padding-left: 24px;
             position: relative;
             z-index: 1;
+            color: var(--text-main);
         }
 
         .process-list li::before {
-            content: '→';
+            content: '✦';
             position: absolute;
             left: 0;
-            color: var(--text-muted);
+            color: var(--accent-gold);
+            font-size: 12px;
         }
 
         /* --- Skills & Tools --- */
@@ -475,17 +530,20 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
 
         .tag {
             padding: 12px 24px;
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
+            background: rgba(242, 166, 90, 0.05);
+            border: 1px solid rgba(242, 166, 90, 0.2);
+            color: var(--accent-gold);
             border-radius: 100px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
-            transition: background var(--transition-smooth);
+            letter-spacing: 0.03em;
+            transition: all 0.3s ease;
         }
 
         .tag:hover {
-            background: var(--text-main);
+            background: var(--accent-gold);
             color: var(--bg-color);
+            transform: translateY(-2px);
         }
 
         /* --- Testimonials --- */
@@ -496,17 +554,14 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
         }
 
         .testimonial-card {
-            background: var(--surface-color);
             padding: 48px;
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
         }
 
         .quote-mark {
-            font-size: 64px;
+            font-size: 80px;
             font-family: Georgia, serif;
-            color: var(--border-color);
+            color: var(--accent-floral);
+            opacity: 0.4;
             line-height: 0.5;
             margin-bottom: 24px;
         }
@@ -515,14 +570,15 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 32px;
+            color: var(--text-main);
         }
 
         .testimonial-author {
             font-size: 14px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            color: var(--accent-gold);
         }
 
         /* --- Why Work With Me --- */
@@ -534,50 +590,57 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
 
         .why-item {
             padding: 32px;
-            background: var(--surface-color);
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--border-color);
             font-weight: 500;
             font-size: 16px;
+            text-align: center;
+            transition: transform var(--transition-smooth);
+        }
+        
+        .why-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
         }
 
         /* --- Contact Section --- */
         #contact {
             text-align: center;
-            padding: 160px 0;
-            background: var(--surface-color);
+            padding: 180px 0;
+            margin-top: 60px;
             border-top: 1px solid var(--border-color);
+            position: relative;
         }
 
         #contact h2 {
-            font-size: clamp(40px, 6vw, 64px);
+            font-size: clamp(40px, 6vw, 72px);
             font-weight: 700;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.03em;
             margin-bottom: 24px;
         }
 
         .contact-links {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin-top: 64px;
+            gap: 48px;
+            margin-top: 72px;
             flex-wrap: wrap;
         }
 
         .contact-link {
             font-size: 18px;
             font-weight: 500;
+            color: var(--accent-gold);
             position: relative;
+            letter-spacing: 0.02em;
         }
 
         .contact-link::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: -6px;
             left: 0;
             width: 100%;
             height: 2px;
-            background: var(--text-main);
+            background: var(--accent-gold);
             transform: scaleX(0);
             transform-origin: right;
             transition: transform 0.4s ease;
@@ -597,6 +660,12 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             border-top: 1px solid var(--border-color);
             font-size: 14px;
             color: var(--text-muted);
+            background: var(--bg-color);
+        }
+        
+        footer strong {
+            color: var(--text-main);
+            font-weight: 500;
         }
 
         /* --- Animation Classes --- */
@@ -624,7 +693,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                 grid-template-columns: 1fr;
             }
             .project-card {
-                padding: 40px;
+                padding: 48px 32px;
             }
         }
 
@@ -636,7 +705,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                 padding: 0 24px;
             }
             section {
-                padding: 80px 0;
+                padding: 100px 0;
             }
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -646,10 +715,10 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                 grid-template-columns: 1fr;
             }
             #contact {
-                padding: 100px 0;
+                padding: 120px 0;
             }
             .contact-links {
-                gap: 24px;
+                gap: 32px;
                 flex-direction: column;
             }
             footer {
@@ -662,6 +731,9 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
 </head>
 <body class="loading-active">
 
+    <!-- Ambient Garden Lighting -->
+    <div class="ambient-lighting"></div>
+
     <!-- Loading Screen -->
     <div id="loader">
         <div class="loader-content">
@@ -672,7 +744,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
 
     <!-- Navigation -->
     <nav id="navbar">
-        <a href="#" class="nav-brand">SG.</a>
+        <a href="#" class="nav-brand">Sona<span>.</span></a>
         <div class="nav-links">
             <a href="#about">About</a>
             <a href="#work">Work</a>
@@ -705,7 +777,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                 <p>Currently, I am an <strong>Assistant Manager – UI/UX at EY GDS Bangalore</strong>. I work across the complete product lifecycle—from UX Research and Product Strategy to Visual Design and Developer Handoff.</p>
                 <p>I strongly believe in iterative improvements and tight collaboration. Whether partnering with clients, product owners, or engineering teams, my goal is always to deliver experiences that create measurable business value.</p>
             </div>
-            <div class="stats-grid reveal" style="transition-delay: 0.2s;">
+            <div class="stats-grid glass-card reveal" style="transition-delay: 0.2s;">
                 <div class="stat-item">
                     <h4>5+</h4>
                     <p>Years Experience</p>
@@ -738,7 +810,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             <div class="projects-grid">
                 
                 <!-- Project 1 -->
-                <div class="project-card reveal">
+                <div class="project-card glass-card reveal">
                     <div class="project-header">
                         <span class="label">Enterprise Financial Platform</span>
                         <h3 class="project-title">Neo CFO</h3>
@@ -761,7 +833,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                 </div>
 
                 <!-- Project 2 -->
-                <div class="project-card reveal">
+                <div class="project-card glass-card reveal">
                     <div class="project-header">
                         <span class="label">AI-Powered Platform</span>
                         <h3 class="project-title">Spark AI</h3>
@@ -784,7 +856,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                 </div>
 
                 <!-- Project 3 -->
-                <div class="project-card reveal">
+                <div class="project-card glass-card reveal">
                     <div class="project-header">
                         <span class="label">Enterprise AI Workflow</span>
                         <h3 class="project-title">Maiven</h3>
@@ -807,7 +879,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                 </div>
 
                 <!-- Project 4 -->
-                <div class="project-card reveal">
+                <div class="project-card glass-card reveal">
                     <div class="project-header">
                         <span class="label">FinTech Product</span>
                         <h3 class="project-title">Slice Credit Card</h3>
@@ -831,14 +903,14 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
 
             </div>
 
-            <div class="additional-work reveal">
+            <div class="additional-work glass-card reveal">
                 <p>In addition to the above, I have designed several other enterprise products across <strong>AI, FinTech, Productivity Platforms</strong>, and <strong>Internal Business Applications</strong>.</p>
             </div>
         </div>
     </section>
 
     <!-- Design Process -->
-    <section id="process" style="background-color: var(--surface-color);">
+    <section id="process">
         <div class="container">
             <div class="section-header reveal">
                 <span class="label">Methodology</span>
@@ -848,7 +920,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
 
             <div class="process-grid">
                 
-                <div class="process-card reveal" style="transition-delay: 0.1s;">
+                <div class="process-card glass-card reveal" style="transition-delay: 0.1s;">
                     <div class="process-num">01</div>
                     <h3>Discovery</h3>
                     <p>Understanding the business, users, goals, competitors, constraints, and opportunities.</p>
@@ -861,7 +933,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                     </ul>
                 </div>
 
-                <div class="process-card reveal" style="transition-delay: 0.2s;">
+                <div class="process-card glass-card reveal" style="transition-delay: 0.2s;">
                     <div class="process-num">02</div>
                     <h3>Ideation</h3>
                     <p>Transforming raw research and insights into a concrete product direction.</p>
@@ -874,7 +946,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                     </ul>
                 </div>
 
-                <div class="process-card reveal" style="transition-delay: 0.3s;">
+                <div class="process-card glass-card reveal" style="transition-delay: 0.3s;">
                     <div class="process-num">03</div>
                     <h3>Design</h3>
                     <p>Turning foundational ideas into polished, accessible user experiences.</p>
@@ -887,7 +959,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
                     </ul>
                 </div>
 
-                <div class="process-card reveal" style="transition-delay: 0.4s;">
+                <div class="process-card glass-card reveal" style="transition-delay: 0.4s;">
                     <div class="process-num">04</div>
                     <h3>Launch</h3>
                     <p>Ensuring the final product matches the vision and delivering it successfully.</p>
@@ -941,23 +1013,23 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
     </section>
 
     <!-- Why Work With Me -->
-    <section id="why-me" style="background-color: var(--surface-color);">
+    <section id="why-me">
         <div class="container">
             <div class="section-header reveal">
                 <span class="label">The Value I Bring</span>
                 <h2 class="section-title">Why work with me?</h2>
             </div>
             <div class="why-grid reveal">
-                <div class="why-item">Strategic thinking</div>
-                <div class="why-item">User-centred mindset</div>
-                <div class="why-item">Strong communication</div>
-                <div class="why-item">Cross-functional collaboration</div>
-                <div class="why-item">Enterprise experience</div>
-                <div class="why-item">Ownership</div>
-                <div class="why-item">Attention to detail</div>
-                <div class="why-item">Business understanding</div>
-                <div class="why-item">End-to-end execution</div>
-                <div class="why-item">Quality-focused design</div>
+                <div class="why-item glass-card">Strategic thinking</div>
+                <div class="why-item glass-card">User-centred mindset</div>
+                <div class="why-item glass-card">Strong communication</div>
+                <div class="why-item glass-card">Cross-functional collaboration</div>
+                <div class="why-item glass-card">Enterprise experience</div>
+                <div class="why-item glass-card">Ownership</div>
+                <div class="why-item glass-card">Attention to detail</div>
+                <div class="why-item glass-card">Business understanding</div>
+                <div class="why-item glass-card">End-to-end execution</div>
+                <div class="why-item glass-card">Quality-focused design</div>
             </div>
         </div>
     </section>
@@ -971,19 +1043,19 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             </div>
             
             <div class="testimonials-grid">
-                <div class="testimonial-card reveal" style="transition-delay: 0.1s;">
+                <div class="testimonial-card glass-card reveal" style="transition-delay: 0.1s;">
                     <div class="quote-mark">"</div>
                     <p class="testimonial-text">Sona brings a rare mix of strategic thinking and execution. She doesn't just ask what the user needs; she understands how it aligns with the business metrics, driving products that truly succeed in the market.</p>
                     <p class="testimonial-author">— Product Manager</p>
                 </div>
                 
-                <div class="testimonial-card reveal" style="transition-delay: 0.2s;">
+                <div class="testimonial-card glass-card reveal" style="transition-delay: 0.2s;">
                     <div class="quote-mark">"</div>
                     <p class="testimonial-text">Collaborating with Sona is seamless. Her developer handoffs are incredibly thorough, and she stays engaged during implementation. It makes building complex enterprise interfaces so much easier.</p>
                     <p class="testimonial-author">— Engineering Lead</p>
                 </div>
 
-                <div class="testimonial-card reveal" style="transition-delay: 0.3s;">
+                <div class="testimonial-card glass-card reveal" style="transition-delay: 0.3s;">
                     <div class="quote-mark">"</div>
                     <p class="testimonial-text">A true product thinker. Sona goes beyond making things look beautiful; she creates scalable design systems and tackles intricate information architecture with absolute confidence and maturity.</p>
                     <p class="testimonial-author">— Design Manager</p>
@@ -993,7 +1065,7 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
     </section>
 
     <!-- Contact -->
-    <section id="contact">
+    <section id="contact" class="glass-card">
         <div class="container reveal">
             <h2>Let’s Build Better Products Together</h2>
             <p class="section-subtitle" style="margin: 0 auto;">Whether you have a complex enterprise problem to solve or a new digital experience to launch, I'd love to collaborate.</p>
@@ -1096,16 +1168,12 @@ The design retains the sleek, modern, Apple/Google-inspired minimalist aesthetic
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
-                    navbar.style.padding = '16px 40px';
-                    navbar.style.boxShadow = 'var(--shadow-sm)';
+                    navbar.classList.add('scrolled');
                 } else {
-                    navbar.style.padding = '20px 40px';
-                    navbar.style.boxShadow = 'none';
+                    navbar.classList.remove('scrolled');
                 }
             });
         });
     </script>
 </body>
 </html>
-
-```
