@@ -79,7 +79,7 @@
         }
 
         /* =========================================
-           TOP NAVIGATION
+           TOP NAVIGATION (Centered & Lightened)
            ========================================= */
         nav {
             position: absolute;
@@ -99,24 +99,30 @@
             letter-spacing: -0.02em;
         }
 
-        /* --- Updated Navbar Background & Interaction --- */
+        /* --- Center-Aligned & Lightened Navbar Background --- */
+        .nav-links-wrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
         .nav-links {
             display: flex;
             gap: 4px;
             list-style: none;
-            background: rgba(10, 11, 10, 0.5); /* Dark translucent background layer */
-            backdrop-filter: blur(16px); /* Frosted glass effect */
+            background: rgba(255, 255, 255, 0.15); /* Changed to a clean light translucent background */
+            backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             padding: 6px 12px;
             border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .nav-links a {
             font-size: 14px;
             font-weight: 400;
-            color: rgba(255,255,255,0.85);
+            color: rgba(255, 255, 255, 0.95);
             padding: 8px 20px;
             border-radius: 100px;
             transition: all 0.3s var(--ease);
@@ -125,10 +131,10 @@
 
         .nav-links a:hover {
             color: var(--text-main);
-            background: rgba(255, 255, 255, 0.1); /* Clean highlight interaction */
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-1px);
         }
-        /* --------------------------------------------- */
+        /* -------------------------------------------------- */
 
         .nav-cta {
             display: flex;
@@ -253,7 +259,7 @@
         .hero-btn:hover {
             border-color: #fff;
             background: rgba(255,255,255,0.1);
-            padding-right: 24px; /* Slight push effect */
+            padding-right: 24px; 
             gap: 20px;
         }
 
@@ -580,11 +586,12 @@
             .project-card { grid-template-columns: 1fr; gap: 40px; padding: 40px; }
             .process-list { grid-template-columns: repeat(2, 1fr); }
             .testimonial-grid { grid-template-columns: 1fr; }
+            .nav-links-wrapper { position: relative; left: auto; transform: none; }
         }
 
         @media (max-width: 768px) {
-            nav { padding: 20px; }
-            .nav-links { display: none; } 
+            nav { padding: 20px; flex-direction: column; gap: 16px; }
+            .nav-links-wrapper { position: relative; left: auto; transform: none; }
             .hero-title { font-size: 64px; }
             .process-list { grid-template-columns: 1fr; }
             .project-details { grid-template-columns: 1fr; gap: 24px; }
@@ -598,13 +605,17 @@
     <!-- Top Navigation -->
     <nav>
         <div class="nav-logo">Sona Gireesh</div>
-        <ul class="nav-links">
-            <li><a href="#work">Works</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#process">Process</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        
+        <!-- Center-aligned navigation links with lightened background -->
+        <div class="nav-links-wrapper">
+            <ul class="nav-links">
+                <li><a href="#work">Works</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#skills">Skills</a></li>
+            </ul>
+        </div>
+
         <a href="#contact" class="nav-cta">
             Let's Connect <span class="dot"></span>
         </a>
@@ -616,7 +627,6 @@
         <!-- Autoplaying Background Video -->
         <video class="hero-video" autoplay loop muted playsinline>
             <source src="hero-background.mp4" type="video/mp4">
-            <!-- Ensure your video file is named 'hero-background.mp4' and placed in the same folder -->
             Your browser does not support the video tag.
         </video>
 
